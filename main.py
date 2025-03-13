@@ -155,7 +155,7 @@ with open("kata_speed.json5", "w", encoding="utf-8") as f:
 
 # Step 7: Run gtp2ogs with KataGo
 print("Running gtp2ogs with KataGo...")
-api_key = "140871f7fa53e30b42fa272755173763ff171d73"
+api_key = "your-api-key"
 command = [
     "./gtp2ogs",
     "--apikey", api_key,
