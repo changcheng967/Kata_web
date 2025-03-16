@@ -1,10 +1,11 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
   line-height: 1.6;
   color: #333;
+  background-color: #f9f9f9;
 }
 
 .container {
@@ -18,6 +19,7 @@ header {
   background: #2c3e50;
   color: #fff;
   padding: 1rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 header .logo {
@@ -34,91 +36,26 @@ header nav ul {
   list-style: none;
   display: flex;
   gap: 20px;
+  margin: 0;
+  padding: 0;
 }
 
 header nav ul li a {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-/* Supporters Section */
-.supporters {
-  padding: 4rem 0;
-  text-align: center;
-}
-
-.supporters h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.supporters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 2rem;
-}
-
-.supporter-card {
-  background: #f4f4f4;
-  padding: 1.5rem;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.supporter-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.supporter-card p {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* Hall of Fame Section */
-.hall-of-fame {
-  background: #ecf0f1;
-  padding: 4rem 0;
-  text-align: center;
-}
-
-.hall-of-fame h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.hall-of-fame-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 2rem;
-}
-
-.hall-of-fame-card {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 5px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.hall-of-fame-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.hall-of-fame-card p {
-  font-size: 1rem;
-  color: #666;
+header nav ul li a:hover {
+  color: #e67e22;
 }
 
 /* Hero Section */
 .hero {
   background: #3498db;
   color: #fff;
-  padding: 4rem 0;
+  padding: 6rem 0;
   text-align: center;
 }
 
@@ -143,6 +80,7 @@ header nav ul li a {
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .btn-primary {
@@ -150,15 +88,26 @@ header nav ul li a {
   color: #fff;
 }
 
+.btn-primary:hover {
+  background: #d35400;
+  transform: translateY(-2px);
+}
+
 .btn-secondary {
   background: #fff;
   color: #3498db;
+}
+
+.btn-secondary:hover {
+  background: #f4f4f4;
+  transform: translateY(-2px);
 }
 
 /* Features Section */
 .features {
   padding: 4rem 0;
   text-align: center;
+  background: #fff;
 }
 
 .features h2 {
@@ -176,6 +125,12 @@ header nav ul li a {
   background: #f4f4f4;
   padding: 1.5rem;
   border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .feature h3 {
@@ -212,10 +167,112 @@ header nav ul li a {
   margin-bottom: 0.5rem;
 }
 
+/* Supporters Section */
+.supporters {
+  padding: 4rem 0;
+  text-align: center;
+  background: #fff;
+}
+
+.supporters h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.supporters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.supporter-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 5px;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.supporter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.supporter-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.supporter-card p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.supporter-card ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 1rem;
+}
+
+.supporter-card ul li {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+/* Hall of Fame Section */
+.hall-of-fame {
+  background: #ecf0f1;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.hall-of-fame h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hall-of-fame-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.hall-of-fame-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hall-of-fame-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hall-of-fame-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.hall-of-fame-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
 /* About Section */
 .about {
   padding: 4rem 0;
   text-align: center;
+  background: #fff;
 }
 
 .about h2 {
@@ -227,7 +284,7 @@ header nav ul li a {
 footer {
   background: #2c3e50;
   color: #fff;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   text-align: center;
 }
 
@@ -237,9 +294,15 @@ footer ul {
   display: flex;
   justify-content: center;
   gap: 20px;
+  margin: 0;
 }
 
 footer ul li a {
   color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+  color: #e67e22;
 }
