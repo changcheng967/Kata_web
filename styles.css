@@ -187,7 +187,7 @@ header nav ul li a:hover {
 .gpu-support-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 30px; /* Increased gap for better spacing */
   margin-top: 2rem;
 }
 
@@ -239,7 +239,7 @@ header nav ul li a:hover {
 .tier-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 30px; /* Increased gap for better spacing */
   margin-top: 2rem;
 }
 
@@ -255,6 +255,11 @@ header nav ul li a:hover {
 .tier-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tier-card.highlighted {
+  border: 2px solid #e67e22; /* Highlight border */
+  background: #fff3e0; /* Light background for highlight */
 }
 
 .tier-card h3 {
