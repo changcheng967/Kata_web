@@ -14,33 +14,29 @@ const supportersData = {
   tiers: [
     {
       name: "Go Enthusiast",
-      supporters: ["Alice", "Bob", "Charlie"],
+      supporters: ["Jerjar"],
     },
     {
       name: "Strategic Supporter",
-      supporters: ["David", "Eve"],
+      supporters: [],
     },
     {
       name: "AI Explorer",
-      supporters: ["Frank"],
+      supporters: [],
     },
     {
       name: "Go Champion",
-      supporters: ["Grace"],
+      supporters: [],
     },
     {
       name: "Ultimate Patron",
-      supporters: ["Hank"],
+      supporters: [],
     },
   ],
   hallOfFame: [
     {
-      name: "John Doe",
-      contribution: "Lifetime Legend",
-    },
-    {
-      name: "Jane Smith",
-      contribution: "Corporate Sponsor",
+      name: "Jerjar",
+      contribution: "Go Enthusiast",
     },
   ],
 };
