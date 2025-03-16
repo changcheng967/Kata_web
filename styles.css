@@ -42,6 +42,78 @@ header nav ul li a {
   font-weight: bold;
 }
 
+/* Supporters Section */
+.supporters {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.supporters h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.supporters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.supporter-card {
+  background: #f4f4f4;
+  padding: 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.supporter-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.supporter-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Hall of Fame Section */
+.hall-of-fame {
+  background: #ecf0f1;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.hall-of-fame h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hall-of-fame-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.hall-of-fame-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hall-of-fame-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hall-of-fame-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
 /* Hero Section */
 .hero {
   background: #3498db;
