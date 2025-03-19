@@ -62,7 +62,7 @@ const supportersData = {
       name: "Doulet Media",
       tier: "Corporate Sponsor",
       joinDate: "2025-03-19",
-      totalSupported: "CA$100",
+      totalSupported: "CA$360",
     },
   ],
 };
