@@ -45,7 +45,7 @@ const supportersData = {
         {
           name: "Doulet Media",
           email: "xe59k0i3h1@wyoxafp.com",
-          joinDate: "2023-10-01",
+          joinDate: "2025-03-19",
           totalSupported: "CA$100",
         },
       ],
@@ -61,7 +61,7 @@ const supportersData = {
     {
       name: "Doulet Media",
       tier: "Corporate Sponsor",
-      joinDate: "2024-03-19",
+      joinDate: "2025-03-19",
       totalSupported: "CA$100",
     },
   ],
