@@ -1,0 +1,1 @@
+[![pages-build-deployment](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment)
