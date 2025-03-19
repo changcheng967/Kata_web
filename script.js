@@ -46,7 +46,7 @@ const supportersData = {
           name: "Doulet Media",
           email: "xe59k0i3h1@wyoxafp.com",
           joinDate: "2025-03-19",
-          totalSupported: "CA$100",
+          totalSupported: "CA$360", // Updated to match Hall of Fame
         },
       ],
     },
@@ -67,6 +67,16 @@ const supportersData = {
   ],
 };
 
+// Function to format date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 // Function to display supporters
 function displaySupporters() {
   const supportersList = document.getElementById("supporters-list");
@@ -84,7 +94,7 @@ function displaySupporters() {
           <div class="supporter-details">
             <p><strong>Name:</strong> ${supporter.name}</p>
             <p><strong>Email:</strong> ${supporter.email}</p>
-            <p><strong>Join Date:</strong> ${supporter.joinDate}</p>
+            <p><strong>Join Date:</strong> ${formatDate(supporter.joinDate)}</p>
             <p><strong>Total Supported:</strong> ${supporter.totalSupported}</p>
           </div>
         `
@@ -114,7 +124,7 @@ function displayHallOfFame() {
     cardDiv.innerHTML = `
       <h3>${supporter.name}</h3>
       <p><strong>Tier:</strong> ${supporter.tier}</p>
-      <p><strong>Join Date:</strong> ${supporter.joinDate}</p>
+      <p><strong>Join Date:</strong> ${formatDate(supporter.joinDate)}</p>
       <p><strong>Total Supported:</strong> ${supporter.totalSupported}</p>
     `;
     hallOfFameList.appendChild(cardDiv);
