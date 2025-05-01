@@ -1,14 +1,52 @@
-Custom License
+# Kata_web  
 
-Copyright (c) 2025 Cheng Chang
+[![pages-build-deployment](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment)  
 
-Permission is hereby granted, free of charge, to authorized individuals who obtain explicit permission from the copyright holder (Cheng Chang) to use this software, subject to the following conditions:
+## Overview  
+**Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **KataGo b18 (Eigen backend)** for efficient performance. This project is designed to provide **free, cross-platform** AI-assisted Go analysis while maintaining strict licensing policies.  
 
-1. Non-Commercial Use Only: This software and its contents shall not be used for any commercial purposes without explicit authorization from the copyright holder.
-2. No Modifications Without Permission: Editing, altering, or modifying the software is strictly prohibited unless explicit permission has been granted by the copyright holder.
-3. No Unauthorized Copies: The software may not be copied or distributed to third parties without prior written consent from the copyright holder.
-4. Credit & Citation Requirement: If explicit permission is granted, users must credit the copyright holder in any redistributed version. An appropriate citation example is:
-   - "This software utilizes Kata_web, licensed by Cheng Chang (2025). Used with permission. All rights reserved."
-5. Inclusion of Copyright Notice: The above copyright notice and this permission notice must be included in all copies or substantial portions of the software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## **License and Attribution**  
+This project is licensed under the terms specified in the **[LICENSE](https://github.com/changcheng967/Kata_web/blob/main/LICENSE)** file. By using, modifying, or distributing this software, you **must**:  
+1. **Comply with the license terms** (review the [LICENSE](https://github.com/changcheng967/Kata_web/blob/main/LICENSE) file).  
+2. **Give explicit credit** to the original author.  
+3. **Seek permission** for modifications/redistribution.  
+
+### **Example Attribution**  
+```python
+# -------------------------------------------------------------------
+# Based on Kata_web (2025 Cheng Chang)  
+# Original source: https://github.com/changcheng967/Kata_web  
+# License: https://github.com/changcheng967/Kata_web/blob/main/LICENSE  
+# -------------------------------------------------------------------
+```
+
+---
+
+## Features  
+- **AI-powered strategic insights** – Leverages KataGo b18 for superior game analysis.  
+- **Eigen backend for CPU support** – Optimized for non-GPU environments.  
+- **Cross-platform compatibility** – Runs efficiently on Linux Ubuntu with ARM-based hardware.  
+- **Legacy yet functional** – Free for community use, though newer models exist.  
+
+---
+
+## Installation  
+```bash
+git clone https://github.com/changcheng967/Kata_web.git
+cd Kata_web
+pip install -r requirements.txt
+python main.py
+```
+
+---
+
+## **Usage Requirements**  
+- **Attribution**: Always credit the original author (e.g., in code, docs, or UI).  
+- **License Compliance**: Refer to the [LICENSE](https://github.com/changcheng967/Kata_web/blob/main/LICENSE) for legal terms.  
+- **Modifications**: Contact the author for derivative works.  
+
+**Violations may result in legal action or revocation of access to private components.**  
+
+---
