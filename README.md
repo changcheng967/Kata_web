@@ -50,5 +50,3 @@ python main.py
 **Violations may result in legal action or revocation of access to private components.**  
 
 ---
-
-Let me know if you'd like to adjust the tone or add more specifics!
