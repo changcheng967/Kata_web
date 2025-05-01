@@ -14,7 +14,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2  # Downgraded to v2 for compatibility
     
     - name: Set up build environment
       run: |
@@ -50,15 +50,15 @@ jobs:
         if [ -f KataGo/cpp/katago ]; then
           echo "Binary exists - checking ARM architecture..."
           file KataGo/cpp/katago | grep "ARM"
-          echo "status=success" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
         else
-          echo "status=failure" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::failure"
           exit 1
-        end
+        fi
         
     - name: Upload artifact
       if: steps.verify.outputs.status == 'success'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2  # Downgraded to v2
       with:
         name: katago-arm-binary
         path: KataGo/cpp/katago
