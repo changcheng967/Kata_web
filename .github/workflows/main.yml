@@ -26,28 +26,37 @@ jobs:
           libboost-system-dev libopenblas-dev libeigen3-dev \
           pkg-config
         
-    - name: Clone KataGo source
+    - name: Clone KataGo source with correct toolchain
       run: |
         git clone --depth 1 --branch master --recursive https://github.com/lightvector/KataGo.git
         mkdir -p KataGo/toolchains
-        curl -sSfL -o KataGo/toolchains/arm-linux-gnueabihf.cmake \
-          https://raw.githubusercontent.com/lightvector/KataGo/master/toolchains/arm-linux-gnueabihf.cmake
-        # Verify toolchain file
+        
+        # Use correct toolchain URL from KataGo's repo
+        if [ -f KataGo/toolchains/arm-linux-gnueabihf.cmake ]; then
+          echo "Toolchain exists in cloned repo"
+        else
+          echo "::warning::Toolchain not in repo, trying alternative source..."
+          curl -sSfL -o KataGo/toolchains/arm-linux-gnueabihf.cmake \
+            https://raw.githubusercontent.com/lightvector/KataGo/v1.12.2/toolchains/arm-linux-gnueabihf.cmake || \
+          curl -sSfL -o KataGo/toolchains/arm-linux-gnueabihf.cmake \
+            https://raw.githubusercontent.com/lightvector/KataGo/latest/toolchains/arm-linux-gnueabihf.cmake
+        fi
+        
+        # Final verification
         if [ ! -f KataGo/toolchains/arm-linux-gnueabihf.cmake ]; then
-          echo "::error::Toolchain file download failed!"
+          echo "::error::Could not obtain toolchain file!"
           exit 1
         fi
+        echo "Toolchain file content:"
+        head -n 10 KataGo/toolchains/arm-linux-gnueabihf.cmake
         
     - name: Configure for ARM
       run: |
-        echo "Workspace: ${{ github.workspace }}"
-        echo "Toolchain path: ${{ github.workspace }}/KataGo/toolchains/arm-linux-gnueabihf.cmake"
-        
         cd KataGo/cpp
         cmake . \
           -DUSE_BACKEND=EIGEN \
           -DNO_GIT_REVISION=1 \
-          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/KataGo/toolchains/arm-linux-gnueabihf.cmake" \
+          -DCMAKE_TOOLCHAIN_FILE="../../toolchains/arm-linux-gnueabihf.cmake" \
           -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc \
           -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ \
           -DCMAKE_BUILD_TYPE=Release
@@ -65,47 +74,21 @@ jobs:
           echo "::set-output name=status::success"
           echo "=== Binary Info ==="
           file KataGo/cpp/katago
-          echo "=== Version ==="
-          ./KataGo/cpp/katago version || true
         else
           echo "::set-output name=status::failure"
           echo "::error::Binary not found after build!"
           exit 1
         fi
         
-    - name: Create build artifact
+    - name: Package artifact
       if: steps.verify.outputs.status == 'success'
       run: |
         mkdir -p artifact
         cp KataGo/cpp/katago artifact/
-        tar czvf katago-arm-build.tar.gz -C artifact .
-        
-    - name: Upload artifact via API
-      if: steps.verify.outputs.status == 'success'
-      run: |
-        ARTIFACT_SIZE=$(stat -c%s katago-arm-build.tar.gz)
-        echo "Uploading artifact (size: $ARTIFACT_SIZE bytes)"
-        
-        curl -X POST \
-          -H "Authorization: Bearer ${{ github.token }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Content-Type: application/json" \
-          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" \
-          -d '{
-            "name": "katago-arm-binary",
-            "size": '$ARTIFACT_SIZE',
-            "archive_format": "zip"
-          }'
+        tar czvf katago-arm-bin.tar.gz -C artifact .
         
     - name: Success notification
       if: steps.verify.outputs.status == 'success'
       run: |
-        echo "::notice title=Build Success::KataGo ARM compilation completed successfully"
-        echo "Binary ready in artifact: katago-arm-binary"
-        
-    - name: Failure notification
-      if: steps.verify.outputs.status == 'failure'
-      run: |
-        echo "::error title=Build Failed::ARM compilation failed"
-        echo "Check previous steps for detailed errors"
-        exit 1
+        echo "::notice title=Build Success::KataGo ARM build completed"
+        echo "Binary size: $(du -h KataGo/cpp/katago | cut -f1)"
