@@ -1,0 +1,76 @@
+name: Build KataGo for ARM (Ubuntu)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-katago:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_THREADS: 4
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          git cmake g++ libzip-dev libboost-dev libboost-filesystem-dev \
+          libboost-system-dev libopenblas-dev libeigen3-dev
+        
+    - name: Clone KataGo source
+      run: |
+        git clone https://github.com/lightvector/KataGo.git
+        cd KataGo
+        git submodule update --init
+        
+    - name: Configure for ARM
+      run: |
+        cd KataGo/cpp
+        cmake . \
+          -DUSE_BACKEND=EIGEN \
+          -DNO_GIT_REVISION=1 \
+          -DCMAKE_TOOLCHAIN_FILE=../toolchains/arm-linux-gnueabihf.cmake \
+          -DCMAKE_BUILD_TYPE=Release
+        
+    - name: Build KataGo
+      run: |
+        cd KataGo/cpp
+        make -j$BUILD_THREADS
+        strip katago
+        
+    - name: Verify binary
+      id: verify
+      run: |
+        if [ -f KataGo/cpp/katago ]; then
+          echo "Binary exists - checking ARM architecture..."
+          file KataGo/cpp/katago | grep "ARM"
+          echo "status=success" >> $GITHUB_OUTPUT
+        else
+          echo "status=failure" >> $GITHUB_OUTPUT
+          exit 1
+        end
+        
+    - name: Upload artifact
+      if: steps.verify.outputs.status == 'success'
+      uses: actions/upload-artifact@v3
+      with:
+        name: katago-arm-binary
+        path: KataGo/cpp/katago
+        
+    - name: Success status
+      if: steps.verify.outputs.status == 'success'
+      run: |
+        echo "KataGo ARM compilation successful!"
+        echo "::notice title=Build Success::ARM binary compiled successfully"
+        
+    - name: Failure handler
+      if: steps.verify.outputs.status == 'failure'
+      run: |
+        echo "::error title=Build Failed::ARM compilation failed"
+        exit 1
