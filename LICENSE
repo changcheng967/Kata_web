@@ -2,11 +2,13 @@ Custom License
 
 Copyright (c) 2025 Cheng Chang
 
-Permission is hereby granted, free of charge, to authorized individuals who obtain explicit permission from the copyright holder (Cheng Chang), to use, modify, or distribute this software, subject to the following conditions:
+Permission is hereby granted, free of charge, to authorized individuals who obtain explicit permission from the copyright holder (Cheng Chang) to use this software, subject to the following conditions:
 
-1. **Non-Sharable**: The software and its contents cannot be shared with third parties without prior written consent from the copyright holder.
-2. **Non-Commercial Use Only**: The software and its contents cannot be used for any commercial purposes without explicit authorization from the copyright holder.
-3. **Editing Permission**: Modifications to the software and its contents are permitted only if prior access is explicitly granted by the copyright holder.
-4. **Copyright Notice**: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+1. Non-Commercial Use Only: This software and its contents shall not be used for any commercial purposes without explicit authorization from the copyright holder.
+2. No Modifications Without Permission: Editing, altering, or modifying the software is strictly prohibited unless explicit permission has been granted by the copyright holder.
+3. No Unauthorized Copies: The software may not be copied or distributed to third parties without prior written consent from the copyright holder.
+4. Credit & Citation Requirement: If explicit permission is granted, users must credit the copyright holder in any redistributed version. An appropriate citation example is:
+   - "This software utilizes Kata_web, licensed by Cheng Chang (2025). Used with permission. All rights reserved."
+5. Inclusion of Copyright Notice: The above copyright notice and this permission notice must be included in all copies or substantial portions of the software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
