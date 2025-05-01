@@ -14,7 +14,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2  # Downgraded to v2 for compatibility
+      uses: actions/checkout@v2
     
     - name: Set up build environment
       run: |
@@ -56,18 +56,19 @@ jobs:
           exit 1
         fi
         
-    - name: Upload artifact
+    - name: Upload artifact (manual method)
       if: steps.verify.outputs.status == 'success'
-      uses: actions/upload-artifact@v2  # Downgraded to v2
-      with:
-        name: katago-arm-binary
-        path: KataGo/cpp/katago
+      run: |
+        mkdir -p artifacts
+        cp KataGo/cpp/katago artifacts/
+        echo "::set-output name=artifact-path::artifacts/katago"
         
     - name: Success status
       if: steps.verify.outputs.status == 'success'
       run: |
         echo "KataGo ARM compilation successful!"
         echo "::notice title=Build Success::ARM binary compiled successfully"
+        echo "##[set-output name=result;]success"
         
     - name: Failure handler
       if: steps.verify.outputs.status == 'failure'
