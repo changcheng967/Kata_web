@@ -1,0 +1,101 @@
+name: Build KataGo for ARM (Ubuntu)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-katago:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_THREADS: 4
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up ARM build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          git cmake build-essential \
+          gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
+          libzip-dev libboost-dev libboost-filesystem-dev \
+          libboost-system-dev libopenblas-dev libeigen3-dev \
+          pkg-config
+        
+    - name: Clone and setup KataGo with guaranteed toolchain
+      run: |
+        # Clone with full history to ensure toolchain exists
+        git clone --branch master --recursive https://github.com/lightvector/KataGo.git
+        
+        # Check for toolchain in standard locations
+        TOOLCHAIN_PATHS=(
+          "KataGo/toolchains/arm-linux-gnueabihf.cmake"
+          "KataGo/dist/toolchains/arm-linux-gnueabihf.cmake"
+        )
+        
+        for path in "${TOOLCHAIN_PATHS[@]}"; do
+          if [ -f "$path" ]; then
+            echo "Found toolchain at: $path"
+            mkdir -p KataGo/toolchains
+            cp "$path" KataGo/toolchains/
+            break
+          fi
+        done
+        
+        # Fallback: Create minimal toolchain if missing
+        if [ ! -f KataGo/toolchains/arm-linux-gnueabihf.cmake ]; then
+          echo "::warning::Creating minimal ARM toolchain"
+          cat > KataGo/toolchains/arm-linux-gnueabihf.cmake << 'EOF'
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+EOF
+        fi
+        
+        echo "Final toolchain:"
+        cat KataGo/toolchains/arm-linux-gnueabihf.cmake
+        
+    - name: Configure for ARM
+      run: |
+        cd KataGo/cpp
+        cmake . \
+          -DUSE_BACKEND=EIGEN \
+          -DNO_GIT_REVISION=1 \
+          -DCMAKE_TOOLCHAIN_FILE="../../toolchains/arm-linux-gnueabihf.cmake" \
+          -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc \
+          -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ \
+          -DCMAKE_BUILD_TYPE=Release
+        
+    - name: Build KataGo
+      run: |
+        cd KataGo/cpp
+        make -j$BUILD_THREADS VERBOSE=1
+        arm-linux-gnueabihf-strip katago
+        
+    - name: Verify binary
+      id: verify
+      run: |
+        if [ -f KataGo/cpp/katago ]; then
+          echo "::set-output name=status::success"
+          echo "=== Binary Architecture ==="
+          file KataGo/cpp/katago
+        else
+          echo "::set-output name=status::failure"
+          exit 1
+        fi
+        
+    - name: Package artifact
+      if: steps.verify.outputs.status == 'success'
+      run: |
+        mkdir -p artifact
+        cp KataGo/cpp/katago artifact/
+        tar czvf katago-arm-bin.tar.gz -C artifact .
