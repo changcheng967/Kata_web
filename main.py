@@ -158,7 +158,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b18 network with usually only 7 visits, takes about 3-5 seconds per move.",
+    "engine": "KataGo b18c384nbt random selftrained model. Plays randomly, very fast on modern computers. Link: https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
