@@ -56,24 +56,16 @@ try:
 except Exception as e:
     print(f"Error setting up KataGo: {e}")
 
-# Step 3: Download the KataGo model
-print("Downloading KataGo model...")
-model_url = "https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
-model_gz = "kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
-model_bin = "kata1-b18c384nbt-s9937771520-d4300882049.bin"
+# Step 3: Download the KataGo model (final_model.bin)
+print("Downloading KataGo model (final_model.bin)...")
+model_url = "https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin"
+model_bin = "final_model.bin"
 
 try:
-    print(f"Downloading {model_gz}...")
+    print(f"Downloading {model_bin}...")
     response = requests.get(model_url)
-    with open(model_gz, "wb") as f:
+    with open(os.path.join(katago_dir, model_bin), "wb") as f:
         f.write(response.content)
-    print(f"Extracting {model_gz}...")
-    with gzip.open(model_gz, "rb") as gz_file:
-        with open(os.path.join(katago_dir, model_bin), "wb") as bin_file:
-            shutil.copyfileobj(gz_file, bin_file)
-    if os.path.exists(model_gz):
-        os.remove(model_gz)
-        print(f"Deleted {model_gz}.")
     print("KataGo model setup complete.")
 except Exception as e:
     print(f"Error setting up KataGo model: {e}")
