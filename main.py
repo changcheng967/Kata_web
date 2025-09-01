@@ -178,7 +178,7 @@ except Exception as e:
 
 # Step 7: Run gtp2ogs with KataGo
 print("Running gtp2ogs with KataGo...")
-api_key = "your-api-key"
+api_key = "6e19a1168616ef333f3cc7e69a6703c67826bae8"
 command = [
     "./gtp2ogs",
     "--apikey", api_key,
