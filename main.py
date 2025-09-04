@@ -148,49 +148,50 @@ try:
 except Exception as e:
     print(f"Error updating default_gtp.cfg: {e}")
 
-# Step 6: Generate kata_speed.json5
-print("Generating kata_speed.json5...")
-kata_speed_config = {
-    "blacklist": ["Tilano", "ujykfyijhgf", "Benneviss", "world2049", "extoom"],
-    "whitelist": ["xqqzldh", "Golaxy 9D", "俱乐部AI", "Doudoubot", "Katagui40b", "Kata_speed"],
-    "allow_ranked": True,
-    "decline_new_challenges": False,
-    "max_games_per_player": 1,
-    "hidden": False,
-    "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b18c384nbt random selftrained model. Plays randomly, very fast on modern computers. Link: https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin",
-    "allow_unranked": True,
-    "farewellscore": True,
-    "bot": {
-        "send_pv_data": True,
-        "send_chats": True
-    },
-    # Disable correspondence games
-    "allowed_correspondence_settings": None
-}
+# Step 6: Clone CGOS client
+print("Cloning CGOS client if needed...")
+if not os.path.exists("cgos"):
+    subprocess.run(["git", "clone", "https://github.com/cgos/cgos"], check=True)
+else:
+    print("CGOS client already exists.")
 
+# Step 7: Create Minimal GTP Config
+print("Ensuring minimal GTP config exists...")
+minimal_gtp_cfg_path = os.path.join(katago_dir, "cgos_gtp.cfg")
 try:
-    with open("kata_speed.json5", "w", encoding="utf-8") as f:
-        json.dump(kata_speed_config, f, indent=4, ensure_ascii=False)
-    print("kata_speed.json5 has been generated successfully!")
+    with open(minimal_gtp_cfg_path, "w") as f:
+        f.write(f"""logSearchInfo = false
+maxTime = 1.0
+model = {os.path.join(katago_dir, model_bin)}
+rules = tromp-taylor
+""")
+    print("Minimal GTP config for CGOS created.")
 except Exception as e:
-    print(f"Error generating kata_speed.json5: {e}")
+    print(f"Error creating CGOS GTP config: {e}")
 
-# Step 7: Run gtp2ogs with KataGo
-print("Running gtp2ogs with KataGo...")
-api_key = "6e19a1168616ef333f3cc7e69a6703c67826bae8"
+# Step 8: Run KataGo on CGOS
+print("Launching KataGo on CGOS...")
+
+# ❗ Replace these with your actual CGOS account info:
+CGOS_SERVER = "g0.cgos.go.jp"
+CGOS_PORT = "6809"
+BOT_NAME = "KataWeb"         # <-- Replace this
+BOT_PASSWORD = "142857"    # <-- Replace this
+BOARD_SIZE = "9"
+KOMI = "7.5"
+
 command = [
-    "./gtp2ogs",
-    "--apikey", api_key,
-    "--config", "kata_speed.json5",
-    "--",
-    os.path.join(katago_dir, "katago"),
-    "gtp",
-    "-config", os.path.join(katago_dir, "default_gtp.cfg"),
-    "-model", os.path.join(katago_dir, model_bin)
+    "python3", "cgos/cgosClient.py",
+    "--server", CGOS_SERVER,
+    "--port", CGOS_PORT,
+    "--name", BOT_NAME,
+    "--password", BOT_PASSWORD,
+    "--exec", f"{os.path.join(katago_dir, 'katago')} gtp -model {os.path.join(katago_dir, model_bin)} -config {minimal_gtp_cfg_path}",
+    "--boardsize", BOARD_SIZE,
+    "--komi", KOMI
 ]
 
 try:
     subprocess.run(command)
 except Exception as e:
-    print(f"Error running gtp2ogs: {e}")
+    print(f"Error running KataGo on CGOS: {e}")
