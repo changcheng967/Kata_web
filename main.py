@@ -52,24 +52,28 @@ maxTime = 0
         f.write(content.strip() + "\n")
     print("Minimal GTP config created.")
 
-def create_cgos_config(path, katago_exec, model_path, gtp_config_path):
-    print(f"Creating CGOS client config at {path} ...")
+def create_cgos_config(path, katago_exec, model_path, gtp_config_path, bot_name, bot_password):
     config_content = f"""
-[common]
-name = {BOT_NAME}
-password = {BOT_PASSWORD}
-server = cgos.boardspace.net
-port = 8500
+Common:
+  KillFile = kill.txt
 
-[engine]
-name = katago
-command = {katago_exec} gtp -model {model_path} -config {gtp_config_path}
-boardsize = 19
-komi = 7.5
+GTPEngine:
+  Name = KataGo
+  CommandLine = {katago_exec} gtp -model {model_path} -config {gtp_config_path}
+  ServerHost = cgos.boardspace.net
+  ServerPort = 8500
+  ServerUser = {bot_name}
+  ServerPassword = {bot_password}
+  NumberOfGames = 10
+  SGFDirectory = ./sgf
+
+#GTPObserver:
+#  CommandLine = java -jar /path/to/gogui-display.jar
 """
     with open(path, "w") as f:
         f.write(config_content.strip() + "\n")
-    print("CGOS client config created.")
+    print(f"CGOS client config created at {path}")
+
 
 def find_executable_in_dir(directory, executable_name="katago"):
     # Try to find katago executable in extracted directory
