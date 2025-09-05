@@ -99,6 +99,8 @@ def main():
         os.makedirs(KATAGO_DIR, exist_ok=True)
         extract_zip(KATAGO_ZIP, KATAGO_DIR)
         os.remove(KATAGO_ZIP)
+    # Make sure the binary is executable
+        os.chmod(KATAGO_EXEC, 0o755)
         if not os.path.isfile(KATAGO_EXEC):
             print("Error: KataGo executable not found after extraction.")
             sys.exit(1)
