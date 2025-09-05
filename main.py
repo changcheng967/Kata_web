@@ -2,9 +2,7 @@ import os
 import subprocess
 import requests
 import zipfile
-import gzip
 import shutil
-import json
 
 # Step 1: Download and extract libzip5 and libssl1.1
 print("Downloading libzip5 and libssl1.1...")
@@ -23,10 +21,9 @@ for url, deb in [(libzip_url, libzip_deb), (libssl_url, libssl_deb)]:
         with open(deb, "wb") as f:
             f.write(response.content)
         print(f"Extracting {deb}...")
-        subprocess.run(["dpkg-deb", "-x", deb, lib_dir])
-        if os.path.exists(deb):
-            os.remove(deb)
-            print(f"Deleted {deb}.")
+        subprocess.run(["dpkg-deb", "-x", deb, lib_dir], check=True)
+        os.remove(deb)
+        print(f"Deleted {deb}.")
     except Exception as e:
         print(f"Error processing {deb}: {e}")
 
@@ -41,157 +38,95 @@ katago_zip = "katago-v1.15.3-eigen-linux-x64.zip"
 katago_dir = "katago"
 
 try:
-    print(f"Downloading {katago_zip}...")
     response = requests.get(katago_url)
     with open(katago_zip, "wb") as f:
         f.write(response.content)
-    print(f"Extracting {katago_zip}...")
     with zipfile.ZipFile(katago_zip, "r") as zip_ref:
         zip_ref.extractall(katago_dir)
-    if os.path.exists(katago_zip):
-        os.remove(katago_zip)
-        print(f"Deleted {katago_zip}.")
-    os.chmod(os.path.join(katago_dir, "katago"), 0o755)
+    os.remove(katago_zip)
+    katago_exec_path = os.path.join(katago_dir, "katago")
+    os.chmod(katago_exec_path, 0o755)
     print("KataGo setup complete.")
 except Exception as e:
     print(f"Error setting up KataGo: {e}")
 
-# Step 3: Download the KataGo model (final_model.bin)
+# Step 3: Download KataGo model (final_model.bin)
 print("Downloading KataGo model (final_model.bin)...")
 model_url = "https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin"
 model_bin = "final_model.bin"
+model_path = os.path.join(katago_dir, model_bin)
 
 try:
-    print(f"Downloading {model_bin}...")
     response = requests.get(model_url)
-    with open(os.path.join(katago_dir, model_bin), "wb") as f:
+    with open(model_path, "wb") as f:
         f.write(response.content)
     print("KataGo model setup complete.")
 except Exception as e:
     print(f"Error setting up KataGo model: {e}")
 
-# Step 4: Download gtp2ogs
-print("Downloading gtp2ogs...")
-gtp2ogs_url = "https://github.com/online-go/gtp2ogs/releases/download/9.0/gtp2ogs-9.0.0-linux"
-gtp2ogs_binary = "gtp2ogs"
+# Step 4: Download and extract CGOS client python zip
+print("Downloading CGOS client python zip...")
+cgos_client_url = "https://github.com/zakki/cgos/releases/download/v1.1.0/cgos-client-python-v1.1.0.zip"
+cgos_zip = "cgos-client-python-v1.1.0.zip"
+cgos_dir = "cgos_client"
 
 try:
-    print(f"Downloading {gtp2ogs_binary}...")
-    response = requests.get(gtp2ogs_url)
-    with open(gtp2ogs_binary, "wb") as f:
+    response = requests.get(cgos_client_url)
+    with open(cgos_zip, "wb") as f:
         f.write(response.content)
-    os.chmod(gtp2ogs_binary, 0o755)
-    print("gtp2ogs setup complete.")
+    with zipfile.ZipFile(cgos_zip, "r") as zip_ref:
+        # Clean existing folder if any
+        if os.path.exists(cgos_dir):
+            shutil.rmtree(cgos_dir)
+        zip_ref.extractall(cgos_dir)
+    os.remove(cgos_zip)
+    print("CGOS client setup complete.")
 except Exception as e:
-    print(f"Error setting up gtp2ogs: {e}")
+    print(f"Error setting up CGOS client: {e}")
 
-# Step 5: Modify default_gtp.cfg
-print("Updating default_gtp.cfg...")
-default_gtp_cfg_path = os.path.join(katago_dir, "default_gtp.cfg")
-
-try:
-    with open(default_gtp_cfg_path, "r") as f:
-        lines = f.readlines()
-
-    # Apply the original changes
-    lines[54] = "logSearchInfo = true\n"
-    lines[63] = "ogsChatToStderr = True\n"
-    lines[300] = "# maxVisits = 500\n"
-    lines[302] = "maxTime = 1.0\n"
-    lines[305] = "ponderingEnabled = true\n"
-
-    # Apply the new rules configuration (lines 113 to 149)
-    lines[113:150] = [
-        "# rules = tromp-taylor\n",
-        "\n",
-        "# By default, the \"rules\" parameter is used, but if you comment it out and\n",
-        "# uncomment one option in each of the sections below, you can specify an\n",
-        "# arbitrary combination of individual rules.\n",
-        "\n",
-        "# koRule = SIMPLE       # Simple ko rules (triple ko = no result)\n",
-        "koRule = POSITIONAL   # Positional superko\n",
-        "# koRule = SITUATIONAL  # Situational superko\n",
-        "\n",
-        "scoringRule = AREA       # Area scoring\n",
-        "# scoringRule = TERRITORY  # Territory scoring (special computer-friendly territory rules)\n",
-        "\n",
-        "taxRule = NONE  # All surrounded empty points are scored\n",
-        "# taxRule = SEKI  # Eyes in seki do NOT count as points\n",
-        "# taxRule = ALL   # All groups are taxed up to 2 points for the two eyes needed to live\n",
-        "\n",
-        "# Is multiple-stone suicide legal? (Single-stone suicide is always illegal).\n",
-        "# multiStoneSuicideLegal = false\n",
-        "multiStoneSuicideLegal = true  # Allow multi-stone suicide\n",
-        "\n",
-        "# \"Button go\" - the first pass when area scoring awards 0.5 points and does\n",
-        "# not count for ending the game.\n",
-        "# Allows area scoring rulesets that have far simpler rules to achieve the same\n",
-        "# final scoring precision and reward for precise play as territory scoring.\n",
-        "# hasButton = false\n",
-        "# hasButton = true\n",
-        "\n",
-        "# Is this a human ruleset where it's okay to pass before having physically\n",
-        "# captured and removed all dead stones?\n",
-        "# friendlyPassOk = false\n",
-        "friendlyPassOk = true  # Allow friendly pass\n",
-        "\n",
-        "# How handicap stones in handicap games are compensated\n",
-        "# whiteHandicapBonus = 0    # White gets no compensation for black's handicap stones (Tromp-taylor, NZ, JP)\n",
-        "# whiteHandicapBonus = N-1  # White gets N-1 points for black's N handicap stones (AGA)\n",
-        "# whiteHandicapBonus = N    # White gets N points for black's N handicap stones (Chinese)\n",
-    ]
-
-    # Write the updated content back to the file
-    with open(default_gtp_cfg_path, "w") as f:
-        f.writelines(lines)
-    print("default_gtp.cfg has been updated successfully!")
-except Exception as e:
-    print(f"Error updating default_gtp.cfg: {e}")
-
-# Step 6: Clone CGOS client
-print("Cloning CGOS client if needed...")
-if not os.path.exists("cgos"):
-    subprocess.run(["git", "clone", "https://github.com/zakki/cgos"], check=True)
-else:
-    print("CGOS client already exists.")
-
-# Step 7: Create Minimal GTP Config
-print("Ensuring minimal GTP config exists...")
+# Step 5: Create minimal GTP config for KataGo
+print("Creating minimal GTP config for KataGo...")
 minimal_gtp_cfg_path = os.path.join(katago_dir, "cgos_gtp.cfg")
+
 try:
     with open(minimal_gtp_cfg_path, "w") as f:
         f.write(f"""logSearchInfo = false
 maxTime = 1.0
-model = {os.path.join(katago_dir, model_bin)}
+model = {model_path}
 rules = tromp-taylor
 """)
-    print("Minimal GTP config for CGOS created.")
+    print("Minimal GTP config created.")
 except Exception as e:
-    print(f"Error creating CGOS GTP config: {e}")
+    print(f"Error creating GTP config: {e}")
 
-# Step 8: Run KataGo on CGOS
-print("Launching KataGo on CGOS...")
-
-# ❗ Replace these with your actual CGOS account info:
-CGOS_SERVER = "g0.cgos.go.jp"
-CGOS_PORT = "6809"
-BOT_NAME = "KataWeb"         # <-- Replace this
-BOT_PASSWORD = "142857"    # <-- Replace this
-BOARD_SIZE = "9"
-KOMI = "7.5"
-
-command = [
-    "python3", "cgos/cgosClient.py",
-    "--server", CGOS_SERVER,
-    "--port", CGOS_PORT,
-    "--name", BOT_NAME,
-    "--password", BOT_PASSWORD,
-    "--exec", f"{os.path.join(katago_dir, 'katago')} gtp -model {os.path.join(katago_dir, model_bin)} -config {minimal_gtp_cfg_path}",
-    "--boardsize", BOARD_SIZE,
-    "--komi", KOMI
-]
+# Step 6: Create CGOS client config file
+print("Creating CGOS client config file...")
+cgos_config_path = os.path.join(cgos_dir, "config.cfg")
 
 try:
-    subprocess.run(command)
+    with open(cgos_config_path, "w") as f:
+        f.write(f"""server = g0.cgos.go.jp
+port = 6809
+name = KataWeb
+password = 142857
+exec = {katago_exec_path} gtp -model {model_path} -config {minimal_gtp_cfg_path}
+boardsize = 9
+komi = 7.5
+""")
+    print(f"CGOS config file created at '{cgos_config_path}'.")
 except Exception as e:
-    print(f"Error running KataGo on CGOS: {e}")
+    print(f"Error creating CGOS config file: {e}")
+
+# Step 7: Run CGOS client
+print("Launching KataGo on CGOS via CGOS client...")
+
+cgos_client_script = os.path.join(cgos_dir, "bin", "cgosclient.py")
+
+if not os.path.exists(cgos_client_script):
+    print(f"CGOS client script not found at {cgos_client_script}")
+else:
+    command = ["python3", cgos_client_script, cgos_config_path]
+    try:
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running CGOS client: {e}")
