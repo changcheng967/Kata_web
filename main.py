@@ -151,7 +151,7 @@ except Exception as e:
 # Step 6: Clone CGOS client
 print("Cloning CGOS client if needed...")
 if not os.path.exists("cgos"):
-    subprocess.run(["git", "clone", "https://github.com/cgos/cgos"], check=True)
+    subprocess.run(["git", "clone", "https://github.com/zakki/cgos"], check=True)
 else:
     print("CGOS client already exists.")
 
