@@ -74,15 +74,22 @@ try:
     response = requests.get(cgos_client_url)
     with open(cgos_zip, "wb") as f:
         f.write(response.content)
+
+    # Remove existing folder before extraction
+    if os.path.exists(cgos_dir):
+        shutil.rmtree(cgos_dir)
+
     with zipfile.ZipFile(cgos_zip, "r") as zip_ref:
-        # Clean existing folder if any
-        if os.path.exists(cgos_dir):
-            shutil.rmtree(cgos_dir)
         zip_ref.extractall(cgos_dir)
+
     os.remove(cgos_zip)
     print("CGOS client setup complete.")
+
+    # Adjust cgos_dir to nested folder inside the extracted dir
+    cgos_dir = os.path.join(cgos_dir, "cgos-client-python-v1.1.0")
 except Exception as e:
     print(f"Error setting up CGOS client: {e}")
+
 
 # Step 5: Create minimal GTP config for KataGo
 print("Creating minimal GTP config for KataGo...")
