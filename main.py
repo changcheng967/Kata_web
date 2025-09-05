@@ -45,6 +45,7 @@ def extract_zip(zip_path, extract_to):
 def create_minimal_gtp_config(path):
     print(f"Creating minimal GTP config at {path} ...")
     content = """
+logAllGTPCommunication = true
 maxVisits = 1
 maxPlayouts = 100
 maxTime = 0
