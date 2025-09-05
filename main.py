@@ -4,6 +4,7 @@ import shutil
 import requests
 import zipfile
 import subprocess
+import stat
 
 # === User Config ===
 BOT_NAME = "KataWeb"
@@ -75,17 +76,19 @@ GTPEngine:
     print(f"CGOS client config created at {path}")
 
 def find_executable_in_dir(directory, executable_name="katago"):
-    # Check the directory root first
-    candidate = os.path.join(directory, executable_name)
-    if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
-        return candidate
-
-    # Otherwise search recursively
+    # Try to find katago executable in extracted directory
     for root, _, files in os.walk(directory):
-        if executable_name in files:
-            exec_path = os.path.join(root, executable_name)
-            if os.access(exec_path, os.X_OK):
-                return exec_path
+        for file in files:
+            if file == executable_name:
+                candidate_path = os.path.join(root, file)
+                # Check if file is executable
+                if os.access(candidate_path, os.X_OK):
+                    return candidate_path
+                else:
+                    # Try to set execute permission if missing
+                    st = os.stat(candidate_path)
+                    os.chmod(candidate_path, st.st_mode | stat.S_IEXEC)
+                    return candidate_path
     return None
 
 def find_cgosclient_script(cgos_client_dir):
@@ -98,12 +101,9 @@ def find_cgosclient_script(cgos_client_dir):
 # === Main script ===
 
 def main():
-    # Download KataGo if needed
+    # KataGo download and extract
     if not os.path.isdir(KATAGO_DIR):
         download_file(KATAGO_URL, KATAGO_ZIP)
-        # Extract directly into KATAGO_DIR
-        if os.path.exists(KATAGO_DIR):
-            shutil.rmtree(KATAGO_DIR)
         os.makedirs(KATAGO_DIR, exist_ok=True)
         extract_zip(KATAGO_ZIP, KATAGO_DIR)
         os.remove(KATAGO_ZIP)
@@ -111,7 +111,18 @@ def main():
     else:
         print(f"KataGo directory already exists: {KATAGO_DIR}")
 
-    # Download KataGo model if needed
+    # Set executable permission on katago executable if exists
+    katago_exec_candidate = os.path.join(KATAGO_DIR, "katago")
+    if os.path.isfile(katago_exec_candidate):
+        st = os.stat(katago_exec_candidate)
+        os.chmod(katago_exec_candidate, st.st_mode | stat.S_IEXEC)
+        print(f"Set execute permission on {katago_exec_candidate}")
+
+    # Debug print contents of KataGo dir
+    print("Files in KataGo directory after extraction:")
+    print(os.listdir(KATAGO_DIR))
+
+    # Download KataGo model if missing
     if not os.path.isfile(KATAGO_MODEL_BIN):
         print("Downloading KataGo model...")
         download_file(KATAGO_MODEL_URL, KATAGO_MODEL_BIN)
@@ -119,19 +130,17 @@ def main():
     else:
         print(f"KataGo model already exists: {KATAGO_MODEL_BIN}")
 
-    # Download CGOS client python zip if needed
+    # Download and extract CGOS client python zip
     if not os.path.isdir(CGOS_CLIENT_DIR):
         download_file(CGOS_CLIENT_URL, CGOS_CLIENT_ZIP)
         extract_zip(CGOS_CLIENT_ZIP, WORK_DIR)
-
-        # The extracted folder is something like cgos-client-python-v1.1.0/cgos-client-python-v1.1.0/
+        # The zip structure is cgos-client-python-v1.1.0/cgos-client-python-v1.1.0/
         outer_dir = os.path.join(WORK_DIR, "cgos-client-python-v1.1.0")
         nested_dir = os.path.join(outer_dir, "cgos-client-python-v1.1.0")
         if os.path.isdir(nested_dir):
             if os.path.exists(CGOS_CLIENT_DIR):
                 shutil.rmtree(CGOS_CLIENT_DIR)
             shutil.move(nested_dir, CGOS_CLIENT_DIR)
-            # Clean up outer_dir if empty
             try:
                 os.rmdir(outer_dir)
             except OSError:
@@ -140,7 +149,6 @@ def main():
             if os.path.exists(CGOS_CLIENT_DIR):
                 shutil.rmtree(CGOS_CLIENT_DIR)
             shutil.move(outer_dir, CGOS_CLIENT_DIR)
-
         os.remove(CGOS_CLIENT_ZIP)
         print(f"CGOS client extracted to {CGOS_CLIENT_DIR}")
     else:
@@ -158,6 +166,8 @@ def main():
     if not katago_exec:
         print("Error: KataGo executable not found")
         sys.exit(1)
+    else:
+        print(f"KataGo executable found at {katago_exec}")
 
     # Create CGOS client config
     cgos_config_path = os.path.join(CGOS_CLIENT_DIR, "config.cfg")
@@ -168,10 +178,13 @@ def main():
     if not cgosclient_py:
         print("Error: cgosclient.py script not found")
         sys.exit(1)
+    else:
+        print(f"CGOS client script found at {cgosclient_py}")
 
     # Launch CGOS client
     print(f"Launching CGOS client...\nCommand: python {cgosclient_py} {cgos_config_path}")
     subprocess.run([sys.executable, cgosclient_py, cgos_config_path])
+
 
 if __name__ == "__main__":
     main()
