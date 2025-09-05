@@ -2,6 +2,7 @@
 
 [![pages-build-deployment](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment)  
 [![.github/workflows/main.yml](https://github.com/changcheng967/Kata_web/actions/workflows/main.yml/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/main.yml)
+[![KataGo Setup from training branch](https://github.com/changcheng967/Kata_web/actions/workflows/main.yml/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/main.yml)
 ## Overview  
 **Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **KataGo b18 (Eigen backend)** for efficient performance. This project is designed to provide **free, cross-platform** AI-assisted Go analysis while maintaining strict licensing policies.  
 
