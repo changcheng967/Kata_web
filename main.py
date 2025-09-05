@@ -12,11 +12,10 @@ BOT_PASSWORD = "142857"
 WORK_DIR = os.path.abspath("cgos_workdir")
 os.makedirs(WORK_DIR, exist_ok=True)
 
-KATAGO_URL = "https://github.com/lightvector/KataGo/releases/download/v1.11.2/kataGo-v1.11.2-linux-x64.zip"
+KATAGO_URL = "https://github.com/lightvector/KataGo/releases/download/v1.16.3/katago-v1.16.3-eigen-linux-x64.zip"
 KATAGO_ZIP = os.path.join(WORK_DIR, "katago.zip")
 KATAGO_DIR = os.path.join(WORK_DIR, "katago")
-KATAGO_MODEL_URL = "https://github.com/lightvector/KataGo/releases/download/v1.11.2/katago_model_19b.bin.gz"
-KATAGO_MODEL_GZ = os.path.join(WORK_DIR, "katago_model_19b.bin.gz")
+KATAGO_MODEL_URL = "https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin"
 KATAGO_MODEL_BIN = os.path.join(WORK_DIR, "final_model.bin")  # We'll rename model here
 
 CGOS_CLIENT_URL = "https://github.com/zakki/cgos/releases/download/v1.1.0/cgos-client-python-v1.1.0.zip"
