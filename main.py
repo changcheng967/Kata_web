@@ -105,7 +105,7 @@ Common:
 GTPEngine:
   Name = KataGo
   CommandLine = {katago_exec} gtp -model {model_path} -config {gtp_config_path}
-  ServerHost = cgos.boardspace.net
+  ServerHost = yss-aya.com
   ServerPort = 6809
   ServerUser = {bot_name}
   ServerPassword = {bot_password}
