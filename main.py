@@ -120,8 +120,24 @@ rules = tromp-taylor
 except Exception as e:
     print(f"Error creating minimal GTP config: {e}")
 
-# --- Step 6: Create CGOS client config file ---
+# Step 6: Create CGOS client config file
 print("Creating CGOS client config file...")
+
+katago_exec_path = os.path.join(katago_dir, "katago")
+minimal_gtp_cfg_path = os.path.join(katago_dir, "cgos_gtp.cfg")
+
+# Debug print and sanity check
+print("Katago executable path:", katago_exec_path)
+print("Minimal GTP config path:", minimal_gtp_cfg_path)
+
+import sys
+if not os.path.exists(katago_exec_path):
+    print(f"Error: KataGo executable not found at {katago_exec_path}")
+    sys.exit(1)
+if not os.path.exists(minimal_gtp_cfg_path):
+    print(f"Error: Minimal GTP config not found at {minimal_gtp_cfg_path}")
+    sys.exit(1)
+
 try:
     config_path = os.path.join(cgos_dir, "config.cfg")
     with open(config_path, "w") as f:
@@ -137,9 +153,19 @@ command = {katago_exec_path} gtp -model {os.path.join(katago_dir, model_bin)} -c
 boardsize = {BOARD_SIZE}
 komi = {KOMI}
 """)
+
     print(f"CGOS config file created at '{config_path}'.")
+    
+    # Print out config for debugging
+    with open(config_path, "r") as f:
+        print("=== CGOS client config.cfg content ===")
+        print(f.read())
+        print("=== End of config.cfg ===")
+
 except Exception as e:
     print(f"Error creating CGOS config file: {e}")
+    sys.exit(1)
+
 
 # --- Step 7: Run CGOS client ---
 print("Launching KataGo on CGOS via CGOS client...")
