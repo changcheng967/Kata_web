@@ -47,9 +47,9 @@ def create_minimal_gtp_config(path):
 maxVisits = 1
 maxPlayouts = 100
 maxTime = 0
-""".strip()
+"""
     with open(path, "w") as f:
-        f.write(content + "\n")
+        f.write(content.strip() + "\n")
     print("Minimal GTP config created.")
 
 def create_cgos_config(path, katago_exec, model_path, gtp_config_path, bot_name, bot_password):
@@ -69,13 +69,18 @@ GTPEngine:
 
 #GTPObserver:
 #  CommandLine = java -jar /path/to/gogui-display.jar
-""".strip()
+"""
     with open(path, "w") as f:
-        f.write(config_content + "\n")
+        f.write(config_content.strip() + "\n")
     print(f"CGOS client config created at {path}")
 
 def find_executable_in_dir(directory, executable_name="katago"):
-    # On Linux/Mac executable might be just "katago"
+    # Check the directory root first
+    candidate = os.path.join(directory, executable_name)
+    if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
+        return candidate
+
+    # Otherwise search recursively
     for root, _, files in os.walk(directory):
         if executable_name in files:
             exec_path = os.path.join(root, executable_name)
@@ -84,17 +89,21 @@ def find_executable_in_dir(directory, executable_name="katago"):
     return None
 
 def find_cgosclient_script(cgos_client_dir):
+    # Look recursively for cgosclient.py
     for root, _, files in os.walk(cgos_client_dir):
         if "cgosclient.py" in files:
             return os.path.join(root, "cgosclient.py")
     return None
 
-# === Main ===
+# === Main script ===
 
 def main():
-    # KataGo download and extraction
+    # Download KataGo if needed
     if not os.path.isdir(KATAGO_DIR):
         download_file(KATAGO_URL, KATAGO_ZIP)
+        # Extract directly into KATAGO_DIR
+        if os.path.exists(KATAGO_DIR):
+            shutil.rmtree(KATAGO_DIR)
         os.makedirs(KATAGO_DIR, exist_ok=True)
         extract_zip(KATAGO_ZIP, KATAGO_DIR)
         os.remove(KATAGO_ZIP)
@@ -102,25 +111,27 @@ def main():
     else:
         print(f"KataGo directory already exists: {KATAGO_DIR}")
 
-    # KataGo model download
+    # Download KataGo model if needed
     if not os.path.isfile(KATAGO_MODEL_BIN):
+        print("Downloading KataGo model...")
         download_file(KATAGO_MODEL_URL, KATAGO_MODEL_BIN)
         print(f"KataGo model downloaded to {KATAGO_MODEL_BIN}")
     else:
         print(f"KataGo model already exists: {KATAGO_MODEL_BIN}")
 
-    # CGOS client download and extraction
+    # Download CGOS client python zip if needed
     if not os.path.isdir(CGOS_CLIENT_DIR):
         download_file(CGOS_CLIENT_URL, CGOS_CLIENT_ZIP)
         extract_zip(CGOS_CLIENT_ZIP, WORK_DIR)
-        # The extracted folder is like cgos-client-python-v1.1.0/cgos-client-python-v1.1.0/
+
+        # The extracted folder is something like cgos-client-python-v1.1.0/cgos-client-python-v1.1.0/
         outer_dir = os.path.join(WORK_DIR, "cgos-client-python-v1.1.0")
         nested_dir = os.path.join(outer_dir, "cgos-client-python-v1.1.0")
         if os.path.isdir(nested_dir):
             if os.path.exists(CGOS_CLIENT_DIR):
                 shutil.rmtree(CGOS_CLIENT_DIR)
             shutil.move(nested_dir, CGOS_CLIENT_DIR)
-            # Cleanup
+            # Clean up outer_dir if empty
             try:
                 os.rmdir(outer_dir)
             except OSError:
@@ -129,12 +140,13 @@ def main():
             if os.path.exists(CGOS_CLIENT_DIR):
                 shutil.rmtree(CGOS_CLIENT_DIR)
             shutil.move(outer_dir, CGOS_CLIENT_DIR)
+
         os.remove(CGOS_CLIENT_ZIP)
         print(f"CGOS client extracted to {CGOS_CLIENT_DIR}")
     else:
         print(f"CGOS client directory already exists: {CGOS_CLIENT_DIR}")
 
-    # Create minimal GTP config
+    # Create minimal GTP config file for KataGo
     gtp_config_path = os.path.join(KATAGO_DIR, "cgos_gtp.cfg")
     if not os.path.isfile(gtp_config_path):
         create_minimal_gtp_config(gtp_config_path)
@@ -147,7 +159,7 @@ def main():
         print("Error: KataGo executable not found")
         sys.exit(1)
 
-    # Create CGOS config
+    # Create CGOS client config
     cgos_config_path = os.path.join(CGOS_CLIENT_DIR, "config.cfg")
     create_cgos_config(cgos_config_path, katago_exec, KATAGO_MODEL_BIN, gtp_config_path, BOT_NAME, BOT_PASSWORD)
 
