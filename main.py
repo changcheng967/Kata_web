@@ -135,12 +135,12 @@ def main():
         print(f"KataGo executable already exists: {KATAGO_EXEC}")
 
     # Download KataGo model
-    if not os.path.isfile(KATAGO_MODEL_BIN):
+    if not os.path.isfile(KATAGO_MODEL_URL):
         print("Downloading KataGo model...")
-        download_file(KATAGO_MODEL_URL, KATAGO_MODEL_BIN)
-        print(f"KataGo model downloaded to {KATAGO_MODEL_BIN}")
+        download_file(KATAGO_MODEL_URL, KATAGO_MODEL_URL)
+        print(f"KataGo model downloaded to {KATAGO_MODEL_URL}")
     else:
-        print(f"KataGo model already exists: {KATAGO_MODEL_BIN}")
+        print(f"KataGo model already exists: {KATAGO_MODEL_URL}")
 
     # Download and extract CGOS client
     if not os.path.isdir(CGOS_CLIENT_DIR):
@@ -170,7 +170,7 @@ def main():
 
     # Create CGOS config
     cgos_config_path = os.path.join(CGOS_CLIENT_DIR, "config.cfg")
-    create_cgos_config(cgos_config_path, KATAGO_EXEC, KATAGO_MODEL_BIN, cgos_gtp_cfg_path, BOT_NAME, BOT_PASSWORD)
+    create_cgos_config(cgos_config_path, KATAGO_EXEC, KATAGO_MODEL_URL, cgos_gtp_cfg_path, BOT_NAME, BOT_PASSWORD)
 
     # Find and run CGOS client
     cgosclient_py = find_cgosclient_script(CGOS_CLIENT_DIR)
