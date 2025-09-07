@@ -59,7 +59,7 @@ except Exception as e:
 # Step 3: Download the KataGo model (final_model.bin)
 print("Downloading KataGo model (final_model.bin)...")
 model_url = "https://github.com/changcheng967/Kata_web/releases/download/v1.2/model.bin.gz"
-model_bin = "model.bin"
+model_bin = "model.bin.gz"
 
 try:
     print(f"Downloading {model_bin}...")
