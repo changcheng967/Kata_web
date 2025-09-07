@@ -1,204 +1,186 @@
 import os
-import subprocess
+import sys
+import shutil
 import requests
 import zipfile
-import gzip
-import shutil
-import json
+import subprocess
 
-# Step 1: Download and extract libzip5 and libssl1.1
-print("Downloading libzip5 and libssl1.1...")
-libzip_url = "http://archive.ubuntu.com/ubuntu/pool/universe/libz/libzip/libzip5_1.5.1-0ubuntu1_amd64.deb"
-libssl_url = "http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
-libzip_deb = "libzip5_1.5.1-0ubuntu1_amd64.deb"
-libssl_deb = "libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
-lib_dir = "libs"
+# === User Config ===
+BOT_NAME = "KataWeb"
+BOT_PASSWORD = "142857"
 
-os.makedirs(lib_dir, exist_ok=True)
+WORK_DIR = os.path.abspath("cgos_workdir")
+os.makedirs(WORK_DIR, exist_ok=True)
 
-for url, deb in [(libzip_url, libzip_deb), (libssl_url, libssl_deb)]:
+KATAGO_URL = "https://github.com/lightvector/KataGo/releases/download/v1.16.3/katago-v1.16.3-eigen-linux-x64.zip"
+KATAGO_ZIP = os.path.join(WORK_DIR, "katago.zip")
+KATAGO_DIR = os.path.join(WORK_DIR, "katago")
+KATAGO_EXEC = os.path.join(KATAGO_DIR, "katago")
+KATAGO_MODEL_URL = "https://github.com/changcheng967/Kata_web/releases/download/v1.2/model.bin.gz"
+KATAGO_MODEL_PATH = os.path.join(WORK_DIR, "model.bin.gz")  # Fixed path
+CGOS_CLIENT_URL = "https://github.com/zakki/cgos/releases/download/v1.1.0/cgos-client-python-v1.1.0.zip"
+CGOS_CLIENT_ZIP = os.path.join(WORK_DIR, "cgos-client-python.zip")
+CGOS_CLIENT_DIR = os.path.join(WORK_DIR, "cgos_client")
+
+# === Helper functions ===
+
+def download_file(url, dest):
+    print(f"Downloading {url} ...")
+    r = requests.get(url, stream=True)
+    r.raise_for_status()
+    with open(dest, "wb") as f:
+        for chunk in r.iter_content(chunk_size=8192):
+            f.write(chunk)
+    print(f"Downloaded to {dest}")
+
+def extract_zip(zip_path, extract_to):
+    print(f"Extracting {zip_path} to {extract_to} ...")
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_to)
+    print("Extraction done.")
+
+def patch_gtp_config(cfg_path):
+    """Patch KataGo default_gtp.cfg with CGOS settings"""
     try:
-        print(f"Downloading {deb}...")
-        response = requests.get(url)
-        with open(deb, "wb") as f:
-            f.write(response.content)
-        print(f"Extracting {deb}...")
-        subprocess.run(["dpkg-deb", "-x", deb, lib_dir])
-        if os.path.exists(deb):
-            os.remove(deb)
-            print(f"Deleted {deb}.")
+        with open(cfg_path, "r") as f:
+            lines = f.readlines()
+
+        # Apply the original changes
+        lines[54]  = "logSearchInfo = true\n"
+        lines[63]  = "ogsChatToStderr = True\n"
+        lines[300] = "# maxVisits = 500\n"
+        lines[302] = "maxTime = 1.0\n"
+        lines[305] = "ponderingEnabled = true\n"
+
+        # Apply the new rules configuration (lines 113 to 149)
+        lines[113:150] = [
+            "# rules = tromp-taylor\n",
+            "\n",
+            "# By default, the \"rules\" parameter is used, but if you comment it out and\n",
+            "# uncomment one option in each of the sections below, you can specify an\n",
+            "# arbitrary combination of individual rules.\n",
+            "\n",
+            "# koRule = SIMPLE       # Simple ko rules (triple ko = no result)\n",
+            "koRule = POSITIONAL   # Positional superko\n",
+            "# koRule = SITUATIONAL  # Situational superko\n",
+            "\n",
+            "scoringRule = AREA       # Area scoring\n",
+            "# scoringRule = TERRITORY  # Territory scoring\n",
+            "\n",
+            "taxRule = NONE  # All surrounded empty points are scored\n",
+            "# taxRule = SEKI\n",
+            "# taxRule = ALL\n",
+            "\n",
+            "# Is multiple-stone suicide legal?\n",
+            "# multiStoneSuicideLegal = false\n",
+            "multiStoneSuicideLegal = true  # Allow multi-stone suicide\n",
+            "\n",
+            "# \"Button go\"\n",
+            "# hasButton = false\n",
+            "# hasButton = true\n",
+            "\n",
+            "# Is this a human ruleset where it's okay to pass before removing all dead stones?\n",
+            "# friendlyPassOk = false\n",
+            "friendlyPassOk = true  # Allow friendly pass\n",
+            "\n",
+            "# Handicap compensation\n",
+            "# whiteHandicapBonus = 0\n",
+            "# whiteHandicapBonus = N-1\n",
+            "# whiteHandicapBonus = N\n",
+        ]
+
+        with open(cfg_path, "w") as f:
+            f.writelines(lines)
+        print(f"{cfg_path} has been updated successfully!")
+
     except Exception as e:
-        print(f"Error processing {deb}: {e}")
+        print(f"Error updating {cfg_path}: {e}")
 
-libzip_lib_path = os.path.join(lib_dir, "usr", "lib", "x86_64-linux-gnu")
-libssl_lib_path = os.path.join(lib_dir, "lib", "x86_64-linux-gnu")
-os.environ["LD_LIBRARY_PATH"] = f"{libzip_lib_path}:{libssl_lib_path}"
+def create_cgos_config(path, katago_exec, model_path, gtp_config_path, bot_name, bot_password):
+    config_content = f"""
+Common:
+  KillFile = kill.txt
 
-# Step 2: Download and unzip KataGo (Eigen version)
-print("Downloading KataGo (Eigen version)...")
-katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.15.3/katago-v1.15.3-eigen-linux-x64.zip"
-katago_zip = "katago-v1.15.3-eigen-linux-x64.zip"
-katago_dir = "katago"
+GTPEngine:
+  Name = KataGo
+  CommandLine = {katago_exec} gtp -model {model_path} -config {gtp_config_path}
+  ServerHost = yss-aya.com
+  ServerPort = 6819
+  ServerUser = {bot_name}
+  ServerPassword = {bot_password}
+  NumberOfGames = 10
+  SGFDirectory = ./sgf
+"""
+    with open(path, "w") as f:
+        f.write(config_content.strip() + "\n")
+    print(f"CGOS client config created at {path}")
 
-try:
-    print(f"Downloading {katago_zip}...")
-    response = requests.get(katago_url)
-    with open(katago_zip, "wb") as f:
-        f.write(response.content)
-    print(f"Extracting {katago_zip}...")
-    with zipfile.ZipFile(katago_zip, "r") as zip_ref:
-        zip_ref.extractall(katago_dir)
-    if os.path.exists(katago_zip):
-        os.remove(katago_zip)
-        print(f"Deleted {katago_zip}.")
-    os.chmod(os.path.join(katago_dir, "katago"), 0o755)
-    print("KataGo setup complete.")
-except Exception as e:
-    print(f"Error setting up KataGo: {e}")
+def find_cgosclient_script(cgos_client_dir):
+    for root, _, files in os.walk(cgos_client_dir):
+        if "cgosclient.py" in files:
+            return os.path.join(root, "cgosclient.py")
+    return None
 
-# Step 3: Download the KataGo model
-print("Downloading KataGo model...")
-model_url = "https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
-model_gz = "kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
-model_bin = "kata1-b18c384nbt-s9937771520-d4300882049.bin"
+# === Main script ===
 
-try:
-    print(f"Downloading {model_gz}...")
-    response = requests.get(model_url)
-    with open(model_gz, "wb") as f:
-        f.write(response.content)
-    print(f"Extracting {model_gz}...")
-    with gzip.open(model_gz, "rb") as gz_file:
-        with open(os.path.join(katago_dir, model_bin), "wb") as bin_file:
-            shutil.copyfileobj(gz_file, bin_file)
-    if os.path.exists(model_gz):
-        os.remove(model_gz)
-        print(f"Deleted {model_gz}.")
-    print("KataGo model setup complete.")
-except Exception as e:
-    print(f"Error setting up KataGo model: {e}")
+def main():
+    # Download and extract KataGo
+    if not os.path.isfile(KATAGO_EXEC):
+        download_file(KATAGO_URL, KATAGO_ZIP)
+        os.makedirs(KATAGO_DIR, exist_ok=True)
+        extract_zip(KATAGO_ZIP, KATAGO_DIR)
+        os.remove(KATAGO_ZIP)
+        os.chmod(KATAGO_EXEC, 0o755)
+        print(f"KataGo downloaded and extracted to {KATAGO_DIR}")
+    else:
+        print(f"KataGo executable already exists: {KATAGO_EXEC}")
 
-# Step 4: Download gtp2ogs
-print("Downloading gtp2ogs...")
-gtp2ogs_url = "https://github.com/online-go/gtp2ogs/releases/download/9.0/gtp2ogs-9.0.0-linux"
-gtp2ogs_binary = "gtp2ogs"
+    # Download KataGo model
+    if not os.path.isfile(KATAGO_MODEL_PATH):
+        print("Downloading KataGo model...")
+        download_file(KATAGO_MODEL_URL, KATAGO_MODEL_PATH)
+        print(f"KataGo model downloaded to {KATAGO_MODEL_PATH}")
+    else:
+        print(f"KataGo model already exists: {KATAGO_MODEL_PATH}")
 
-try:
-    print(f"Downloading {gtp2ogs_binary}...")
-    response = requests.get(gtp2ogs_url)
-    with open(gtp2ogs_binary, "wb") as f:
-        f.write(response.content)
-    os.chmod(gtp2ogs_binary, 0o755)
-    print("gtp2ogs setup complete.")
-except Exception as e:
-    print(f"Error setting up gtp2ogs: {e}")
+    # Download and extract CGOS client
+    if not os.path.isdir(CGOS_CLIENT_DIR):
+        download_file(CGOS_CLIENT_URL, CGOS_CLIENT_ZIP)
+        extract_zip(CGOS_CLIENT_ZIP, WORK_DIR)
+        outer_dir = os.path.join(WORK_DIR, "cgos-client-python-v1.1.0")
+        nested_dir = os.path.join(outer_dir, "cgos-client-python-v1.1.0")
+        if os.path.isdir(nested_dir):
+            shutil.move(nested_dir, CGOS_CLIENT_DIR)
+            shutil.rmtree(outer_dir, ignore_errors=True)
+        else:
+            shutil.move(outer_dir, CGOS_CLIENT_DIR)
+        os.remove(CGOS_CLIENT_ZIP)
+        print(f"CGOS client extracted to {CGOS_CLIENT_DIR}")
+    else:
+        print(f"CGOS client already exists: {CGOS_CLIENT_DIR}")
 
-# Step 5: Modify default_gtp.cfg
-print("Updating default_gtp.cfg...")
-default_gtp_cfg_path = os.path.join(katago_dir, "default_gtp.cfg")
+    # Patch KataGo default_gtp.cfg
+    default_gtp_cfg_path = os.path.join(KATAGO_DIR, "default_gtp.cfg")
+    cgos_gtp_cfg_path = os.path.join(KATAGO_DIR, "cgos_gtp.cfg")
+    if os.path.isfile(default_gtp_cfg_path):
+        shutil.copy(default_gtp_cfg_path, cgos_gtp_cfg_path)
+        patch_gtp_config(cgos_gtp_cfg_path)
+    else:
+        print("Error: default_gtp.cfg not found in KataGo directory.")
+        sys.exit(1)
 
-try:
-    with open(default_gtp_cfg_path, "r") as f:
-        lines = f.readlines()
+    # Create CGOS config
+    cgos_config_path = os.path.join(CGOS_CLIENT_DIR, "config.cfg")
+    create_cgos_config(cgos_config_path, KATAGO_EXEC, KATAGO_MODEL_PATH, cgos_gtp_cfg_path, BOT_NAME, BOT_PASSWORD)
 
-    # Apply the original changes
-    lines[54] = "logSearchInfo = true\n"
-    lines[63] = "ogsChatToStderr = True\n"
-    lines[300] = "# maxVisits = 500\n"
-    lines[302] = "maxTime = 1.0\n"
-    lines[305] = "ponderingEnabled = true\n"
+    # Find and run CGOS client
+    cgosclient_py = find_cgosclient_script(CGOS_CLIENT_DIR)
+    if not cgosclient_py:
+        print("Error: cgosclient.py not found.")
+        sys.exit(1)
 
-    # Apply the new rules configuration (lines 113 to 149)
-    lines[113:150] = [
-        "# rules = tromp-taylor\n",
-        "\n",
-        "# By default, the \"rules\" parameter is used, but if you comment it out and\n",
-        "# uncomment one option in each of the sections below, you can specify an\n",
-        "# arbitrary combination of individual rules.\n",
-        "\n",
-        "# koRule = SIMPLE       # Simple ko rules (triple ko = no result)\n",
-        "koRule = POSITIONAL   # Positional superko\n",
-        "# koRule = SITUATIONAL  # Situational superko\n",
-        "\n",
-        "scoringRule = AREA       # Area scoring\n",
-        "# scoringRule = TERRITORY  # Territory scoring (special computer-friendly territory rules)\n",
-        "\n",
-        "taxRule = NONE  # All surrounded empty points are scored\n",
-        "# taxRule = SEKI  # Eyes in seki do NOT count as points\n",
-        "# taxRule = ALL   # All groups are taxed up to 2 points for the two eyes needed to live\n",
-        "\n",
-        "# Is multiple-stone suicide legal? (Single-stone suicide is always illegal).\n",
-        "# multiStoneSuicideLegal = false\n",
-        "multiStoneSuicideLegal = true  # Allow multi-stone suicide\n",
-        "\n",
-        "# \"Button go\" - the first pass when area scoring awards 0.5 points and does\n",
-        "# not count for ending the game.\n",
-        "# Allows area scoring rulesets that have far simpler rules to achieve the same\n",
-        "# final scoring precision and reward for precise play as territory scoring.\n",
-        "# hasButton = false\n",
-        "# hasButton = true\n",
-        "\n",
-        "# Is this a human ruleset where it's okay to pass before having physically\n",
-        "# captured and removed all dead stones?\n",
-        "# friendlyPassOk = false\n",
-        "friendlyPassOk = true  # Allow friendly pass\n",
-        "\n",
-        "# How handicap stones in handicap games are compensated\n",
-        "# whiteHandicapBonus = 0    # White gets no compensation for black's handicap stones (Tromp-taylor, NZ, JP)\n",
-        "# whiteHandicapBonus = N-1  # White gets N-1 points for black's N handicap stones (AGA)\n",
-        "# whiteHandicapBonus = N    # White gets N points for black's N handicap stones (Chinese)\n",
-    ]
+    print(f"Launching CGOS client:\nCommand: python {cgosclient_py} {cgos_config_path}")
+    subprocess.run([sys.executable, cgosclient_py, cgos_config_path])
 
-    # Write the updated content back to the file
-    with open(default_gtp_cfg_path, "w") as f:
-        f.writelines(lines)
-    print("default_gtp.cfg has been updated successfully!")
-except Exception as e:
-    print(f"Error updating default_gtp.cfg: {e}")
-
-# Step 6: Generate kata_speed.json5
-print("Generating kata_speed.json5...")
-kata_speed_config = {
-    "blacklist": ["Tilano", "ujykfyijhgf", "Benneviss", "world2049", "extoom"],
-    "whitelist": ["xqqzldh", "Golaxy 9D", "俱乐部AI", "Doudoubot", "Katagui40b", "Kata_speed"],
-    "allow_ranked": True,
-    "decline_new_challenges": False,
-    "max_games_per_player": 1,
-    "hidden": False,
-    "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b18 network with usually only 7 visits, takes about 3-5 seconds per move.",
-    "allow_unranked": True,
-    "farewellscore": True,
-    "bot": {
-        "send_pv_data": True,
-        "send_chats": True
-    },
-    # Disable correspondence games
-    "allowed_correspondence_settings": None
-}
-
-try:
-    with open("kata_speed.json5", "w", encoding="utf-8") as f:
-        json.dump(kata_speed_config, f, indent=4, ensure_ascii=False)
-    print("kata_speed.json5 has been generated successfully!")
-except Exception as e:
-    print(f"Error generating kata_speed.json5: {e}")
-
-# Step 7: Run gtp2ogs with KataGo
-print("Running gtp2ogs with KataGo...")
-api_key = "your-api-key"
-command = [
-    "./gtp2ogs",
-    "--apikey", api_key,
-    "--config", "kata_speed.json5",
-    "--",
-    os.path.join(katago_dir, "katago"),
-    "gtp",
-    "-config", os.path.join(katago_dir, "default_gtp.cfg"),
-    "-model", os.path.join(katago_dir, model_bin)
-]
-
-try:
-    subprocess.run(command)
-except Exception as e:
-    print(f"Error running gtp2ogs: {e}")
+if __name__ == "__main__":
+    main()
