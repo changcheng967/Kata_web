@@ -56,24 +56,16 @@ try:
 except Exception as e:
     print(f"Error setting up KataGo: {e}")
 
-# Step 3: Download the KataGo model
-print("Downloading KataGo model...")
-model_url = "https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
-model_gz = "kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
-model_bin = "kata1-b18c384nbt-s9937771520-d4300882049.bin"
+# Step 3: Download the KataGo model (final_model.bin)
+print("Downloading KataGo model (final_model.bin)...")
+model_url = "https://github.com/changcheng967/Kata_web/releases/download/v1.2/model.bin.gz"
+model_bin = "model.bin.gz"
 
 try:
-    print(f"Downloading {model_gz}...")
+    print(f"Downloading {model_bin}...")
     response = requests.get(model_url)
-    with open(model_gz, "wb") as f:
+    with open(os.path.join(katago_dir, model_bin), "wb") as f:
         f.write(response.content)
-    print(f"Extracting {model_gz}...")
-    with gzip.open(model_gz, "rb") as gz_file:
-        with open(os.path.join(katago_dir, model_bin), "wb") as bin_file:
-            shutil.copyfileobj(gz_file, bin_file)
-    if os.path.exists(model_gz):
-        os.remove(model_gz)
-        print(f"Deleted {model_gz}.")
     print("KataGo model setup complete.")
 except Exception as e:
     print(f"Error setting up KataGo model: {e}")
@@ -166,7 +158,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b18 network with usually only 7 visits, takes about 3-5 seconds per move.",
+    "engine": "KataGo b18c384nbt random selftrained model. Plays randomly, very fast on modern computers. Link: https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
@@ -186,7 +178,7 @@ except Exception as e:
 
 # Step 7: Run gtp2ogs with KataGo
 print("Running gtp2ogs with KataGo...")
-api_key = "your-api-key"
+api_key = "6e19a1168616ef333f3cc7e69a6703c67826bae8"
 command = [
     "./gtp2ogs",
     "--apikey", api_key,
