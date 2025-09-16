@@ -158,7 +158,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b18c384nbt random selftrained model. Plays randomly, very fast on modern computers. Link: https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin",
+    "engine": "KataGo b28c512nbts10784990976-d120396 special trained model based on newest b28 model. Plays at accuracy of 69%, very fast on modern computers. Checkout at https://github.com/changcheng967/Kata_web/releases",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
