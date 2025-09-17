@@ -1,0 +1,45 @@
+name: Build & Publish Releases Page
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'  # optional daily update
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Fetch releases
+      run: |
+        curl -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/changcheng967/Kata_web/releases \
+          > releases.json
+
+    - name: Commit release JSON
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git add releases.json
+        git commit -m "Update releases.json" || echo "No changes"
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: .
+
+    - name: Deploy
+      uses: actions/deploy-pages@v2
