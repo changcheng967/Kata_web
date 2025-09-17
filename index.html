@@ -1,0 +1,78 @@
+---
+layout: none
+title: Kata_web Releases
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page.title }}</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      padding: 2rem 1rem 5rem;
+      max-width: 900px;
+      margin: auto;
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+    .release-list a {
+      display: block;
+      background: white;
+      margin-bottom: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #007bff;
+      box-shadow: 0 5px 15px rgb(0 123 255 / 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-weight: 600;
+    }
+    .release-list a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgb(0 123 255 / 0.2);
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #777;
+    }
+  </style>
+</head>
+<body data-aos="fade-up">
+
+<h1>Kata_web Releases</h1>
+
+<div class="release-list">
+  {% assign releases = site.releases | sort: 'published_at' | reverse %}
+  {% for release in releases %}
+  <a href="{{ release.url }}">
+    {{ release.title }} — {{ release.published_at | date: "%b %d, %Y" }}
+  </a>
+  {% endfor %}
+</div>
+
+<footer>
+  Kata_web by changcheng967
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 700, once: true });
+</script>
+</body>
+</html>
