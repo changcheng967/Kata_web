@@ -9,7 +9,8 @@ collections:
 markdown: kramdown
 highlighter: rouge
 
-baseurl: ""
+# IMPORTANT: For a GitHub Pages project site, baseurl must be the repo name
+baseurl: "/Kata_web"
 
 plugins:
   - jekyll-feed
