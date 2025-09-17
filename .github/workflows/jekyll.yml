@@ -35,7 +35,8 @@ jobs:
           set -xe
           mkdir -p _releases
           jq -c '.[]' _data/releases.json | while read -r release; do
-            tag=$(echo "$release" | jq -r '.tag_name' | sed 's/\//-/g')
+            # Force lowercase tag for consistent URLs
+            tag=$(echo "$release" | jq -r '.tag_name' | tr '[:upper:]' '[:lower:]' | sed 's/\//-/g')
             title=$(echo "$release" | jq -r '.name // .tag_name' | sed 's/"/\\"/g')
             date=$(echo "$release" | jq -r '.published_at')
             body=$(echo "$release" | jq -r '.body' | sed 's/"/\\"/g')
@@ -52,6 +53,9 @@ jobs:
               echo "${body}"
             } > "_releases/${tag}.md"
           done
+
+          # Debug: list generated files
+          ls -R _releases
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
