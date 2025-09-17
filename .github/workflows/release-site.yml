@@ -1,5 +1,3 @@
-# .github/workflows/release-site.yml
-
 name: Build & Deploy Static Releases Page
 
 on:
@@ -22,14 +20,23 @@ jobs:
     - name: Fetch releases JSON
       run: |
         curl -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/changcheng967/Kata_web/releases > releases.json
+             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+             https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
+
+    - name: Setup Ruby for Jekyll
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.1
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Build site with Jekyll
+      run: bundle exec jekyll build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .   # publish root (includes index.html + releases.json)
-        # optionally set enable_jekyll, or leave it off if you want static only
+        publish_dir: ./_site
         enable_jekyll: false
-
