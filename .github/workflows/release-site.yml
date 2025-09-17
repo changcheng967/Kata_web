@@ -1,4 +1,6 @@
-name: Build & Deploy Release Website
+# .github/workflows/release-site.yml
+
+name: Build & Deploy Static Releases Page
 
 on:
   push:
@@ -10,39 +12,24 @@ permissions:
   pages: write
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Fetch all releases info
-        id: fetch_releases
-        uses: past-due/fetch-release-info@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          fetch_release_index: true
+    - name: Fetch releases JSON
+      run: |
+        curl -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/changcheng967/Kata_web/releases > releases.json
 
-      - name: Write release data
-        run: |
-          mkdir -p _data
-          echo "${{ steps.fetch_releases.outputs.index }}" > _data/releases.json
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .   # publish root (includes index.html + releases.json)
+        # optionally set enable_jekyll, or leave it off if you want static only
+        enable_jekyll: false
 
-      # Only include below steps if you have a Gemfile / use Jekyll
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-
-      - name: Install dependencies
-        run: bundle install
-
-      - name: Build site
-        run: bundle exec jekyll build --destination _site
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
