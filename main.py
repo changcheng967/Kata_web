@@ -36,8 +36,8 @@ os.environ["LD_LIBRARY_PATH"] = f"{libzip_lib_path}:{libssl_lib_path}"
 
 # Step 2: Download and unzip KataGo (Eigen version)
 print("Downloading KataGo (Eigen version)...")
-katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.15.3/katago-v1.15.3-eigen-linux-x64.zip"
-katago_zip = "katago-v1.15.3-eigen-linux-x64.zip"
+katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.16.3/katago-v1.16.3-eigen-linux-x64.zip"
+katago_zip = "katago-v1.16.3-eigen-linux-x64.zip"
 katago_dir = "katago"
 
 try:
@@ -58,8 +58,8 @@ except Exception as e:
 
 # Step 3: Download the KataGo model (final_model.bin)
 print("Downloading KataGo model (final_model.bin)...")
-model_url = "https://github.com/changcheng967/Kata_web/releases/download/s10784990976-d120396/final_model.bin"
-model_bin = "model.bin"
+model_url = "https://github.com/changcheng967/Kata_web/releases/download/KW-20250916-001/KW-20250916-KW-20250916-001-s10784975104-d43600.bin.gz"
+model_bin = "KW-20250916-KW-20250916-001-s10784975104-d43600.bin"
 
 try:
     print(f"Downloading {model_bin}...")
