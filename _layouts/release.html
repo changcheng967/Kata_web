@@ -23,12 +23,10 @@
       line-height: 1.6;
       animation: fadeIn 1s ease-in-out;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     h1 {
       font-weight: 700;
       margin-bottom: 0.3rem;
@@ -38,20 +36,17 @@
       -webkit-text-fill-color: transparent;
       animation: gradientMove 6s ease infinite;
     }
-
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     .date {
       color: #aaa;
       margin-bottom: 2rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.9rem;
     }
-
     a {
       color: #4f9aff;
       text-decoration: none;
@@ -61,7 +56,6 @@
       color: #00ffe0;
       text-shadow: 0 0 8px #00ffe0;
     }
-
     pre[class*="language-"] {
       position: relative;
       padding: 1rem 2.5rem 1rem 1rem;
@@ -77,7 +71,6 @@
     pre[class*="language-"]:hover {
       box-shadow: 0 0 25px rgba(0, 255, 224, 0.5);
     }
-
     .copy-btn {
       position: absolute;
       top: 0.4rem;
@@ -98,7 +91,6 @@
       transform: scale(1.05);
       box-shadow: 0 0 10px #00ffe0;
     }
-
     .assets-list {
       list-style: none;
       padding-left: 0;
@@ -115,7 +107,6 @@
       background: rgba(79, 154, 255, 0.1);
       transform: translateX(5px);
     }
-
     .release-body p {
       margin-bottom: 1rem;
     }
@@ -141,6 +132,9 @@
     </ul>
   </section>
   {% endif %}
+
+  <!-- Example back link using baseurl -->
+  <p><a href="{{ site.baseurl }}/">← Back to Home</a></p>
 </article>
 
 <!-- Scripts -->
@@ -154,7 +148,6 @@
     btn.className = 'copy-btn';
     btn.textContent = 'Copy';
     btn.type = 'button';
-
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(block.innerText).then(() => {
         btn.textContent = 'Copied!';
@@ -165,7 +158,6 @@
         }, 2000);
       });
     });
-
     block.appendChild(btn);
   });
 </script>
