@@ -8,8 +8,6 @@
   <!-- Bootstrap & Prism -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css" rel="stylesheet" />
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
 
   <style>
@@ -23,10 +21,12 @@
       line-height: 1.6;
       animation: fadeIn 1s ease-in-out;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     h1 {
       font-weight: 700;
       margin-bottom: 0.3rem;
@@ -36,17 +36,20 @@
       -webkit-text-fill-color: transparent;
       animation: gradientMove 6s ease infinite;
     }
+
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     .date {
       color: #aaa;
       margin-bottom: 2rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.9rem;
     }
+
     a {
       color: #4f9aff;
       text-decoration: none;
@@ -56,21 +59,57 @@
       color: #00ffe0;
       text-shadow: 0 0 8px #00ffe0;
     }
-    pre[class*="language-"] {
-      position: relative;
-      padding: 1rem 2.5rem 1rem 1rem;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      overflow-x: auto;
+
+    .release-body p {
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
       margin-bottom: 2rem;
-      background: rgba(45, 45, 45, 0.8);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 15px rgba(79, 154, 255, 0.3);
-      transition: box-shadow 0.3s ease;
+      font-size: 0.95rem;
     }
-    pre[class*="language-"]:hover {
-      box-shadow: 0 0 25px rgba(0, 255, 224, 0.5);
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #444;
+      text-align: left;
     }
+
+    th {
+      background-color: #1e1e1e;
+      color: #4f9aff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #2a2a2a;
+    }
+
+    tr:hover {
+      background-color: #333;
+    }
+
+    .assets-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 2rem;
+    }
+
+    .assets-list li {
+      margin-bottom: 0.6rem;
+      padding: 0.5rem 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .assets-list li:hover {
+      background: rgba(79, 154, 255, 0.1);
+      transform: translateX(5px);
+    }
+
     .copy-btn {
       position: absolute;
       top: 0.4rem;
@@ -86,29 +125,22 @@
       transition: all 0.3s ease;
       user-select: none;
     }
+
     .copy-btn:hover {
       opacity: 1;
       transform: scale(1.05);
       box-shadow: 0 0 10px #00ffe0;
     }
-    .assets-list {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 2rem;
+
+    .changelog {
+      margin-top: 3rem;
+      font-size: 0.95rem;
     }
-    .assets-list li {
-      margin-bottom: 0.6rem;
-      padding: 0.5rem 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      transition: all 0.3s ease;
-    }
-    .assets-list li:hover {
-      background: rgba(79, 154, 255, 0.1);
-      transform: translateX(5px);
-    }
-    .release-body p {
-      margin-bottom: 1rem;
+
+    .changelog a {
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
@@ -133,7 +165,13 @@
   </section>
   {% endif %}
 
-  <!-- Example back link using baseurl -->
+  <section class="changelog">
+    <h3>Full Changelog</h3>
+    <a href="https://github.com/changcheng967/Kata_web/compare/KW-20250916-001…KW-20250917-002" target="_blank" rel="noopener">
+      View comparison on GitHub →
+    </a>
+  </section>
+
   <p><a href="{{ site.baseurl }}/">← Back to Home</a></p>
 </article>
 
@@ -148,6 +186,7 @@
     btn.className = 'copy-btn';
     btn.textContent = 'Copy';
     btn.type = 'button';
+
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(block.innerText).then(() => {
         btn.textContent = 'Copied!';
@@ -158,6 +197,7 @@
         }, 2000);
       });
     });
+
     block.appendChild(btn);
   });
 </script>
