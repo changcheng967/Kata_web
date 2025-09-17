@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: '0 0 * * *'  # daily update, optional
 
 permissions:
   contents: write
@@ -16,37 +14,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Fetch all releases info
-      id: fetch_releases
-      uses: past-due/fetch-release-info@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        fetch_release_index: true
-        # optionally filter out any keys you don’t need
-        # filter_release_keys: '["author"]'
-        # filter_asset_keys: '["uploader", "download_count"]'
+      - name: Fetch all releases info
+        id: fetch_releases
+        uses: past-due/fetch-release-info@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fetch_release_index: true
 
-    - name: Put releases JSON into _data
-      run: |
-        mkdir -p _data
-        echo "${{ steps.fetch_releases.outputs.index }}" > _data/releases.json
+      - name: Write release data
+        run: |
+          mkdir -p _data
+          echo "${{ steps.fetch_releases.outputs.index }}" > _data/releases.json
 
-    - name: Setup Ruby for Jekyll
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.0'
+      # Only include below steps if you have a Gemfile / use Jekyll
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
 
-    - name: Install gems
-      run: bundle install
+      - name: Install dependencies
+        run: bundle install
 
-    - name: Build site
-      run: bundle exec jekyll build --destination _site
+      - name: Build site
+        run: bundle exec jekyll build --destination _site
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_site
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
