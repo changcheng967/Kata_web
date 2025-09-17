@@ -54,7 +54,6 @@ jobs:
             } > "_releases/${tag}.md"
           done
 
-          # Debug: list generated files
           echo "Generated release files:"
           ls -R _releases
 
