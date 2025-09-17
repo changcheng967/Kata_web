@@ -1,249 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kata_web - Free Go AI Powered by KataGo</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <div class="logo">
-        <img src="logo.png" alt="Kata_web Logo">
-        <h1>Kata_web</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#support">Support Us</a></li>
-          <li><a href="#support-gpu">Support GPU</a></li>
-          <li><a href="#tier-supporters">Tier Supporters</a></li>
-          <li><a href="#about">About</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="container">
-      <h2>Play, Learn, and Master Go with Kata_web – Completely Free!</h2>
-      <p>Access the power of KataGo, one of the strongest Go AIs, anytime, anywhere.</p>
-      <div class="cta-buttons">
-        <a href="https://online-go.com/player/1734688/" class="btn-primary">Play Now</a>
-        <a href="https://www.patreon.com/changcheng6541/membership" class="btn-secondary">Support Us on Patreon</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features" class="features">
-    <div class="container">
-      <h2>What Kata_web Offers</h2>
-      <div class="feature-grid">
-        <div class="feature">
-          <h3>Play Against KataGo</h3>
-          <p>Challenge one of the strongest Go AIs and improve your skills.</p>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ site.title }}</title>
+  </head>
+  <body>
+    <h1>{{ site.title }}</h1>
+    <div>
+      {% assign sorted = site.data.releases | sort: 'published_at' | reverse %}
+      {% for release in sorted %}
+        <div>
+          <h2><a href="{{ release.html_url }}">{{ release.tag_name }}</a> — {{ release.published_at | date: "%Y‑%m‑d" }}</h2>
+          {% if release.body %}
+            <p>{{ release.body | markdownify }}</p>
+          {% endif %}
+          {% if release.assets %}
+            <ul>
+              {% for asset in release.assets %}
+                <li><a href="{{ asset.browser_download_url }}">{{ asset.name }}</a></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
-        <div class="feature">
-          <h3>Game Analysis</h3>
-          <p>Get detailed insights into your games with AI-powered analysis.</p>
-        </div>
-      </div>
+        <hr>
+      {% endfor %}
     </div>
-  </section>
-
-  <!-- Support Us Section -->
-  <section id="support" class="support">
-    <div class="container">
-      <h2>Why Your Support Matters</h2>
-      <p>Kata_web is free for everyone, but it’s not free to run. Your support helps us cover hosting costs and keep the platform accessible to players worldwide.</p>
-      <div class="costs">
-        <h3>Monthly Costs</h3>
-        <ul>
-          <li>Currently using Cloud CPU(Slow move, 1 player at a time(more that that easily timesout)</li>
-          <li>Cloud CPU Costs: Free(1 core CPU, 4GB RAM)</li>
-          <li>Cloud GPU Costs For Faster Games & Better Performance(RTX4090 Not shared with others): ≈ $0.2/Hour = $150/Month</li>
-          <li>Subscription Plan for Free High-End GPUs (e.g., P5000, RTX 4000, RTX 5000, A4000 all shared with others): $15/Month</li>
-          <li>Subscription Plan for More Powerful GPUs (e.g., A5000, A6000 all shared with others): $50/Month (disconnects after 6 hours)</li>
-        </ul>
-      </div>
-      <a href="https://www.patreon.com/changcheng6541/membership" class="btn-primary">Become a Patron Today!</a>
-    </div>
-  </section>
-
-  <!-- Support GPU Rental Section -->
-  <section id="support-gpu" class="support-gpu">
-    <div class="container">
-      <h2>Support GPU Rental</h2>
-      <p>
-        To deliver the best experience, Kata_web relies on a high-performance GPU (RTX 4090) for faster and more accurate AI analysis. 
-        Renting this GPU costs <strong>$0.204/hour</strong>, and your support helps keep Kata_web running smoothly for everyone.
-      </p>
-      <div class="gpu-support-grid">
-        <!-- 1 Day Support -->
-        <div class="gpu-support-card">
-          <h3>Support for 1 Day</h3>
-          <p><strong>$5 CAD</strong></p>
-          <p>Covers 1 day of GPU rental costs.</p>
-          <a href="https://www.patreon.com/changcheng6541/shop/support-gpu-rental-for-1-day-1304688?source=storefront" class="btn-primary" target="_blank">Support Now</a>
-        </div>
-        <!-- 1 Week Support -->
-        <div class="gpu-support-card">
-          <h3>Support for 1 Week</h3>
-          <p><strong>$35 CAD</strong></p>
-          <p>Covers 1 week of GPU rental costs.</p>
-          <a href="https://www.patreon.com/changcheng6541/shop/support-gpu-rental-for-1-week-1304697?source=storefront" class="btn-primary" target="_blank">Support Now</a>
-        </div>
-        <!-- 2 Weeks Support -->
-        <div class="gpu-support-card">
-          <h3>Support for 2 Weeks</h3>
-          <p><strong>$70 CAD</strong></p>
-          <p>Covers 2 weeks of GPU rental costs.</p>
-          <a href="https://www.patreon.com/changcheng6541/shop/support-gpu-rental-for-2-weeks-1304705?source=storefront" class="btn-primary" target="_blank">Support Now</a>
-        </div>
-        <!-- 1 Month Support -->
-        <div class="gpu-support-card">
-          <h3>Support for 1 Month</h3>
-          <p><strong>$150 CAD</strong></p>
-          <p>Covers 1 month of GPU rental costs.</p>
-          <a href="https://www.patreon.com/changcheng6541/shop/support-gpu-rental-for-1-month-1304708?source=storefront" class="btn-primary" target="_blank">Support Now</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tier Supporters Section -->
-<section id="tier-supporters" class="tier-supporters">
-  <div class="container">
-    <h2>Tier Supporters</h2>
-    <p>Join our Patreon tiers to support Kata_web and unlock exclusive perks!</p>
-    <div class="tier-grid">
-      <!-- Go Enthusiast Tier -->
-      <div class="tier-card">
-        <h3>Go Enthusiast</h3>
-        <p><strong>$3 CAD/month</strong></p>
-        <ul>
-          <li>Early access to new features</li>
-          <li>Name in credits</li>
-          <li>Exclusive updates</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-      <!-- Strategic Supporter Tier -->
-      <div class="tier-card">
-        <h3>Strategic Supporter</h3>
-        <p><strong>$5 CAD/month</strong></p>
-        <ul>
-          <li>All Go Enthusiast perks</li>
-          <li>Custom Go puzzles</li>
-          <li>Priority support</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-      <!-- AI Explorer Tier -->
-      <div class="tier-card">
-        <h3>AI Explorer</h3>
-        <p><strong>$10 CAD/month</strong></p>
-        <ul>
-          <li>All Strategic Supporter perks</li>
-          <li>Behind-the-scenes access</li>
-          <li>Exclusive tutorials</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-      <!-- Go Champion Tier (Highlighted) -->
-      <div class="tier-card highlighted">
-        <h3>Go Champion</h3>
-        <p><strong>$15 CAD/month</strong></p>
-        <ul>
-          <li>All AI Explorer perks</li>
-          <li>Personalized shoutout</li>
-          <li>Vote on new features</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-      <!-- Ultimate Patron Tier -->
-      <div class="tier-card">
-        <h3>Ultimate Patron</h3>
-        <p><strong>$25 CAD/month</strong></p>
-        <ul>
-          <li>All Go Champion perks</li>
-          <li>1-on-1 Go session</li>
-          <li>Exclusive merch</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-      <!-- Lifetime Legend Tier -->
-      <div class="tier-card">
-        <h3>Lifetime Legend</h3>
-        <p><strong>$50 CAD/month</strong></p>
-        <ul>
-          <li>All Ultimate Patron perks</li>
-          <li>Permanent recognition</li>
-          <li>Custom Go analysis</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-      <!-- Corporate Sponsor Tier -->
-      <div class="tier-card">
-        <h3>Corporate Sponsor</h3>
-        <p><strong>$100 CAD/month</strong></p>
-        <ul>
-          <li>All Lifetime Legend perks</li>
-          <li>Logo placement</li>
-          <li>Custom partnership</li>
-        </ul>
-        <a href="https://www.patreon.com/changcheng6541" class="btn-primary" target="_blank">Join Now</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- Supporters Section -->
-  <section id="supporters" class="supporters">
-    <div class="container">
-      <h2>Our Supporters</h2>
-      <p>Thank you to all our amazing supporters! Your contributions make Kata_web possible.</p>
-      <div id="supporters-list" class="supporters-grid"></div>
-    </div>
-  </section>
-
-  <!-- Hall of Fame Section -->
-  <section id="hall-of-fame" class="hall-of-fame">
-    <div class="container">
-      <h2>Hall of Fame</h2>
-      <p>Our top supporters who have gone above and beyond to help Kata_web thrive.</p>
-      <div id="hall-of-fame-list" class="hall-of-fame-grid"></div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="about">
-    <div class="container">
-      <h2>About Kata_web</h2>
-      <p>Kata_web is a free platform that brings the power of KataGo to Go players around the world. Our mission is to make Go AI accessible to everyone, regardless of skill level or location.</p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Kata_web. All rights reserved.</p>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#support">Support Us</a></li>
-        <li><a href="#support-gpu">Support GPU</a></li>
-        <li><a href="#tier-supporters">Tier Supporters</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
+  </body>
 </html>
