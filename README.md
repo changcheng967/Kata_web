@@ -1,6 +1,6 @@
 # Kata_web  
 
-
+[![Build & Deploy Kata_web Site](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml)
 ## Overview  
 **Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **KataGo b18 (Eigen backend)** for efficient performance. This project is designed to provide **free, cross-platform** AI-assisted Go analysis while maintaining strict licensing policies.  
 
