@@ -27,11 +27,12 @@ jobs:
         run: |
           mkdir -p _data
           curl -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
+               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+               https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
 
       - name: Generate release markdown files
         run: |
+          set -xe
           mkdir -p _releases
           jq -c '.[]' _data/releases.json | while read -r release; do
             tag=$(echo "$release" | jq -r '.tag_name' | sed 's/\//-/g')
@@ -61,8 +62,8 @@ EOF
       - name: Build site with Jekyll
         run: bundle exec jekyll build
 
-      - name: Deploy to GitHub Pages
-        uses: actions/configure-pages@v2
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
