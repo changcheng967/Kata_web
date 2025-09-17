@@ -55,6 +55,7 @@ jobs:
           done
 
           # Debug: list generated files
+          echo "Generated release files:"
           ls -R _releases
 
       - name: Setup Ruby
@@ -64,7 +65,10 @@ jobs:
           bundler-cache: true
 
       - name: Build site with Jekyll
-        run: bundle exec jekyll build
+        run: |
+          bundle exec jekyll build
+          echo "Built site structure:"
+          ls -R _site/release || true
 
       - name: Configure Pages
         uses: actions/configure-pages@v3
