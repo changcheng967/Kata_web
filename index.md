@@ -8,7 +8,7 @@ title: Releases
 {% assign sorted = site.data.releases | sort: 'published_at' | reverse %}
 {% for release in sorted %}
 
-## {{ release.tag_name }} — {{ release.published_at | date: "%Y‑%m‑d" }}
+## {{ release.tag_name }} — {{ release.published_at | date: "%Y-%m-%d" }}
 
 **Overview**  
 {{ release.body | markdownify }}
@@ -16,7 +16,7 @@ title: Releases
 {% if release.assets and release.assets.size > 0 %}
 **Assets:**  
 {% for asset in release.assets %}
-- [{{ asset.name }}]({{ asset.browser_download_url }})  
+- [{{ asset.name }}]({{ asset.browser_download_url }})
 {% endfor %}
 {% endif %}
 
