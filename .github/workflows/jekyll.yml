@@ -41,18 +41,17 @@ jobs:
             body=$(echo "$release" | jq -r '.body' | sed 's/"/\\"/g')
             assets=$(echo "$release" | jq '.assets')
 
-            cat > "_releases/${tag}.md" <<EOF
----
-layout: release
-title: "${title}"
-published_at: "${date}"
-assets: ${assets}
----
-
-${body}
-EOF
+            {
+              echo "---"
+              echo "layout: release"
+              echo "title: \"${title}\""
+              echo "published_at: \"${date}\""
+              echo "assets: ${assets}"
+              echo "---"
+              echo
+              echo "${body}"
+            } > "_releases/${tag}.md"
           done
-
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
