@@ -1,11 +1,11 @@
-name: Build & Publish Releases Page
+name: Build & Deploy Release Website
 
 on:
   push:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *'  # optional daily update
+    - cron: '0 0 * * *'  # daily update, optional
 
 permissions:
   contents: write
@@ -16,30 +16,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Fetch releases
-      run: |
-        curl -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/changcheng967/Kata_web/releases \
-          > releases.json
-
-    - name: Commit release JSON
-      run: |
-        git config --local user.name "github-actions[bot]"
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git add releases.json
-        git commit -m "Update releases.json" || echo "No changes"
-    
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
+    - name: Fetch all releases info
+      id: fetch_releases
+      uses: past-due/fetch-release-info@master
       with:
-        path: .
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        fetch_release_index: true
+        # optionally filter out any keys you don’t need
+        # filter_release_keys: '["author"]'
+        # filter_asset_keys: '["uploader", "download_count"]'
 
-    - name: Deploy
-      uses: actions/deploy-pages@v2
+    - name: Put releases JSON into _data
+      run: |
+        mkdir -p _data
+        echo "${{ steps.fetch_releases.outputs.index }}" > _data/releases.json
+
+    - name: Setup Ruby for Jekyll
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+
+    - name: Install gems
+      run: bundle install
+
+    - name: Build site
+      run: bundle exec jekyll build --destination _site
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
