@@ -1,8 +1,9 @@
-name: Deploy Jekyll site to Pages
+name: Build & Deploy Kata_web Site
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -15,19 +16,41 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Fetch releases JSON
         run: |
           mkdir -p _data
           curl -H "Accept: application/vnd.github+json" \
-               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-               https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
+
+      - name: Generate release markdown files
+        run: |
+          mkdir -p _releases
+          jq -c '.[]' _data/releases.json | while read -r release; do
+            tag=$(echo "$release" | jq -r '.tag_name' | sed 's/\//-/g')
+            title=$(echo "$release" | jq -r '.name // .tag_name')
+            date=$(echo "$release" | jq -r '.published_at')
+            body=$(echo "$release" | jq -r '.body' | sed 's/\"/\\\"/g')
+            assets=$(echo "$release" | jq '.assets')
+
+            cat > "_releases/${tag}.md" <<EOF
+---
+layout: release
+title: "$title"
+published_at: "$date"
+assets: $assets
+---
+
+$body
+EOF
+          done
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -35,27 +58,16 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
+      - name: Build site with Jekyll
+        run: bundle exec jekyll build
 
-      - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-        env:
-          JEKYLL_ENV: production
-          PAGES_REPO_NWO: changcheng967/Kata_web
+      - name: Deploy to GitHub Pages
+        uses: actions/configure-pages@v2
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: _site
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy site
+        uses: actions/deploy-pages@v1
