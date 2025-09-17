@@ -1,7 +1,15 @@
-title: Kata Web Releases
-description: A list of recent releases from the Kata_web GitHub repository.
+title: Kata_web by changcheng967
+description: Official Kata_web releases page
+
+collections:
+  releases:
+    output: true
+    permalink: /release/:name/
+
 markdown: kramdown
-theme: minima
+highlighter: rouge
+
+baseurl: ""
+
 plugins:
   - jekyll-feed
-  - jekyll-seo-tag
