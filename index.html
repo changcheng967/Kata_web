@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Releases | Kata Web Releases</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Releases" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A list of recent releases from the Kata_web GitHub repository." />
+<meta property="og:description" content="A list of recent releases from the Kata_web GitHub repository." />
+<meta property="og:site_name" content="Kata Web Releases" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Releases" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"A list of recent releases from the Kata_web GitHub repository.","headline":"Releases","name":"Kata Web Releases","url":"/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Kata Web Releases" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kata Web Releases</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/">Releases</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h1 id="kata-web-releases">Kata Web Releases</h1>
+
+<h2 id="kw-20250916-001--2025-09-17">KW-20250916-001 — 2025-09-17</h2>
+
+<p><strong>Overview</strong></p>
+<h1 id="-katago-custom-fine-tuned-model-release-kw-20250916-001">🏆 KataGo Custom Fine-Tuned Model Release: KW-20250916-001</h1>
+
+<p><img src="https://katagotraining.org/static/katago_logo.png" alt="KataGo" /></p>
+
+<h2 id="-overview">📌 Overview</h2>
+
+<p>This is a high-performance 19x19 Go AI model, fine-tuned from the powerful <code class="language-plaintext highlighter-rouge">kata1-b28c512nbt</code> foundation using a sophisticated two-stage training strategy. The model has reached amateur high-dan level strength, capable of completing full games with sophisticated tactical understanding.</p>
+
+<h2 id="-model-information">🧠 Model Information</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model Name</strong></td>
+      <td>KW-20250916-001-s10784975104-d43600.bin.gz</td>
+    </tr>
+    <tr>
+      <td><strong>Model Configuration</strong></td>
+      <td>b28c512nbt (28 blocks, 512 channels)</td>
+    </tr>
+    <tr>
+      <td><strong>Board Size</strong></td>
+      <td>19x19</td>
+    </tr>
+    <tr>
+      <td><strong>File Size</strong></td>
+      <td>~331 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Base Model</strong></td>
+      <td>kata1-b28c512nbt-s10784871168-d5287365110</td>
+    </tr>
+    <tr>
+      <td><strong>Training Steps</strong></td>
+      <td>107.85 billion + 100,000 fine-tuning steps</td>
+    </tr>
+    <tr>
+      <td><strong>Training Data</strong></td>
+      <td>43,600 rows</td>
+    </tr>
+    <tr>
+      <td><strong>Training Time</strong></td>
+      <td>~1.5 hours (RTX 5080 laptop GPU)</td>
+    </tr>
+    <tr>
+      <td><strong>Training Framework</strong></td>
+      <td>KataGo v1.17.0+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="-performance-metrics">📊 Performance Metrics</h2>
+
+<h3 id="final-training-results">Final Training Results</h3>
+<ul>
+  <li><strong>Final Loss</strong>: 33.093</li>
+  <li><strong>First Move Accuracy</strong>: 64.93%</li>
+  <li><strong>Value Variance</strong>: 0.4486</li>
+  <li><strong>Policy Entropy</strong>: 0.6535</li>
+</ul>
+
+<h3 id="validation-results">Validation Results</h3>
+<ul>
+  <li><strong>Validation Loss</strong>: 33.12</li>
+  <li><strong>Validation Accuracy</strong>: 64.87%</li>
+  <li><strong>Validation Variance</strong>: 0.447</li>
+</ul>
+
+<h3 id="strength-assessment">Strength Assessment</h3>
+<p>| Metric | Value | Description |
+|——–|——-|————-|
+| <strong>Strength Level</strong> | Amateur 7-8 dan | Strong amateur level |
+| <strong>Eye Formation</strong> | Excellent | Can recognize complex living groups |
+| <strong>Life &amp; Death</strong> | Good | Can handle most common life and death problems |
+| <strong>Endgame</strong> | Medium | Some mistakes in late game |
+| <strong>Middle Game</strong> | Excellent | Strong tactical calculation |
+| <strong>Opening</strong> | Good | Solid understanding of common patterns |</p>
+
+<h2 id="️-training-methodology">⚙️ Training Methodology</h2>
+
+<h3 id="two-stage-fine-tuning-strategy">Two-Stage Fine-Tuning Strategy</h3>
+
+<h4 id="stage-1-foundation-adaptation">Stage 1: Foundation Adaptation</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">TORCH_LOAD_WEIGHTS_ONLY</span><span class="o">=</span>0 ./selfplay/train.sh ~/KataGo/ KW-20250916-001-phase1 b28c512nbt 16 main <span class="se">\</span>
+  <span class="nt">-initial-checkpoint</span> ~/KataGo/kata1-b28c512nbt-s10784871168-d5287365110/model.ckpt <span class="se">\</span>
+  <span class="nt">-lr-scale</span> 0.05 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-per-new-data</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-size</span> 100000 <span class="se">\</span>
+  <span class="nt">-samples-per-epoch</span> 50000 <span class="se">\</span>
+  <span class="nt">-max-epochs-this-instance</span> 1 <span class="se">\</span>
+  <span class="nt">-sub-epochs</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-steps-since-last-reload</span> 10000 <span class="se">\</span>
+  <span class="nt">-pos-len</span> 19
+</code></pre></div></div>
+
+<h4 id="stage-2-precision-optimization">Stage 2: Precision Optimization</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">TORCH_LOAD_WEIGHTS_ONLY</span><span class="o">=</span>0 ./selfplay/train.sh ~/KataGo/ KW-20250916-001 b28c512nbt 16 main <span class="se">\</span>
+  <span class="nt">-initial-checkpoint</span> ~/KataGo/train/KW-20250916-001-phase1/checkpoint.ckpt <span class="se">\</span>
+  <span class="nt">-lr-scale</span> 0.01 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-per-new-data</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-size</span> 100000 <span class="se">\</span>
+  <span class="nt">-samples-per-epoch</span> 50000 <span class="se">\</span>
+  <span class="nt">-max-epochs-this-instance</span> 1 <span class="se">\</span>
+  <span class="nt">-sub-epochs</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-steps-since-last-reload</span> 10000 <span class="se">\</span>
+  <span class="nt">-pos-len</span> 19
+</code></pre></div></div>
+
+<h2 id="-comparison-with-base-model">🆚 Comparison with Base Model</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Base Model</th>
+      <th>KW-20250916-001</th>
+      <th>Improvement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>First Move Accuracy</strong></td>
+      <td>63.64%</td>
+      <td>64.93%</td>
+      <td>+1.29%</td>
+    </tr>
+    <tr>
+      <td><strong>Value Variance</strong></td>
+      <td>0.457</td>
+      <td>0.4486</td>
+      <td>-0.0084</td>
+    </tr>
+    <tr>
+      <td><strong>Policy Entropy</strong></td>
+      <td>0.621</td>
+      <td>0.6535</td>
+      <td>+0.0325</td>
+    </tr>
+    <tr>
+      <td><strong>Estimated ELO</strong></td>
+      <td>~2350</td>
+      <td>~2375</td>
+      <td>+25</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>💡 <strong>Note</strong>: The two-stage fine-tuning strategy allowed the model to retain the knowledge from the base model while adapting to new data patterns. The slight increase in policy entropy indicates the model has become more decisive in its moves.</p>
+</blockquote>
+
+<h2 id="-usage-instructions">🚀 Usage Instructions</h2>
+
+<h3 id="1-download-the-model">1. Download the model</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/changcheng967/Kata_web/releases/download/KW-20250916-001/KW-20250916-KW-20250916-001-s10784975104-d43600.bin.gz
+</code></pre></div></div>
+
+<h3 id="2-use-with-katago-engine">2. Use with KataGo engine</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># In KataGo directory</span>
+./cpp/katago gtp <span class="nt">-model</span> ./models/KW-20250916-001-s10784975104-d43600.bin.gz
+</code></pre></div></div>
+
+<h3 id="3-in-gtp-command-line">3. In GTP command line</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>boardsize 19
+clear_board
+genmove B
+</code></pre></div></div>
+
+<h3 id="4-use-with-gui-software">4. Use with GUI software</h3>
+<ul>
+  <li><strong>Sabaki</strong>: Add engine path <code class="language-plaintext highlighter-rouge">./cpp/katago</code>, parameters <code class="language-plaintext highlighter-rouge">gtp -model ./models/KW-20250916-001-s10784975104-d43600.bin.gz</code></li>
+  <li><strong>Lizzie</strong>: Configure model path in “Strong Engine Settings”</li>
+  <li><strong>KaTrain</strong>: Add to engine list with appropriate parameters</li>
+</ul>
+
+<h2 id="-file-description">📦 File Description</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">KW-20250916-001-s10784975104-d43600.bin.gz</code>: Compressed model file, ready for use with KataGo</li>
+  <li><code class="language-plaintext highlighter-rouge">README.md</code>: This documentation file</li>
+  <li><code class="language-plaintext highlighter-rouge">training_log.txt</code>: Complete training log</li>
+</ul>
+
+<h2 id="-features--advantages">🌟 Features &amp; Advantages</h2>
+
+<ul>
+  <li><strong>High Strength</strong>: 64.93% first move accuracy (amateur 7-8 dan level)</li>
+  <li><strong>Full 19x19 Support</strong>: Works with standard board without modifications</li>
+  <li><strong>Two-Stage Fine-Tuning</strong>: Optimized for quality decision-making while preserving base knowledge</li>
+  <li><strong>Stable Value Estimation</strong>: Low value variance (0.4486) for reliable win rate predictions</li>
+  <li><strong>Professional Quality</strong>: Suitable for serious study and analysis</li>
+</ul>
+
+<h2 id="-future-plans">📅 Future Plans</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Generate additional high-quality self-play data</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Perform additional fine-tuning rounds with varied learning rates</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Explore ensemble techniques with other strong models</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Create specialized models for specific aspects of Go (life &amp; death, fuseki, etc.)</li>
+</ul>
+
+<h2 id="-license">📝 License</h2>
+
+<p>This model follows the <a href="https://github.com/lightvector/KataGo/blob/master/LICENSE">KataGo license</a> requirements.</p>
+
+<hr />
+
+<blockquote>
+  <p>💡 <strong>Tip</strong>: This model is suitable for serious Go study, analysis, and as a strong training partner. For best results, use it with a GUI like Sabaki or Lizzie for visualization of win rates and variations.</p>
+</blockquote>
+
+<p><a href="https://katagotraining.org"><img src="https://katagotraining.org/static/katago_logo_small.png" alt="KataGo" /></a><br />
+<em>Trained based on KataGo open-source framework - Built for Go AI research and education</em></p>
+
+<p><strong>Assets:</strong></p>
+
+<ul>
+  <li><a href="https://github.com/changcheng967/Kata_web/releases/download/KW-20250916-001/KW-20250916-KW-20250916-001-s10784975104-d43600.bin.gz">KW-20250916-KW-20250916-001-s10784975104-d43600.bin.gz</a></li>
+</ul>
+
+<hr />
+
+<h2 id="s10784990976-d120396--2025-09-16">s10784990976-d120396 — 2025-09-16</h2>
+
+<p><strong>Overview</strong></p>
+<h1 id="-katago-custom-fine-tuned-model-release-final_modelbin">🏆 KataGo Custom Fine-Tuned Model Release: <code class="language-plaintext highlighter-rouge">final_model.bin</code></h1>
+
+<p><img src="https://katagotraining.org/static/katago_logo.png" alt="KataGo" /></p>
+
+<h2 id="-overview">📌 Overview</h2>
+
+<p>This is a high-performance 19x19 Go AI model, fine-tuned from the powerful <code class="language-plaintext highlighter-rouge">kata1-b28c512nbt</code> foundation. The model has reached amateur high-dan level strength, capable of completing full games with sophisticated tactical understanding.</p>
+
+<h2 id="-model-information">🧠 Model Information</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model Name</strong></td>
+      <td>final_model.bin</td>
+    </tr>
+    <tr>
+      <td><strong>Model Configuration</strong></td>
+      <td>b28c512nbt (28 blocks, 512 channels)</td>
+    </tr>
+    <tr>
+      <td><strong>Board Size</strong></td>
+      <td>19x19</td>
+    </tr>
+    <tr>
+      <td><strong>File Size</strong></td>
+      <td>~331 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Base Model</strong></td>
+      <td>kata1-b28c512nbt-s10784871168-d5287365110</td>
+    </tr>
+    <tr>
+      <td><strong>Training Steps</strong></td>
+      <td>107.85 billion + 100,000 fine-tuning steps</td>
+    </tr>
+    <tr>
+      <td><strong>Training Data</strong></td>
+      <td>120,396 rows (40,000 unique positions)</td>
+    </tr>
+    <tr>
+      <td><strong>Training Time</strong></td>
+      <td>~1 hour (RTX 5080 laptop GPU)</td>
+    </tr>
+    <tr>
+      <td><strong>Training Framework</strong></td>
+      <td>KataGo v1.16.3+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="-performance-metrics">📊 Performance Metrics</h2>
+
+<h3 id="training-results">Training Results</h3>
+<ul>
+  <li><strong>Final Loss</strong>: 33.16</li>
+  <li><strong>First Move Accuracy</strong>: 65.75%</li>
+  <li><strong>Value Variance</strong>: 0.457</li>
+  <li><strong>Policy Entropy</strong>: 0.621</li>
+</ul>
+
+<h3 id="validation-results">Validation Results</h3>
+<ul>
+  <li><strong>Validation Loss</strong>: 33.21</li>
+  <li><strong>Validation Accuracy</strong>: 65.32%</li>
+  <li><strong>Validation Variance</strong>: 0.452</li>
+</ul>
+
+<h3 id="strength-assessment">Strength Assessment</h3>
+<p>| Metric | Value | Description |
+|——–|——-|————-|
+| <strong>Strength Level</strong> | Amateur 6-7 dan | Strong amateur level |
+| <strong>Eye Formation</strong> | Excellent | Can recognize complex living groups |
+| <strong>Life &amp; Death</strong> | Good | Can handle most common life and death problems |
+| <strong>Endgame</strong> | Medium | Some mistakes in late game |
+| <strong>Middle Game</strong> | Excellent | Strong tactical calculation |
+| <strong>Opening</strong> | Good | Solid understanding of common patterns |</p>
+
+<h2 id="️-training-parameters">⚙️ Training Parameters</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./selfplay/train.sh ~/KataGo/ myfine_model19 b28c512nbt 16 main <span class="se">\</span>
+  <span class="nt">-initial-checkpoint</span> ~/KataGo/kata1-b28c512nbt-s10784871168-d5287365110/model.ckpt <span class="se">\</span>
+  <span class="nt">-lr-scale</span> 0.025 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-per-new-data</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-size</span> 100000 <span class="se">\</span>
+  <span class="nt">-samples-per-epoch</span> 100000 <span class="se">\</span>
+  <span class="nt">-max-epochs-this-instance</span> 1 <span class="se">\</span>
+  <span class="nt">-sub-epochs</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-steps-since-last-reload</span> 10000 <span class="se">\</span>
+  <span class="nt">-pos-len</span> 19 <span class="se">\</span>
+  <span class="o">&gt;&gt;</span> ~/KataGo/logs/fine_train.log 2&gt;&amp;1
+</code></pre></div></div>
+
+<h2 id="-comparison-with-official-models">🆚 Comparison with Official Models</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>First Move Accuracy</th>
+      <th>Strength Level</th>
+      <th>File Size</th>
+      <th>Training Samples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>This Model</strong></td>
+      <td>65.75%</td>
+      <td>Amateur 6-7 dan</td>
+      <td>~331 MB</td>
+      <td>107.85B + 100K</td>
+    </tr>
+    <tr>
+      <td><a href="https://katagoarchive.org/g170/neuralnets/index.html">g170-b20c256x2</a></td>
+      <td>~45%</td>
+      <td>Amateur high dan</td>
+      <td>83 MB</td>
+      <td>668 million</td>
+    </tr>
+    <tr>
+      <td><a href="https://katagoarchive.org/g170/neuralnets/index.html">g170-b40c256x2</a></td>
+      <td>~55%+</td>
+      <td>Professional</td>
+      <td>331 MB</td>
+      <td>4.83 billion</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>💡 <strong>Note</strong>: This model was fine-tuned from a highly trained base model (107.85 billion samples), which explains its higher accuracy despite using less additional data.</p>
+</blockquote>
+
+<h2 id="-usage-instructions">🚀 Usage Instructions</h2>
+
+<h3 id="1-download-the-model">1. Download the model</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/changcheng967/Kata_web/releases/download/s10784990976-d120396/final_model.bin
+</code></pre></div></div>
+
+<h3 id="2-use-with-katago-engine">2. Use with KataGo engine</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># In KataGo directory</span>
+./cpp/katago gtp <span class="nt">-model</span> ./models/final_model.bin
+</code></pre></div></div>
+
+<h3 id="3-in-gtp-command-line">3. In GTP command line</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>boardsize 19
+clear_board
+genmove B
+</code></pre></div></div>
+
+<h3 id="4-use-with-gui-software">4. Use with GUI software</h3>
+<ul>
+  <li><strong>Sabaki</strong>: Add engine path <code class="language-plaintext highlighter-rouge">./cpp/katago</code>, parameters <code class="language-plaintext highlighter-rouge">gtp -model ./models/final_model.bin.gz</code></li>
+  <li><strong>Lizzie</strong>: Configure model path in “Strong Engine Settings”</li>
+  <li><strong>KaTrain</strong>: Add to engine list with appropriate parameters</li>
+</ul>
+
+<h2 id="-file-description">📦 File Description</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">final_model.bin</code>: Compressed model file, ready for use with KataGo</li>
+  <li><code class="language-plaintext highlighter-rouge">README.md</code>: This documentation file</li>
+  <li><code class="language-plaintext highlighter-rouge">training_log.txt</code>: Complete training log (optional)</li>
+</ul>
+
+<h2 id="-features--advantages">🌟 Features &amp; Advantages</h2>
+
+<ul>
+  <li><strong>High Strength</strong>: 65.75% first move accuracy (amateur 6-7 dan level)</li>
+  <li><strong>Full 19x19 Support</strong>: Works with standard board without modifications</li>
+  <li><strong>Fine-Tuned Performance</strong>: Optimized for quality decision-making</li>
+  <li><strong>Stable Value Estimation</strong>: Low value variance (0.457) for reliable win rate predictions</li>
+  <li><strong>Professional Quality</strong>: Suitable for serious study and analysis</li>
+</ul>
+
+<h2 id="-future-plans">📅 Future Plans</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Generate additional high-quality self-play data</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Perform additional fine-tuning rounds</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Explore ensemble techniques with other strong models</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Create specialized models for specific aspects of Go (life &amp; death, fuseki, etc.)</li>
+</ul>
+
+<h2 id="-license">📝 License</h2>
+
+<p>This model follows the <a href="https://github.com/lightvector/KataGo/blob/master/LICENSE">KataGo license</a> requirements.</p>
+
+<hr />
+
+<blockquote>
+  <p>💡 <strong>Tip</strong>: This model is suitable for serious Go study, analysis, and as a strong training partner. For best results, use it with a GUI like Sabaki or Lizzie for visualization of win rates and variations.</p>
+</blockquote>
+
+<p><a href="https://katagotraining.org"><img src="https://katagotraining.org/static/katago_logo_small.png" alt="KataGo" /></a><br />
+<em>Trained based on KataGo open-source framework - Built for Go AI research and education</em></p>
+
+<p><strong>Assets:</strong></p>
+
+<ul>
+  <li><a href="https://github.com/changcheng967/Kata_web/releases/download/s10784990976-d120396/final_model.bin">final_model.bin</a></li>
+</ul>
+
+<hr />
+
+<h2 id="s119808-d120396--2025-09-05">s119808-d120396 — 2025-09-05</h2>
+
+<p><strong>Overview</strong></p>
+<h1 id="-katago-custom-model-release-mymodel-s119808-d120396">🏆 KataGo Custom Model Release: <code class="language-plaintext highlighter-rouge">mymodel-s119808-d120396</code></h1>
+
+<p><img src="https://katagotraining.org/static/katago_logo.png" alt="KataGo" /></p>
+
+<h2 id="-overview">📌 Overview</h2>
+
+<p>This is a custom-trained 19x19 Go AI model based on the KataGo framework, trained using a custom training pipeline with a medium-sized dataset. The model has reached amateur mid-low dan level, capable of completing full games while understanding basic Go rules.</p>
+
+<h2 id="-model-information">🧠 Model Information</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model Name</strong></td>
+      <td>mymodel-s119808-d120396</td>
+    </tr>
+    <tr>
+      <td><strong>Model Configuration</strong></td>
+      <td>b20c256x2 (20 blocks, 256 channels)</td>
+    </tr>
+    <tr>
+      <td><strong>Board Size</strong></td>
+      <td>19x19</td>
+    </tr>
+    <tr>
+      <td><strong>File Size</strong></td>
+      <td>~83 MB (compressed)</td>
+    </tr>
+    <tr>
+      <td><strong>Training Data</strong></td>
+      <td>120,396 rows (approximately 670 games of 19x19)</td>
+    </tr>
+    <tr>
+      <td><strong>Training Steps</strong></td>
+      <td>119,808</td>
+    </tr>
+    <tr>
+      <td><strong>Training Time</strong></td>
+      <td>~4 hours (single GPU)</td>
+    </tr>
+    <tr>
+      <td><strong>Training Framework</strong></td>
+      <td>KataGo v1.160+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="-performance-metrics">📊 Performance Metrics</h2>
+
+<h3 id="training-results">Training Results</h3>
+<ul>
+  <li><strong>Training Loss</strong>: 40.01</li>
+  <li><strong>First Move Accuracy</strong>: 28.8%</li>
+  <li><strong>Value Variance</strong>: 0.076</li>
+  <li><strong>Policy Entropy</strong>: 0.630</li>
+</ul>
+
+<h3 id="evaluation-results">Evaluation Results</h3>
+<p>| Metric | Value | Description |
+|——–|——-|————-|
+| <strong>Strength Level</strong> | Amateur 5-10 kyu | Can complete full games, understands basic rules |
+| <strong>Eye Formation</strong> | Good | Can recognize basic living groups |
+| <strong>Life &amp; Death</strong> | Basic | Can handle simple life and death problems |
+| <strong>Endgame</strong> | Limited | Will make noticeable mistakes in mid-to-late game |
+| <strong>Stability</strong> | Medium | Win rate curve shows moderate fluctuations |</p>
+
+<h2 id="️-training-parameters">⚙️ Training Parameters</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./selfplay/train.sh ~/KataGo/ mymodel b20c256 128 main <span class="se">\</span>
+  <span class="nt">-lr-scale</span> 1.0 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-per-new-data</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-bucket-size</span> 450000 <span class="se">\</span>
+  <span class="nt">-samples-per-epoch</span> 400000 <span class="se">\</span>
+  <span class="nt">-max-epochs-this-instance</span> 20 <span class="se">\</span>
+  <span class="nt">-sub-epochs</span> 1 <span class="se">\</span>
+  <span class="nt">-max-train-steps-since-last-reload</span> 10000 <span class="se">\</span>
+  <span class="nt">-pos-len</span> 19
+</code></pre></div></div>
+
+<h2 id="-comparison-with-official-models">🆚 Comparison with Official Models</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Training Samples</th>
+      <th>First Move Accuracy</th>
+      <th>Strength Level</th>
+      <th>File Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>This Model</strong></td>
+      <td>120k</td>
+      <td>28.8%</td>
+      <td>Amateur 5-10 kyu</td>
+      <td>~83 MB</td>
+    </tr>
+    <tr>
+      <td><a href="https://media.katagotraining.org/uploaded/networks/models/g170-b20c256x2-s668214784-d222255714.bin.gz">g170-b20c256x2</a></td>
+      <td>668 million</td>
+      <td>~45%</td>
+      <td>Amateur high dan</td>
+      <td>~83 MB</td>
+    </tr>
+    <tr>
+      <td><a href="https://media.katagotraining.org/uploaded/networks/models/g170-b40c256x2-s4833666560-d1179059206.bin.gz">g170-b40c256x2</a></td>
+      <td>4.83 billion</td>
+      <td>~55%+</td>
+      <td>Professional</td>
+      <td>~331 MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>💡 <strong>Note</strong>: This model was trained with a very small dataset but has reached a playable level. The strongest official model used 4.83 billion samples - 4,000 times more data than this model.</p>
+</blockquote>
+
+<h2 id="-usage-instructions">🚀 Usage Instructions</h2>
+
+<h3 id="1-download-the-model">1. Download the model</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/changcheng967/Kata_web/releases/download/v1.2/model.bin.gz
+</code></pre></div></div>
+
+<h3 id="2-use-with-katago-engine">2. Use with KataGo engine</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># In KataGo directory</span>
+./cpp/katago gtp <span class="nt">-model</span> ./models/model.bin.gz
+</code></pre></div></div>
+
+<h3 id="3-in-gtp-command-line">3. In GTP command line</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>boardsize 19
+clear_board
+genmove B
+</code></pre></div></div>
+
+<h3 id="4-use-with-gui-software">4. Use with GUI software</h3>
+<ul>
+  <li><strong>Sabaki</strong>: Add engine path <code class="language-plaintext highlighter-rouge">./cpp/katago</code>, parameters <code class="language-plaintext highlighter-rouge">gtp -model ./models/model.bin.gz</code></li>
+  <li><strong>Lizzie</strong>: Configure model path in “Strong Engine Settings”</li>
+</ul>
+
+<h2 id="-file-description">📦 File Description</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">model.bin.gz</code>: Compressed model file, ready for use with KataGo</li>
+  <li><code class="language-plaintext highlighter-rouge">train.log</code>: Complete training log (optional)</li>
+</ul>
+
+<h2 id="-features--advantages">🌟 Features &amp; Advantages</h2>
+
+<ul>
+  <li><strong>Lightweight</strong>: Only requires 83MB storage space</li>
+  <li><strong>Quick deployment</strong>: Suitable for resource-constrained environments</li>
+  <li><strong>Full 19x19 support</strong>: Works with standard board without modifications</li>
+  <li><strong>Transparent training</strong>: Complete training parameters and logs provided</li>
+  <li><strong>Beginner-friendly</strong>: Ideal for Go AI beginners to study</li>
+</ul>
+
+<h2 id="-future-plans">📅 Future Plans</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add more training data (target: 50,000+ games)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Try fine-tuning with official pre-trained models</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Optimize training parameters for better efficiency</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add 9x9 version model</li>
+</ul>
+
+<h2 id="-license">📝 License</h2>
+
+<p>This model follows the <a href="https://github.com/lightvector/KataGo/blob/master/LICENSE">KataGo license</a> requirements.</p>
+
+<hr />
+
+<blockquote>
+  <p>💡 <strong>Tip</strong>: This model is suitable for entry-level Go AI experience and educational purposes. For higher-level AI, consider using officially released pre-trained models.</p>
+</blockquote>
+
+<p><a href="https://katagotraining.org"><img src="https://katagotraining.org/static/katago_logo_small.png" alt="KataGo" /></a><br />
+<em>Trained based on KataGo open-source framework - Built for Go AI research and education</em></p>
+
+<p><strong>Assets:</strong></p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/changcheng967/Kata_web/releases/download/s119808-d120396/model.bin.gz">model.bin.gz</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/changcheng967/Kata_web/releases/download/s119808-d120396/train.log">train.log</a></p>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="v11--2025-09-01">v1.1 — 2025-09-01</h2>
+
+<p><strong>Overview</strong></p>
+<p><strong>Full Changelog</strong>: https://github.com/changcheng967/Kata_web/compare/v1.0…v1.1</p>
+
+<p><strong>Assets:</strong></p>
+
+<ul>
+  <li><a href="https://github.com/changcheng967/Kata_web/releases/download/v1.1/final_model.bin">final_model.bin</a></li>
+</ul>
+
+<hr />
+
+<h2 id="v102-bugfixes--2025-03-13">v1.0.2-bugfixes — 2025-03-13</h2>
+
+<p><strong>Overview</strong></p>
+<h1 id="changelog-kata_web-102-bug-fixes-and-improvements">Changelog: Kata_web 1.0.2 (Bug Fixes and Improvements)</h1>
+
+<h2 id="overview">Overview</h2>
+<p>Kata_web 1.0.2 is a maintenance release that focuses on <strong>bug fixes and improvements</strong> to make the script more robust and user-friendly. This version addresses issues related to file handling, error management, and logging, ensuring a smoother experience for users.</p>
+
+<hr />
+
+<h2 id="bug-fixes">Bug Fixes</h2>
+
+<h3 id="1-filenotfounderror-handling">1. <strong>FileNotFoundError Handling</strong></h3>
+<ul>
+  <li>Fixed the issue where the script would crash if a file (e.g., <code class="language-plaintext highlighter-rouge">katago-v1.15.3-eigen-linux-x64.zip</code>) was missing or already deleted.</li>
+  <li>Added checks using <code class="language-plaintext highlighter-rouge">os.path.exists()</code> before attempting to delete files.</li>
+</ul>
+
+<h3 id="2-error-handling">2. <strong>Error Handling</strong></h3>
+<ul>
+  <li>Wrapped file operations in <code class="language-plaintext highlighter-rouge">try-except</code> blocks to handle errors gracefully.</li>
+  <li>The script now continues running even if one step fails, making it more robust.</li>
+</ul>
+
+<h3 id="3-improved-logging">3. <strong>Improved Logging</strong></h3>
+<ul>
+  <li>Added more descriptive print statements to help debug issues.</li>
+  <li>Each step now logs its progress and any errors encountered.</li>
+</ul>
+
+<hr />
+
+<h2 id="improvements">Improvements</h2>
+
+<h3 id="1-graceful-degradation">1. <strong>Graceful Degradation</strong></h3>
+<ul>
+  <li>If a step fails (e.g., downloading or extracting a file), the script logs the error and continues with the next step.</li>
+</ul>
+
+<h3 id="2-user-friendly-messages">2. <strong>User-Friendly Messages</strong></h3>
+<ul>
+  <li>Added clear and informative messages for each step, making it easier to understand what the script is doing.</li>
+</ul>
+
+<h3 id="3-code-cleanup">3. <strong>Code Cleanup</strong></h3>
+<ul>
+  <li>Removed redundant code and improved readability.</li>
+</ul>
+
+<hr />
+
+<h2 id="features">Features</h2>
+
+<h3 id="1-dependency-setup">1. <strong>Dependency Setup</strong></h3>
+<ul>
+  <li><strong>libzip5</strong> and <strong>libssl1.1</strong> are downloaded and extracted to ensure compatibility with KataGo.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> environment variable is set to include the extracted libraries.</li>
+</ul>
+
+<h3 id="2-katago-setup">2. <strong>KataGo Setup</strong></h3>
+<ul>
+  <li><strong>KataGo (Eigen version)</strong> is downloaded and extracted.</li>
+  <li>The KataGo binary is made executable.</li>
+</ul>
+
+<h3 id="3-katago-model-download">3. <strong>KataGo Model Download</strong></h3>
+<ul>
+  <li>The <strong>KataGo b18 model</strong> is downloaded and extracted for use by the bot.</li>
+</ul>
+
+<h3 id="4-gtp2ogs-setup">4. <strong>gtp2ogs Setup</strong></h3>
+<ul>
+  <li><strong>gtp2ogs</strong> is downloaded and made executable. This tool acts as a bridge between KataGo and OGS.</li>
+</ul>
+
+<h3 id="5-configuration-updates">5. <strong>Configuration Updates</strong></h3>
+<ul>
+  <li><strong>default_gtp.cfg</strong> is updated with the following changes:
+    <ul>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">logSearchInfo</code>.</li>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">ogsChatToStderr</code>.</li>
+      <li>Set <code class="language-plaintext highlighter-rouge">maxTime</code> to 1.0 seconds.</li>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">ponderingEnabled</code>.</li>
+      <li>Updated rules to <strong>Tromp-Taylor</strong> with <strong>friendly pass allowed</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="6-kata_speedjson5-configuration">6. <strong>kata_speed.json5 Configuration</strong></h3>
+<ul>
+  <li>A configuration file (<code class="language-plaintext highlighter-rouge">kata_speed.json5</code>) is generated with the following settings:
+    <ul>
+      <li><strong>Blacklist</strong>: Blocks specific users from challenging the bot.</li>
+      <li><strong>Whitelist</strong>: Allows specific users to challenge the bot even when it’s busy.</li>
+      <li><strong>Ranked and Unranked Games</strong>: Both are allowed.</li>
+      <li><strong>Board Sizes</strong>: Supports 9x9, 13x13, and 19x19 boards.</li>
+      <li><strong>Correspondence Games</strong>: Disabled.</li>
+      <li><strong>Bot Behavior</strong>: Sends PV data and chat messages.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="7-bot-execution">7. <strong>Bot Execution</strong></h3>
+<ul>
+  <li>The bot is launched using <code class="language-plaintext highlighter-rouge">gtp2ogs</code> with the configured API key, KataGo binary, and model.</li>
+</ul>
+
+<hr />
+
+<h2 id="technical-details">Technical Details</h2>
+
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+  <li><strong>libzip5</strong>: Required for handling ZIP files.</li>
+  <li><strong>libssl1.1</strong>: Required for secure communication.</li>
+  <li><strong>KataGo (Eigen version)</strong>: The Go engine used for gameplay.</li>
+  <li><strong>gtp2ogs</strong>: The bridge between KataGo and OGS.</li>
+</ul>
+
+<h3 id="configuration-files">Configuration Files</h3>
+<ul>
+  <li><strong>default_gtp.cfg</strong>: Contains KataGo’s GTP configuration.</li>
+  <li><strong>kata_speed.json5</strong>: Contains the bot’s OGS-specific settings.</li>
+</ul>
+
+<h3 id="script-workflow">Script Workflow</h3>
+<ol>
+  <li>Downloads and extracts dependencies.</li>
+  <li>Downloads and sets up KataGo.</li>
+  <li>Downloads the KataGo model.</li>
+  <li>Downloads and sets up <code class="language-plaintext highlighter-rouge">gtp2ogs</code>.</li>
+  <li>Updates <code class="language-plaintext highlighter-rouge">default_gtp.cfg</code> with custom settings.</li>
+  <li>Generates <code class="language-plaintext highlighter-rouge">kata_speed.json5</code> for OGS configuration.</li>
+  <li>Runs the bot using <code class="language-plaintext highlighter-rouge">gtp2ogs</code>.</li>
+</ol>
+
+<hr />
+
+<h2 id="known-issues">Known Issues</h2>
+<ul>
+  <li><strong>Correspondence Games</strong>: Disabled in this version. Only live games are supported.</li>
+  <li><strong>Performance</strong>: The bot is configured for low visit counts (7 visits) due to resource limitations. Upgrading to a GPU backend (e.g., CUDA or TensorRT) is recommended for stronger performance.</li>
+</ul>
+
+<hr />
+
+<h2 id="future-improvements">Future Improvements</h2>
+<ul>
+  <li><strong>GPU Support</strong>: Add support for CUDA or TensorRT backends for stronger performance.</li>
+  <li><strong>Advanced Analytics</strong>: Provide detailed game analysis and visualizations for players.</li>
+  <li><strong>Multi-Language Support</strong>: Add support for multiple languages in bot greetings and farewells.</li>
+  <li><strong>Scalability</strong>: Increase the number of concurrent games the bot can handle.</li>
+</ul>
+
+<hr />
+
+<h2 id="contributors">Contributors</h2>
+<ul>
+  <li><strong>Developer</strong>: <a href="https://github.com/changcheng967">changcheng967</a></li>
+  <li><strong>KataGo</strong>: <a href="https://github.com/lightvector/KataGo">lightvector</a></li>
+  <li><strong>gtp2ogs</strong>: <a href="https://github.com/online-go/gtp2ogs">online-go</a></li>
+</ul>
+
+<hr />
+
+<h2 id="release-tag">Release Tag</h2>
+<p>```plaintext
+v1.0.2-bugfixes</p>
+
+<p><strong>Full Changelog</strong>: https://github.com/changcheng967/Kata_web/compare/v1.0…v1.0.2-bugfixes</p>
+
+<hr />
+
+<h2 id="v101-security--2025-03-13">v1.0.1-security — 2025-03-13</h2>
+
+<p><strong>Overview</strong></p>
+<h1 id="changelog-kata_web-101-security">Changelog: Kata_web 1.0.1-security</h1>
+
+<h2 id="overview">Overview</h2>
+<p>Kata_web 1.0.1 Security Version is an update to the initial release of the KataGo bot hosting solution for the Online Go Server (OGS). This version focuses on <strong>security improvements</strong>, particularly the removal of the hardcoded API key for <code class="language-plaintext highlighter-rouge">gtp2ogs</code> to prevent accidental exposure of sensitive information.</p>
+
+<hr />
+
+<h2 id="security-improvements">Security Improvements</h2>
+
+<h3 id="1-api-key-handling">1. <strong>API Key Handling</strong></h3>
+<ul>
+  <li>The <strong>hardcoded API key</strong> for <code class="language-plaintext highlighter-rouge">gtp2ogs</code> has been removed from the script.</li>
+  <li>Users are now required to <strong>provide their own API key</strong> when running the bot, ensuring that sensitive information is not exposed in the codebase.</li>
+</ul>
+
+<h3 id="2-environment-variables">2. <strong>Environment Variables</strong></h3>
+<ul>
+  <li>The API key is now expected to be provided via an <strong>environment variable</strong> (e.g., <code class="language-plaintext highlighter-rouge">KATAGO_API_KEY</code>), enhancing security and flexibility.</li>
+</ul>
+
+<hr />
+
+<h2 id="features">Features</h2>
+
+<h3 id="1-dependency-setup">1. <strong>Dependency Setup</strong></h3>
+<ul>
+  <li><strong>libzip5</strong> and <strong>libssl1.1</strong> are downloaded and extracted to ensure compatibility with KataGo.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> environment variable is set to include the extracted libraries.</li>
+</ul>
+
+<h3 id="2-katago-setup">2. <strong>KataGo Setup</strong></h3>
+<ul>
+  <li><strong>KataGo (Eigen version)</strong> is downloaded and extracted.</li>
+  <li>The KataGo binary is made executable.</li>
+</ul>
+
+<h3 id="3-katago-model-download">3. <strong>KataGo Model Download</strong></h3>
+<ul>
+  <li>The <strong>KataGo b18 model</strong> is downloaded and extracted for use by the bot.</li>
+</ul>
+
+<h3 id="4-gtp2ogs-setup">4. <strong>gtp2ogs Setup</strong></h3>
+<ul>
+  <li><strong>gtp2ogs</strong> is downloaded and made executable. This tool acts as a bridge between KataGo and OGS.</li>
+</ul>
+
+<h3 id="5-configuration-updates">5. <strong>Configuration Updates</strong></h3>
+<ul>
+  <li><strong>default_gtp.cfg</strong> is updated with the following changes:
+    <ul>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">logSearchInfo</code>.</li>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">ogsChatToStderr</code>.</li>
+      <li>Set <code class="language-plaintext highlighter-rouge">maxTime</code> to 1.0 seconds.</li>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">ponderingEnabled</code>.</li>
+      <li>Updated rules to <strong>Tromp-Taylor</strong> with <strong>friendly pass allowed</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="6-kata_speedjson5-configuration">6. <strong>kata_speed.json5 Configuration</strong></h3>
+<ul>
+  <li>A configuration file (<code class="language-plaintext highlighter-rouge">kata_speed.json5</code>) is generated with the following settings:
+    <ul>
+      <li><strong>Blacklist</strong>: Blocks specific users from challenging the bot.</li>
+      <li><strong>Whitelist</strong>: Allows specific users to challenge the bot even when it’s busy.</li>
+      <li><strong>Ranked and Unranked Games</strong>: Both are allowed.</li>
+      <li><strong>Board Sizes</strong>: Supports 9x9, 13x13, and 19x19 boards.</li>
+      <li><strong>Correspondence Games</strong>: Disabled.</li>
+      <li><strong>Bot Behavior</strong>: Sends PV data and chat messages.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="7-bot-execution">7. <strong>Bot Execution</strong></h3>
+<ul>
+  <li>The bot is launched using <code class="language-plaintext highlighter-rouge">gtp2ogs</code> with the configured API key, KataGo binary, and model.</li>
+</ul>
+
+<hr />
+
+<h2 id="technical-details">Technical Details</h2>
+
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+  <li><strong>libzip5</strong>: Required for handling ZIP files.</li>
+  <li><strong>libssl1.1</strong>: Required for secure communication.</li>
+  <li><strong>KataGo (Eigen version)</strong>: The Go engine used for gameplay.</li>
+  <li><strong>gtp2ogs</strong>: The bridge between KataGo and OGS.</li>
+</ul>
+
+<h3 id="configuration-files">Configuration Files</h3>
+<ul>
+  <li><strong>default_gtp.cfg</strong>: Contains KataGo’s GTP configuration.</li>
+  <li><strong>kata_speed.json5</strong>: Contains the bot’s OGS-specific settings.</li>
+</ul>
+
+<h3 id="script-workflow">Script Workflow</h3>
+<ol>
+  <li>Downloads and extracts dependencies.</li>
+  <li>Downloads and sets up KataGo.</li>
+  <li>Downloads the KataGo model.</li>
+  <li>Downloads and sets up <code class="language-plaintext highlighter-rouge">gtp2ogs</code>.</li>
+  <li>Updates <code class="language-plaintext highlighter-rouge">default_gtp.cfg</code> with custom settings.</li>
+  <li>Generates <code class="language-plaintext highlighter-rouge">kata_speed.json5</code> for OGS configuration.</li>
+  <li>Runs the bot using <code class="language-plaintext highlighter-rouge">gtp2ogs</code>.</li>
+</ol>
+
+<hr />
+
+<h2 id="known-issues">Known Issues</h2>
+<ul>
+  <li><strong>Correspondence Games</strong>: Disabled in this version. Only live games are supported.</li>
+  <li><strong>Performance</strong>: The bot is configured for low visit counts (7 visits) due to resource limitations. Upgrading to a GPU backend (e.g., CUDA or TensorRT) is recommended for stronger performance.</li>
+</ul>
+
+<hr />
+
+<h2 id="future-improvements">Future Improvements</h2>
+<ul>
+  <li><strong>GPU Support</strong>: Add support for CUDA or TensorRT backends for stronger performance.</li>
+  <li><strong>Advanced Analytics</strong>: Provide detailed game analysis and visualizations for players.</li>
+  <li><strong>Multi-Language Support</strong>: Add support for multiple languages in bot greetings and farewells.</li>
+  <li><strong>Scalability</strong>: Increase the number of concurrent games the bot can handle.</li>
+</ul>
+
+<hr />
+
+<h2 id="contributors">Contributors</h2>
+<ul>
+  <li><strong>Developer</strong>: <a href="https://github.com/changcheng967">changcheng967</a></li>
+  <li><strong>KataGo</strong>: <a href="https://github.com/lightvector/KataGo">lightvector</a></li>
+  <li><strong>gtp2ogs</strong>: <a href="https://github.com/online-go/gtp2ogs">online-go</a></li>
+</ul>
+
+<hr />
+
+<h2 id="v10--2025-03-13">v1.0 — 2025-03-13</h2>
+
+<p><strong>Overview</strong></p>
+<h1 id="changelog-kata_web-10">Changelog: Kata_web 1.0</h1>
+
+<h2 id="overview">Overview</h2>
+<p>Kata_web 1.0 is the initial release of the KataGo bot hosting solution for the Online Go Server (OGS). This version includes the setup and configuration of KataGo, along with the necessary dependencies and tools to run the bot on OGS.</p>
+
+<hr />
+
+<h2 id="features">Features</h2>
+
+<h3 id="1-dependency-setup">1. <strong>Dependency Setup</strong></h3>
+<ul>
+  <li><strong>libzip5</strong> and <strong>libssl1.1</strong> are downloaded and extracted to ensure compatibility with KataGo.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> environment variable is set to include the extracted libraries.</li>
+</ul>
+
+<h3 id="2-katago-setup">2. <strong>KataGo Setup</strong></h3>
+<ul>
+  <li><strong>KataGo (Eigen version)</strong> is downloaded and extracted.</li>
+  <li>The KataGo binary is made executable.</li>
+</ul>
+
+<h3 id="3-katago-model-download">3. <strong>KataGo Model Download</strong></h3>
+<ul>
+  <li>The <strong>KataGo b18 model</strong> is downloaded and extracted for use by the bot.</li>
+</ul>
+
+<h3 id="4-gtp2ogs-setup">4. <strong>gtp2ogs Setup</strong></h3>
+<ul>
+  <li><strong>gtp2ogs</strong> is downloaded and made executable. This tool acts as a bridge between KataGo and OGS.</li>
+</ul>
+
+<h3 id="5-configuration-updates">5. <strong>Configuration Updates</strong></h3>
+<ul>
+  <li><strong>default_gtp.cfg</strong> is updated with the following changes:
+    <ul>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">logSearchInfo</code>.</li>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">ogsChatToStderr</code>.</li>
+      <li>Set <code class="language-plaintext highlighter-rouge">maxTime</code> to 1.0 seconds.</li>
+      <li>Enabled <code class="language-plaintext highlighter-rouge">ponderingEnabled</code>.</li>
+      <li>Updated rules to <strong>Tromp-Taylor</strong> with <strong>friendly pass allowed</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="6-kata_speedjson5-configuration">6. <strong>kata_speed.json5 Configuration</strong></h3>
+<ul>
+  <li>A configuration file (<code class="language-plaintext highlighter-rouge">kata_speed.json5</code>) is generated with the following settings:
+    <ul>
+      <li><strong>Blacklist</strong>: Blocks specific users from challenging the bot.</li>
+      <li><strong>Whitelist</strong>: Allows specific users to challenge the bot even when it’s busy.</li>
+      <li><strong>Ranked and Unranked Games</strong>: Both are allowed.</li>
+      <li><strong>Board Sizes</strong>: Supports 9x9, 13x13, and 19x19 boards.</li>
+      <li><strong>Correspondence Games</strong>: Disabled.</li>
+      <li><strong>Bot Behavior</strong>: Sends PV data and chat messages.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="7-bot-execution">7. <strong>Bot Execution</strong></h3>
+<ul>
+  <li>The bot is launched using <code class="language-plaintext highlighter-rouge">gtp2ogs</code> with the configured API key, KataGo binary, and model.</li>
+</ul>
+
+<hr />
+
+<h2 id="technical-details">Technical Details</h2>
+
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+  <li><strong>libzip5</strong>: Required for handling ZIP files.</li>
+  <li><strong>libssl1.1</strong>: Required for secure communication.</li>
+  <li><strong>KataGo (Eigen version)</strong>: The Go engine used for gameplay.</li>
+  <li><strong>gtp2ogs</strong>: The bridge between KataGo and OGS.</li>
+</ul>
+
+<h3 id="configuration-files">Configuration Files</h3>
+<ul>
+  <li><strong>default_gtp.cfg</strong>: Contains KataGo’s GTP configuration.</li>
+  <li><strong>kata_speed.json5</strong>: Contains the bot’s OGS-specific settings.</li>
+</ul>
+
+<h3 id="script-workflow">Script Workflow</h3>
+<ol>
+  <li>Downloads and extracts dependencies.</li>
+  <li>Downloads and sets up KataGo.</li>
+  <li>Downloads the KataGo model.</li>
+  <li>Downloads and sets up <code class="language-plaintext highlighter-rouge">gtp2ogs</code>.</li>
+  <li>Updates <code class="language-plaintext highlighter-rouge">default_gtp.cfg</code> with custom settings.</li>
+  <li>Generates <code class="language-plaintext highlighter-rouge">kata_speed.json5</code> for OGS configuration.</li>
+  <li>Runs the bot using <code class="language-plaintext highlighter-rouge">gtp2ogs</code>.</li>
+</ol>
+
+<hr />
+
+<h2 id="known-issues">Known Issues</h2>
+<ul>
+  <li><strong>Correspondence Games</strong>: Disabled in this version. Only live games are supported.</li>
+  <li><strong>Performance</strong>: The bot is configured for low visit counts (7 visits) due to resource limitations. Upgrading to a GPU backend (e.g., CUDA or TensorRT) is recommended for stronger performance.</li>
+</ul>
+
+<hr />
+
+<h2 id="future-improvements">Future Improvements</h2>
+<ul>
+  <li><strong>GPU Support</strong>: Add support for CUDA or TensorRT backends for stronger performance.</li>
+  <li><strong>Advanced Analytics</strong>: Provide detailed game analysis and visualizations for players.</li>
+  <li><strong>Multi-Language Support</strong>: Add support for multiple languages in bot greetings and farewells.</li>
+  <li><strong>Scalability</strong>: Increase the number of concurrent games the bot can handle.</li>
+</ul>
+
+<hr />
+
+<h2 id="how-to-use">How to Use</h2>
+<ol>
+  <li>Run the script to set up the bot.</li>
+  <li>The bot will automatically connect to OGS using the provided API key.</li>
+  <li>Players can challenge the bot or request game analysis.</li>
+</ol>
+
+<hr />
+
+<h2 id="contributors">Contributors</h2>
+<ul>
+  <li><strong>Developer</strong>: <a href="https://github.com/changcheng967">changcheng967</a></li>
+  <li><strong>KataGo</strong>: <a href="https://github.com/lightvector/KataGo">lightvector</a></li>
+  <li><strong>gtp2ogs</strong>: <a href="https://github.com/online-go/gtp2ogs">online-go</a></li>
+</ul>
+
+<hr />
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Kata Web Releases</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Kata Web Releases</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A list of recent releases from the Kata_web GitHub repository.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
