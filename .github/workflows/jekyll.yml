@@ -35,20 +35,20 @@ jobs:
           mkdir -p _releases
           jq -c '.[]' _data/releases.json | while read -r release; do
             tag=$(echo "$release" | jq -r '.tag_name' | sed 's/\//-/g')
-            title=$(echo "$release" | jq -r '.name // .tag_name')
+            title=$(echo "$release" | jq -r '.name // .tag_name' | sed 's/"/\\"/g')
             date=$(echo "$release" | jq -r '.published_at')
-            body=$(echo "$release" | jq -r '.body' | sed 's/\"/\\\"/g')
+            body=$(echo "$release" | jq -r '.body' | sed 's/"/\\"/g')
             assets=$(echo "$release" | jq '.assets')
 
             cat > "_releases/${tag}.md" <<EOF
 ---
 layout: release
-title: "$title"
-published_at: "$date"
-assets: $assets
+title: "${title}"
+published_at: "${date}"
+assets: ${assets}
 ---
 
-$body
+${body}
 EOF
           done
 
