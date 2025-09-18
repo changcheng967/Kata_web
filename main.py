@@ -158,7 +158,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b28c512nbts10784990976-d120396 special trained model based on newest b28 model. Plays at accuracy of 69%, very fast on modern computers. Checkout at https://github.com/changcheng967/Kata_web/releases",
+    "engine": "b28512nbt-KW-20250917-002_final.bin special trained model based on the newest b28 model. Plays at an accuracy of 75.83%, can be stronger than official sometimes. Checkout at https://changcheng967.github.io/Kata_web/",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
