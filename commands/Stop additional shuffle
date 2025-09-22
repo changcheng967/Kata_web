@@ -1,0 +1,11 @@
+# 查看所有正在运行的洗牌进程
+ps aux | grep 'shuffle_and_export_loop.sh' | grep -v grep
+
+# 终止所有洗牌相关进程
+pkill -f 'shuffle_and_export_loop.sh'
+pkill -f 'shuffle.py'
+
+# 确认进程已终止
+echo "已终止所有洗牌进程。验证中..."
+sleep 2
+ps aux | grep 'shuffle' | grep -v grep || echo "没有运行中的洗牌进程"

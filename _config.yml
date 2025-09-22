@@ -1,0 +1,16 @@
+title: "Kata_web by changcheng967"
+description: "Official Kata_web releases page"
+
+collections:
+  releases:
+    output: true
+    permalink: /release/:name/
+
+markdown: kramdown
+highlighter: rouge
+
+# IMPORTANT: For a GitHub Pages project site, baseurl must be the repo name
+baseurl: "/Kata_web"
+
+plugins:
+  - jekyll-feed
