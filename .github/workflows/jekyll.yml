@@ -1,0 +1,81 @@
+name: Build & Deploy Kata_web Site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Fetch releases JSON
+        run: |
+          mkdir -p _data
+          curl -H "Accept: application/vnd.github+json" \
+               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+               https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
+
+      - name: Generate release markdown files
+        run: |
+          set -xe
+          mkdir -p _releases
+          jq -c '.[]' _data/releases.json | while read -r release; do
+            # Force lowercase tag for consistent URLs
+            tag=$(echo "$release" | jq -r '.tag_name' | tr '[:upper:]' '[:lower:]' | sed 's/\//-/g')
+            title=$(echo "$release" | jq -r '.name // .tag_name' | sed 's/"/\\"/g')
+            date=$(echo "$release" | jq -r '.published_at')
+            body=$(echo "$release" | jq -r '.body' | sed 's/"/\\"/g')
+            assets=$(echo "$release" | jq '.assets')
+
+            {
+              echo "---"
+              echo "layout: release"
+              echo "title: \"${title}\""
+              echo "published_at: \"${date}\""
+              echo "assets: ${assets}"
+              echo "---"
+              echo
+              echo "${body}"
+            } > "_releases/${tag}.md"
+          done
+
+          echo "Generated release files:"
+          ls -R _releases
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Build site with Jekyll
+        run: |
+          bundle exec jekyll build
+          echo "Built site structure:"
+          ls -R _site/release || true
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy site
+        uses: actions/deploy-pages@v4

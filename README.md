@@ -1,11 +1,6 @@
-Here's the updated **README.md** with clear license requirements and a direct reference to the **LICENSE** file:
-
----
-
 # Kata_web  
 
-[![pages-build-deployment](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/pages/pages-build-deployment)  
-
+[![Build & Deploy Kata_web Site](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml)
 ## Overview  
 **Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **KataGo b18 (Eigen backend)** for efficient performance. This project is designed to provide **free, cross-platform** AI-assisted Go analysis while maintaining strict licensing policies.  
 
@@ -54,5 +49,3 @@ python main.py
 **Violations may result in legal action or revocation of access to private components.**  
 
 ---
-
-Let me know if you'd like to adjust the tone or add more specifics!

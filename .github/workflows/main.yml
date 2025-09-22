@@ -1,0 +1,32 @@
+name: KataGo Setup from training branch
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  setup-katago:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout training branch
+      uses: actions/checkout@v5
+      with:
+        ref: Training  # Checkout the training branch, even though workflow triggers on main
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v6
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Run KataGo setup script
+      run: python main.py
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
