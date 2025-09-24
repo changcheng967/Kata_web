@@ -1,4 +1,6 @@
 name: Run KataGo on CGOS
+permissions:
+  contents: read
 
 on:
   push:
