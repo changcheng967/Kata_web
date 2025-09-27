@@ -5,61 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kata_web Releases</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap & Chart.js -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f9fafb;
+      background: #f5f7fa;
       padding: 2rem 1rem 5rem;
-      max-width: 960px;
+      max-width: 1100px;
       margin: auto;
       color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #0d1117;
+      color: #eee;
     }
     h1 {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       font-weight: 700;
+      color: #0d6efd;
+    }
+    body.dark h1 { color: #58a6ff; }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
     .release-card {
-      background: #fff;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.85);
       margin-bottom: 1.5rem;
       padding: 1.5rem 1.75rem;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.3s ease;
+    }
+    body.dark .release-card {
+      background: rgba(22,27,34,0.9);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.05);
     }
     .release-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 0 20px rgba(13,110,253,0.4);
     }
     .release-card h2 {
       font-size: 1.25rem;
       margin-bottom: 0.25rem;
       font-weight: 600;
     }
-    .release-card .date {
+    .release-card .meta {
       font-size: 0.85rem;
       color: #666;
       margin-bottom: 0.75rem;
     }
+    body.dark .release-card .meta { color: #aaa; }
     .release-card .excerpt {
       font-size: 0.95rem;
-      color: #444;
       margin-bottom: 0.75rem;
     }
-    .badge {
-      font-size: 0.75rem;
-    }
+    .badge { font-size: 0.75rem; }
     .assets-list {
       list-style: none;
       padding-left: 0;
       margin-bottom: 0;
     }
-    .assets-list li {
-      margin-bottom: 0.3rem;
+    .assets-list li { margin-bottom: 0.3rem; }
+    .view-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0d6efd;
+      text-decoration: none;
     }
+    .view-link:hover { text-decoration: underline; }
     footer {
       margin-top: 4rem;
       font-size: 0.9rem;
@@ -70,6 +96,14 @@
 </head>
 <body>
   <h1>Kata_web Releases</h1>
+
+  <div class="controls">
+    <input id="search" class="form-control" style="max-width:300px" placeholder="🔍 Search releases...">
+    <button id="themeToggle" class="btn btn-outline-secondary">🌙 Dark Mode</button>
+  </div>
+
+  <canvas id="releaseChart" height="100" class="mb-4"></canvas>
+
   <div id="releases">Loading releases…</div>
 
   <footer>
@@ -77,8 +111,17 @@
   </footer>
 
   <script>
+    const container = document.getElementById('releases');
+    const searchInput = document.getElementById('search');
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      themeToggle.textContent = body.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
+
     async function loadReleases() {
-      const container = document.getElementById('releases');
       try {
         const res = await fetch('https://api.github.com/repos/changcheng967/Kata_web/releases');
         const releases = await res.json();
@@ -87,28 +130,68 @@
           return;
         }
         container.innerHTML = '';
+        const counts = {};
         releases.forEach(rel => {
-          const excerpt = rel.body ? rel.body.replace(/\r?\n|\r/g, ' ').slice(0, 160) + (rel.body.length > 160 ? '…' : '') : '';
+          const month = new Date(rel.published_at).toLocaleString('default', { month: 'short', year: 'numeric' });
+          counts[month] = (counts[month] || 0) + 1;
+
+          const excerpt = rel.body ? rel.body.replace(/\r?\n|\r/g, ' ').slice(0, 180) + (rel.body.length > 180 ? '…' : '') : 'No description provided.';
           const card = document.createElement('div');
           card.className = 'release-card';
           card.innerHTML = `
             <h2>${rel.name || rel.tag_name}</h2>
-            <div class="date">${new Date(rel.published_at).toLocaleDateString()}</div>
-            ${excerpt ? `<div class="excerpt">${excerpt}</div>` : ''}
-            <span class="badge bg-primary">${rel.assets ? rel.assets.length : 0} assets</span>
+            <div class="meta">
+              <span class="badge bg-secondary">${new Date(rel.published_at).toLocaleDateString()}</span>
+              <span class="badge bg-primary">${rel.assets ? rel.assets.length : 0} assets</span>
+            </div>
+            <div class="excerpt">${excerpt}</div>
             ${rel.assets && rel.assets.length > 0 ? `
-              <ul class="assets-list mt-2">
-                ${rel.assets.map(a => `<li><a href="${a.browser_download_url}" target="_blank">${a.name}</a></li>`).join('')}
-              </ul>` : ''
+              <button class="btn btn-sm btn-link p-0" data-bs-toggle="collapse" data-bs-target="#rel-${rel.id}">Toggle Assets</button>
+              <div id="rel-${rel.id}" class="collapse mt-2">
+                <ul class="assets-list">
+                  ${rel.assets.map(a => `<li><a href="${a.browser_download_url}" target="_blank">${a.name}</a></li>`).join('')}
+                </ul>
+              </div>` : ''
             }
+            <a class="view-link" href="${rel.html_url}" target="_blank">View Details →</a>
           `;
           container.appendChild(card);
         });
+
+        // Chart.js: releases per month
+        new Chart(document.getElementById('releaseChart'), {
+          type: 'bar',
+          data: {
+            labels: Object.keys(counts),
+            datasets: [{
+              label: 'Releases per Month',
+              data: Object.values(counts),
+              backgroundColor: '#0d6efd'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+
+        // Search filter
+        searchInput.addEventListener('input', e => {
+          const term = e.target.value.toLowerCase();
+          document.querySelectorAll('.release-card').forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(term) ? '' : 'none';
+          });
+        });
+
       } catch (err) {
         container.innerText = "Failed to fetch releases.";
       }
     }
     loadReleases();
   </script>
+
+  <!-- Bootstrap JS for collapse -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
