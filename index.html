@@ -1,21 +1,12 @@
----
-layout: none
-title: Kata_web Releases
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ page.title }}</title>
+  <title>Kata_web Releases</title>
 
-  <!-- Bootstrap & AOS -->
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 
   <style>
     body {
@@ -31,22 +22,33 @@ title: Kata_web Releases
       margin-bottom: 2rem;
       font-weight: 700;
     }
-    .release-list a {
-      display: block;
+    .release-card {
       background: white;
-      margin-bottom: 1rem;
-      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
       border-radius: 10px;
-      text-decoration: none;
-      color: #007bff;
       box-shadow: 0 5px 15px rgb(0 123 255 / 0.1);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      font-weight: 600;
     }
-    .release-list a:hover {
+    .release-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 25px rgb(0 123 255 / 0.2);
-      text-decoration: underline;
+    }
+    .release-card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .release-card .date {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 1rem;
+    }
+    .assets-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .assets-list li {
+      margin-bottom: 0.4rem;
     }
     footer {
       margin-top: 4rem;
@@ -56,26 +58,46 @@ title: Kata_web Releases
     }
   </style>
 </head>
-<body data-aos="fade-up">
+<body>
+  <h1>Kata_web Releases</h1>
+  <div id="releases">Loading releases…</div>
 
-<h1>Kata_web Releases</h1>
+  <footer>
+    Kata_web by changcheng967
+  </footer>
 
-<div class="release-list">
-  {% assign releases = site.releases | sort: 'published_at' | reverse %}
-  {% for release in releases %}
-  <a href="{{ site.baseurl }}{{ release.url }}">
-    {{ release.title }} — {{ release.published_at | date: "%b %d, %Y" }}
-  </a>
-  {% endfor %}
-</div>
-
-<footer>
-  Kata_web by changcheng967
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 700, once: true });
-</script>
+  <script>
+    async function loadReleases() {
+      const container = document.getElementById('releases');
+      try {
+        const res = await fetch('https://api.github.com/repos/changcheng967/Kata_web/releases');
+        const releases = await res.json();
+        if (!Array.isArray(releases)) {
+          container.innerText = "Error loading releases.";
+          return;
+        }
+        container.innerHTML = '';
+        releases.forEach(rel => {
+          const card = document.createElement('div');
+          card.className = 'release-card';
+          card.innerHTML = `
+            <h2>${rel.name || rel.tag_name}</h2>
+            <div class="date">${new Date(rel.published_at).toLocaleDateString()}</div>
+            <div class="body">${rel.body ? rel.body.replace(/\n/g,'<br>') : ''}</div>
+            ${rel.assets && rel.assets.length > 0 ? `
+              <h5 class="mt-3">Assets</h5>
+              <ul class="assets-list">
+                ${rel.assets.map(a => `<li><a href="${a.browser_download_url}" target="_blank">${a.name}</a></li>`).join('')}
+              </ul>` : ''
+            }
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        container.innerText = "Failed to fetch releases.";
+      }
+    }
+    loadReleases();
+  </script>
 </body>
 </html>
