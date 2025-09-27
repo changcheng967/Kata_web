@@ -13,42 +13,52 @@
       font-family: 'Poppins', sans-serif;
       background: #f9fafb;
       padding: 2rem 1rem 5rem;
-      max-width: 900px;
+      max-width: 960px;
       margin: auto;
       color: #222;
     }
     h1 {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       font-weight: 700;
     }
     .release-card {
-      background: white;
+      background: #fff;
       margin-bottom: 1.5rem;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgb(0 123 255 / 0.1);
+      padding: 1.5rem 1.75rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .release-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgb(0 123 255 / 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
     .release-card h2 {
       font-size: 1.25rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
     }
     .release-card .date {
-      font-size: 0.9rem;
-      color: #777;
-      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.75rem;
+    }
+    .release-card .excerpt {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 0.75rem;
+    }
+    .badge {
+      font-size: 0.75rem;
     }
     .assets-list {
       list-style: none;
       padding-left: 0;
+      margin-bottom: 0;
     }
     .assets-list li {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
     footer {
       margin-top: 4rem;
@@ -78,15 +88,16 @@
         }
         container.innerHTML = '';
         releases.forEach(rel => {
+          const excerpt = rel.body ? rel.body.replace(/\r?\n|\r/g, ' ').slice(0, 160) + (rel.body.length > 160 ? '…' : '') : '';
           const card = document.createElement('div');
           card.className = 'release-card';
           card.innerHTML = `
             <h2>${rel.name || rel.tag_name}</h2>
             <div class="date">${new Date(rel.published_at).toLocaleDateString()}</div>
-            <div class="body">${rel.body ? rel.body.replace(/\n/g,'<br>') : ''}</div>
+            ${excerpt ? `<div class="excerpt">${excerpt}</div>` : ''}
+            <span class="badge bg-primary">${rel.assets ? rel.assets.length : 0} assets</span>
             ${rel.assets && rel.assets.length > 0 ? `
-              <h5 class="mt-3">Assets</h5>
-              <ul class="assets-list">
+              <ul class="assets-list mt-2">
                 ${rel.assets.map(a => `<li><a href="${a.browser_download_url}" target="_blank">${a.name}</a></li>`).join('')}
               </ul>` : ''
             }
