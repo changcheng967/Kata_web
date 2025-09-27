@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Kata_web Releases</title>
 
   <!-- Bootstrap & Chart.js -->
@@ -12,186 +12,165 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f5f7fa;
-      padding: 2rem 1rem 5rem;
-      max-width: 1100px;
-      margin: auto;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-    body.dark {
-      background: #0d1117;
+      background: linear-gradient(135deg, #0d1117, #161b22);
       color: #eee;
+      padding: 2rem 1rem 5rem;
+      max-width: 1200px;
+      margin: auto;
+      transition: background 0.3s, color 0.3s;
     }
     h1 {
       text-align: center;
       margin-bottom: 2rem;
       font-weight: 700;
-      color: #0d6efd;
+      background: linear-gradient(90deg,#0d6efd,#00ffe0,#0d6efd);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 6s ease infinite;
     }
-    body.dark h1 { color: #58a6ff; }
+    @keyframes gradientMove {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
     .controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
+      display:flex;justify-content:space-between;align-items:center;
+      flex-wrap:wrap;gap:1rem;margin-bottom:2rem;
+    }
+    #search {
+      flex:1;max-width:350px;
+      border-radius:30px;padding:0.6rem 1rem;
+      border:1px solid #444;background:#0d1117;color:#eee;
+    }
+    #themeToggle {
+      border-radius:30px;padding:0.6rem 1.2rem;
+      background:linear-gradient(90deg,#0d6efd,#00ffe0);
+      border:none;color:#fff;font-weight:600;
+      transition:transform 0.2s;
+    }
+    #themeToggle:hover {transform:scale(1.05)}
+    .timeline {
+      position:relative;margin:2rem 0;padding-left:2rem;
+      border-left:3px solid #0d6efd;
     }
     .release-card {
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.85);
-      margin-bottom: 1.5rem;
-      padding: 1.5rem 1.75rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-    body.dark .release-card {
-      background: rgba(22,27,34,0.9);
-      box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+      position:relative;margin-bottom:2rem;
+      background:rgba(255,255,255,0.05);
+      border-radius:12px;padding:1.5rem;
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 15px rgba(0,255,224,0.1);
+      transition:all 0.3s ease;
     }
     .release-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 20px rgba(13,110,253,0.4);
+      box-shadow:0 0 25px rgba(0,255,224,0.4);
+      transform:translateY(-3px);
     }
-    .release-card h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.25rem;
-      font-weight: 600;
+    .release-card::before {
+      content:'';position:absolute;left:-1.2rem;top:1.2rem;
+      width:14px;height:14px;background:#0d6efd;border-radius:50%;
+      box-shadow:0 0 10px #0d6efd;
     }
-    .release-card .meta {
-      font-size: 0.85rem;
-      color: #666;
-      margin-bottom: 0.75rem;
+    .release-card h2 {font-size:1.25rem;margin-bottom:0.5rem;font-weight:600}
+    .meta {font-size:0.85rem;color:#aaa;margin-bottom:0.75rem}
+    .excerpt {font-size:0.95rem;margin-bottom:0.75rem}
+    .badge {font-size:0.75rem}
+    .assets-list {list-style:none;padding-left:0;margin:0}
+    .assets-list li {margin-bottom:0.3rem}
+    .asset-btn {
+      display:inline-block;padding:0.3rem 0.8rem;
+      border-radius:20px;background:#0d6efd;color:#fff;
+      font-size:0.8rem;text-decoration:none;margin:0.2rem 0.2rem 0 0;
+      transition:background 0.2s;
     }
-    body.dark .release-card .meta { color: #aaa; }
-    .release-card .excerpt {
-      font-size: 0.95rem;
-      margin-bottom: 0.75rem;
-    }
-    .badge { font-size: 0.75rem; }
-    .assets-list {
-      list-style: none;
-      padding-left: 0;
-      margin-bottom: 0;
-    }
-    .assets-list li { margin-bottom: 0.3rem; }
+    .asset-btn:hover {background:#00ffe0;color:#000}
     .view-link {
-      display: inline-block;
-      margin-top: 0.75rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #0d6efd;
-      text-decoration: none;
+      display:inline-block;margin-top:0.75rem;font-size:0.9rem;
+      font-weight:600;color:#00ffe0;text-decoration:none;
     }
-    .view-link:hover { text-decoration: underline; }
-    footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      text-align: center;
-      color: #777;
-    }
+    .view-link:hover {text-decoration:underline}
+    footer {margin-top:4rem;font-size:0.9rem;text-align:center;color:#777}
   </style>
 </head>
 <body>
   <h1>Kata_web Releases</h1>
 
   <div class="controls">
-    <input id="search" class="form-control" style="max-width:300px" placeholder="🔍 Search releases...">
-    <button id="themeToggle" class="btn btn-outline-secondary">🌙 Dark Mode</button>
+    <input id="search" placeholder="🔍 Search releases...">
+    <button id="themeToggle">🌙 Dark Mode</button>
   </div>
 
   <canvas id="releaseChart" height="100" class="mb-4"></canvas>
 
-  <div id="releases">Loading releases…</div>
+  <div class="timeline" id="releases">Loading releases…</div>
 
-  <footer>
-    Kata_web by changcheng967
-  </footer>
+  <footer>Kata_web by changcheng967</footer>
 
   <script>
-    const container = document.getElementById('releases');
-    const searchInput = document.getElementById('search');
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
+    const container=document.getElementById('releases');
+    const searchInput=document.getElementById('search');
+    const themeToggle=document.getElementById('themeToggle');
+    const body=document.body;
 
-    themeToggle.addEventListener('click', () => {
+    // Dark mode persistence
+    if(localStorage.getItem('theme')==='dark'){body.classList.add('dark');themeToggle.textContent='☀️ Light Mode';}
+    themeToggle.addEventListener('click',()=>{
       body.classList.toggle('dark');
-      themeToggle.textContent = body.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+      const dark=body.classList.contains('dark');
+      themeToggle.textContent=dark?'☀️ Light Mode':'🌙 Dark Mode';
+      localStorage.setItem('theme',dark?'dark':'light');
     });
 
-    async function loadReleases() {
-      try {
-        const res = await fetch('https://api.github.com/repos/changcheng967/Kata_web/releases');
-        const releases = await res.json();
-        if (!Array.isArray(releases)) {
-          container.innerText = "Error loading releases.";
-          return;
-        }
-        container.innerHTML = '';
-        const counts = {};
-        releases.forEach(rel => {
-          const month = new Date(rel.published_at).toLocaleString('default', { month: 'short', year: 'numeric' });
-          counts[month] = (counts[month] || 0) + 1;
-
-          const excerpt = rel.body ? rel.body.replace(/\r?\n|\r/g, ' ').slice(0, 180) + (rel.body.length > 180 ? '…' : '') : 'No description provided.';
-          const card = document.createElement('div');
-          card.className = 'release-card';
-          card.innerHTML = `
-            <h2>${rel.name || rel.tag_name}</h2>
+    async function loadReleases(){
+      try{
+        const res=await fetch('https://api.github.com/repos/changcheng967/Kata_web/releases');
+        const releases=await res.json();
+        if(!Array.isArray(releases)){container.innerText="Error loading releases.";return;}
+        container.innerHTML='';
+        const counts={};
+        releases.forEach(rel=>{
+          const month=new Date(rel.published_at).toLocaleString('default',{month:'short',year:'numeric'});
+          counts[month]=(counts[month]||0)+1;
+          const excerpt=rel.body?rel.body.replace(/\r?\n|\r/g,' ').slice(0,180)+(rel.body.length>180?'…':''):'No description provided.';
+          const card=document.createElement('div');
+          card.className='release-card';
+          card.innerHTML=`
+            <h2>${rel.name||rel.tag_name}</h2>
             <div class="meta">
               <span class="badge bg-secondary">${new Date(rel.published_at).toLocaleDateString()}</span>
-              <span class="badge bg-primary">${rel.assets ? rel.assets.length : 0} assets</span>
+              <span class="badge bg-primary">${rel.assets?rel.assets.length:0} assets</span>
             </div>
             <div class="excerpt">${excerpt}</div>
-            ${rel.assets && rel.assets.length > 0 ? `
-              <button class="btn btn-sm btn-link p-0" data-bs-toggle="collapse" data-bs-target="#rel-${rel.id}">Toggle Assets</button>
-              <div id="rel-${rel.id}" class="collapse mt-2">
-                <ul class="assets-list">
-                  ${rel.assets.map(a => `<li><a href="${a.browser_download_url}" target="_blank">${a.name}</a></li>`).join('')}
-                </ul>
-              </div>` : ''
-            }
+            ${rel.assets&&rel.assets.length>0?`
+              <div class="assets">
+                ${rel.assets.map(a=>`<a class="asset-btn" href="${a.browser_download_url}" target="_blank">${a.name}</a>`).join('')}
+              </div>`:''}
             <a class="view-link" href="${rel.html_url}" target="_blank">View Details →</a>
           `;
           container.appendChild(card);
         });
-
-        // Chart.js: releases per month
-        new Chart(document.getElementById('releaseChart'), {
-          type: 'bar',
-          data: {
-            labels: Object.keys(counts),
-            datasets: [{
-              label: 'Releases per Month',
-              data: Object.values(counts),
-              backgroundColor: '#0d6efd'
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } }
-          }
+        // Chart
+        new Chart(document.getElementById('releaseChart'),{
+          type:'line',
+          data:{labels:Object.keys(counts),datasets:[{label:'Releases per Month',data:Object.values(counts),borderColor:'#00ffe0',backgroundColor:'rgba(0,255,224,0.2)',tension:0.3,fill:true}]},
+          options:{plugins:{legend:{labels:{color:body.classList.contains('dark')?'#eee':'#222'}}},scales:{x:{ticks:{color:body.classList.contains('dark')?'#eee':'#222'}},y:{ticks:{color:body.classList.contains('dark')?'#eee':'#222'},beginAtZero:true}}}
         });
-
-        // Search filter
-        searchInput.addEventListener('input', e => {
-          const term = e.target.value.toLowerCase();
-          document.querySelectorAll('.release-card').forEach(card => {
-            card.style.display = card.innerText.toLowerCase().includes(term) ? '' : 'none';
+        // Search filter with highlight
+        searchInput.addEventListener('input',e=>{
+          const term=e.target.value.toLowerCase();
+          document.querySelectorAll('.release-card').forEach(card=>{
+            const match=card.innerText.toLowerCase().includes(term);
+            card.style.display=match?'':'none';
+            if(term&&match){
+              card.querySelector('h2').innerHTML=(card.querySelector('h2').textContent).replace(new RegExp(term,'gi'),m=>`<mark style="background:#00ffe0;color:#000">${m}</mark>`);
+            }else{
+              card.querySelector('h2').innerHTML=card.querySelector('h2').textContent;
+            }
           });
         });
-
-      } catch (err) {
-        container.innerText = "Failed to fetch releases.";
-      }
+      }catch(err){container.innerText="Failed to fetch releases.";}
     }
     loadReleases();
   </script>
-
-  <!-- Bootstrap JS for collapse -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
