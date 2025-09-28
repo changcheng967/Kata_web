@@ -1,1 +1,0 @@
-./selfplay/shuffle_and_export_loop.sh KW-20250919-9x9 ~/KataGo/ ~/KataGo/scratch 8 128 0 -min-rows 50000 -keep-target-rows 70000 -expand-window-per-row 0.001 -taper-window-exponent 0.5
