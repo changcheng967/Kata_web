@@ -1,16 +1,13 @@
-# 开始训练模型（包含自动学习率调整）
-cd /notebooks/KataGo/python
-
 python train.py \
-    -traindir /storage/katago/katago_shuffle \
-    -datadir /storage/katago/katago_shuffle \
-    -exportdir /storage/katago/models \
-    -exportprefix "KW1-b28c512nbt" \
-    -initial-checkpoint /storage/katago/initial_checkpoint/kata1-b28c512nbt-s10904468224-d5317014586/model.ckpt \
-    -use-fp16 \
-    -batch-size 64 \
-    -pos-len 19 \
-    -max-epochs-this-instance 20 \
-    -lr-scale-auto \
-    -max-train-bucket-size 200000 \
-    -gnorm-clip-scale 1.0
+  -traindir /notebooks/katago/shuffledata \
+  -datadir /notebooks/katago/shuffledata \
+  -exportdir /notebooks/katago/models \
+  -exportprefix "KW16-b28c512nbt-0928" \
+  -initial-checkpoint /notebooks/katago/models/KW15-b28c512nbt-0928-s10906427456-d700707/model.ckpt \
+  -use-fp16 \
+  -batch-size 64 \
+  -pos-len 19 \
+  -max-epochs-this-instance 1 \
+  -samples-per-epoch 700000 \
+  -lr-scale-auto \
+  -epochs-per-export 1
