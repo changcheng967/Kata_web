@@ -1,3 +1,7 @@
+mkdir -p /notebooks/katago/shuffledata/train
+mv /notebooks/katago/shuffledata/* /notebooks/katago/shuffledata/train/
+
+
 cd /notebooks/katago/shuffledata
 
 cat > train.json << 'EOF'
