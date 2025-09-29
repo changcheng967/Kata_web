@@ -2,7 +2,7 @@
 
 [![Build & Deploy Kata_web Site](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml)
 ## Overview  
-**Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **Custom Trained KW serie Models** for efficient performance. This project is designed to provide **free, cross-platform** AI-assisted Go analysis while maintaining strict licensing policies.  
+**Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **Custom Trained KW serie Models** which uses larger LR for efficient performance and competitive level usage. This project is designed to provide **free, cross-platform** competitive AI and AI models for advanced Go competing while keeping the full source code private.
 
 ---
 
@@ -46,7 +46,6 @@ python main.py
 - **License Compliance**: Refer to the [LICENSE](https://github.com/changcheng967/Kata_web/blob/main/LICENSE) for legal terms.  
 - **Modifications**: Contact the author for derivative works.  
 
-**Violations may result in legal action or revocation of access to private components.**  
-**Note: This is the public version of the code which is not the full version(minimal for usage) The private version will remain private unless we are told to open source the full code by Doulet Media**
+**Note: This is the public version of the code which is not the full version(minimal for usage) The private version will remain private unless we are told to open source the full code by Doulet Media.**
 
 ---
