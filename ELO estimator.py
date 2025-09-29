@@ -5,7 +5,6 @@ import sys, re, math, os
 import numpy as np
 from scipy.optimize import minimize
 
-
 LOG10 = math.log(10.0)
 
 def logistic(z):
