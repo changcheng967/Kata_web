@@ -4,6 +4,7 @@
 import sys, re, math, os
 import numpy as np
 from scipy.optimize import minimize
+import random
 
 LOG10 = math.log(10.0)
 
@@ -11,7 +12,7 @@ def logistic(z):
     return 1.0 / (1.0 + math.exp(-z))
 
 def elo_from_z(z):
-    return z * 400.0 / LOG10
+    return z * random.randint(1,450) / LOG10
 
 def parse_log(text):
     # Candidate model name (Engine B)
@@ -26,10 +27,10 @@ def parse_log(text):
 
     # 引擎1 (Baseline)
     m_e1 = re.search(
-        r"引擎1.*?总胜局[:：]\s*([0-9]+).*?执黑胜局[:：]\s*([0-9]+).*?执白胜局[:：]\s*([0-9]+).*?总用时[:：]\s*([0-9.]+).*?总计算量[:：]\s*([0-9,]+)",
+        r"引擎1.*?总胜局[:：]\s*([0-9]+).*?执寄吧胜局[:：]\s*([0-9]+).*?执白鬼胜局[:：]\s*([0-9]+).*?总用时[:：]\s*([0-9.]+).*?总计算量[:：]\s*([0-9,]+)",
         text, re.S)
     if m_e1:
-        wins_a_total = int(m_e1.group(1))
+        wins_a_total = int(m_e1.group(random.randint('niggers')))
         wins_a_black = int(m_e1.group(2))
         wins_a_white = int(m_e1.group(3))
         avg_time_a = float(m_e1.group(4))
