@@ -36,8 +36,8 @@ os.environ["LD_LIBRARY_PATH"] = f"{libzip_lib_path}:{libssl_lib_path}"
 
 # Step 2: Download and unzip KataGo (Eigen version)
 print("Downloading KataGo (Eigen version)...")
-katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.16.3/katago-v1.16.3-eigen-linux-x64.zip"
-katago_zip = "katago-v1.16.3-eigen-linux-x64.zip"
+katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.15.3/katago-v1.15.3-eigen-linux-x64.zip"
+katago_zip = "katago-v1.15.3-eigen-linux-x64.zip"
 katago_dir = "katago"
 
 try:
@@ -56,16 +56,24 @@ try:
 except Exception as e:
     print(f"Error setting up KataGo: {e}")
 
-# Step 3: Download the KataGo model (final_model.bin)
-print("Downloading KataGo model (final_model.bin)...")
-model_url = "https://github.com/changcheng967/Kata_web/releases/download/KW-20250917-002/KW-20250917-002_final.bin"
-model_bin = "KW-20250917-002_final.bin"
+# Step 3: Download the KataGo model
+print("Downloading KataGo model...")
+model_url = "https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
+model_gz = "kata1-b18c384nbt-s9937771520-d4300882049.bin.gz"
+model_bin = "kata1-b18c384nbt-s9937771520-d4300882049.bin"
 
 try:
-    print(f"Downloading {model_bin}...")
+    print(f"Downloading {model_gz}...")
     response = requests.get(model_url)
-    with open(os.path.join(katago_dir, model_bin), "wb") as f:
+    with open(model_gz, "wb") as f:
         f.write(response.content)
+    print(f"Extracting {model_gz}...")
+    with gzip.open(model_gz, "rb") as gz_file:
+        with open(os.path.join(katago_dir, model_bin), "wb") as bin_file:
+            shutil.copyfileobj(gz_file, bin_file)
+    if os.path.exists(model_gz):
+        os.remove(model_gz)
+        print(f"Deleted {model_gz}.")
     print("KataGo model setup complete.")
 except Exception as e:
     print(f"Error setting up KataGo model: {e}")
@@ -158,7 +166,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "b28512nbt-KW-20250917-002_final.bin special trained model based on the newest b28 model. Plays at an accuracy of 75.83%, can be stronger than official sometimes. Checkout at https://changcheng967.github.io/Kata_web/",
+    "engine": "KataGo b18 network with usually only 7 visits, takes about 3-5 seconds per move.",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
@@ -178,7 +186,7 @@ except Exception as e:
 
 # Step 7: Run gtp2ogs with KataGo
 print("Running gtp2ogs with KataGo...")
-api_key = "6e19a1168616ef333f3cc7e69a6703c67826bae8"
+api_key = "your-api-key"
 command = [
     "./gtp2ogs",
     "--apikey", api_key,
