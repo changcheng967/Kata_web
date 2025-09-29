@@ -21,12 +21,10 @@
       line-height: 1.6;
       animation: fadeIn 1s ease-in-out;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     h1 {
       font-weight: 700;
       margin-bottom: 0.3rem;
@@ -36,111 +34,24 @@
       -webkit-text-fill-color: transparent;
       animation: gradientMove 6s ease infinite;
     }
-
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
-    .date {
-      color: #aaa;
-      margin-bottom: 2rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-    }
-
-    a {
-      color: #4f9aff;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    a:hover {
-      color: #00ffe0;
-      text-shadow: 0 0 8px #00ffe0;
-    }
-
-    .release-body p {
-      margin-bottom: 1rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 2rem 0;
-      font-size: 0.95rem;
-    }
-
-    th, td {
-      padding: 0.75rem;
-      border: 1px solid #444;
-      text-align: left;
-    }
-
-    th {
-      background-color: #1e1e1e;
-      color: #4f9aff;
-    }
-
-    tr:nth-child(even) {
-      background-color: #2a2a2a;
-    }
-
-    tr:hover {
-      background-color: #333;
-    }
-
-    .assets-list {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 2rem;
-    }
-
-    .assets-list li {
-      margin-bottom: 0.6rem;
-      padding: 0.5rem 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      transition: all 0.3s ease;
-    }
-
-    .assets-list li:hover {
-      background: rgba(79, 154, 255, 0.1);
-      transform: translateX(5px);
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.5rem;
-      background: linear-gradient(90deg, #4f9aff, #00ffe0);
-      border: none;
-      border-radius: 5px;
-      color: white;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      opacity: 0.8;
-      transition: all 0.3s ease;
-      user-select: none;
-    }
-
-    .copy-btn:hover {
-      opacity: 1;
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #00ffe0;
-    }
-
-    .changelog {
-      margin-top: 3rem;
-      font-size: 0.95rem;
-    }
-
-    .changelog a {
-      font-weight: 600;
-      display: inline-block;
-      margin-top: 0.5rem;
-    }
+    .date { color: #aaa; margin-bottom: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+    a { color: #4f9aff; text-decoration: none; transition: all 0.3s ease; }
+    a:hover { color: #00ffe0; text-shadow: 0 0 8px #00ffe0; }
+    table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
+    th, td { padding: 0.75rem; border: 1px solid #444; text-align: left; }
+    th { background-color: #1e1e1e; color: #4f9aff; }
+    tr:nth-child(even) { background-color: #2a2a2a; }
+    tr:hover { background-color: #333; }
+    .assets-list { list-style: none; padding-left: 0; margin-top: 2rem; }
+    .assets-list li { margin-bottom: 0.6rem; padding: 0.5rem 0.8rem; background: rgba(255, 255, 255, 0.05); border-radius: 6px; transition: all 0.3s ease; }
+    .assets-list li:hover { background: rgba(79, 154, 255, 0.1); transform: translateX(5px); }
+    .changelog { margin-top: 3rem; font-size: 0.95rem; }
+    .changelog a { font-weight: 600; display: inline-block; margin-top: 0.5rem; }
   </style>
 </head>
 <body>
@@ -165,10 +76,8 @@
   {% endif %}
 
   <section class="changelog">
-    <h3>Full Changelog</h3>
-    <a href="https://github.com/changcheng967/Kata_web/compare/KW-20250916-001…main" target="_blank" rel="noopener">
-      View comparison on GitHub →
-    </a>
+    <h3>Automatic Changelog</h3>
+    <div id="changelog-content">Loading changelog...</div>
   </section>
 
   <p><a href="{{ site.baseurl }}/">← Back to Home</a></p>
@@ -177,28 +86,36 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
 
 <script>
-  document.querySelectorAll('pre[class*="language-"]').forEach((block) => {
-    const btn = document.createElement('button');
-    btn.className = 'copy-btn';
-    btn.textContent = 'Copy';
-    btn.type = 'button';
-
-    btn.addEventListener('click', () => {
-      navigator.clipboard.writeText(block.innerText).then(() => {
-        btn.textContent = 'Copied!';
-        btn.style.background = 'linear-gradient(90deg, #00ffe0, #4f9aff)';
-        setTimeout(() => {
-          btn.textContent = 'Copy';
-          btn.style.background = 'linear-gradient(90deg, #4f9aff, #00ffe0)';
-        }, 2000);
-      });
-    });
-
-    block.appendChild(btn);
-  });
+  // Automatically fetch changelog between previous and current release
+  async function loadChangelog() {
+    const prev = "{{ page.previous_tag }}";
+    const current = "{{ page.tag_name }}";
+    if (!prev || !current) {
+      document.getElementById("changelog-content").innerText = "No changelog available.";
+      return;
+    }
+    const url = `https://api.github.com/repos/changcheng967/Kata_web/compare/${prev}...${current}`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.commits) {
+        let html = "<ul>";
+        data.commits.forEach(c => {
+          html += `<li><strong>${c.commit.author.name}</strong>: ${c.commit.message}</li>`;
+        });
+        html += "</ul>";
+        html += `<a href="${data.html_url}" target="_blank">View full comparison on GitHub →</a>`;
+        document.getElementById("changelog-content").innerHTML = html;
+      } else {
+        document.getElementById("changelog-content").innerText = "No changelog data available.";
+      }
+    } catch (err) {
+      document.getElementById("changelog-content").innerText = "Error loading changelog.";
+    }
+  }
+  loadChangelog();
 </script>
 
 </body>
