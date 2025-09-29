@@ -26,20 +26,22 @@ jobs:
       - name: Fetch releases JSON
         run: |
           mkdir -p _data
-          curl -H "Accept: application/vnd.github+json" \
+          curl -s -H "Accept: application/vnd.github+json" \
                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-               https://api.github.com/repos/changcheng967/Kata_web/releases > _data/releases.json
+               https://api.github.com/repos/changcheng967/Kata_web/releases \
+               > _data/releases.json
 
       - name: Generate release markdown files
         run: |
           set -xe
           mkdir -p _releases
-          jq -c '.[]' _data/releases.json | while read -r release; do
-            # Force lowercase tag for consistent URLs
+          prev_tag=""
+          # Sort releases by published_at ascending so we can track previous_tag
+          jq -c 'sort_by(.published_at)[]' _data/releases.json | while read -r release; do
             tag=$(echo "$release" | jq -r '.tag_name' | tr '[:upper:]' '[:lower:]' | sed 's/\//-/g')
             title=$(echo "$release" | jq -r '.name // .tag_name' | sed 's/"/\\"/g')
             date=$(echo "$release" | jq -r '.published_at')
-            body=$(echo "$release" | jq -r '.body' | sed 's/"/\\"/g')
+            body=$(echo "$release" | jq -r '.body // "No description provided."' | sed 's/"/\\"/g')
             assets=$(echo "$release" | jq '.assets')
 
             {
@@ -47,11 +49,17 @@ jobs:
               echo "layout: release"
               echo "title: \"${title}\""
               echo "published_at: \"${date}\""
+              echo "tag_name: \"${tag}\""
+              if [ -n "$prev_tag" ]; then
+                echo "previous_tag: \"${prev_tag}\""
+              fi
               echo "assets: ${assets}"
               echo "---"
               echo
               echo "${body}"
             } > "_releases/${tag}.md"
+
+            prev_tag="$tag"
           done
 
           echo "Generated release files:"

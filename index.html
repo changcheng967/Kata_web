@@ -1,81 +1,145 @@
----
-layout: none
-title: Kata_web Releases
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ page.title }}</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Kata_web Releases</title>
 
-  <!-- Bootstrap & AOS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f9fafb;
-      padding: 2rem 1rem 5rem;
-      max-width: 900px;
-      margin: auto;
+      background: #f5f7fa;
       color: #222;
+      padding: 2rem 1rem 5rem;
+      max-width: 1000px;
+      margin: auto;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #0d1117;
+      color: #eee;
     }
     h1 {
       text-align: center;
       margin-bottom: 2rem;
       font-weight: 700;
+      color: #0d6efd;
     }
-    .release-list a {
-      display: block;
-      background: white;
-      margin-bottom: 1rem;
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
-      text-decoration: none;
-      color: #007bff;
-      box-shadow: 0 5px 15px rgb(0 123 255 / 0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      font-weight: 600;
+    .controls {
+      display:flex;justify-content:space-between;align-items:center;
+      flex-wrap:wrap;gap:1rem;margin-bottom:2rem;
     }
-    .release-list a:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgb(0 123 255 / 0.2);
-      text-decoration: underline;
+    #search {
+      flex:1;max-width:350px;
+      border-radius:30px;padding:0.6rem 1rem;
+      border:1px solid #ccc;
     }
-    footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      text-align: center;
-      color: #777;
+    .release-card {
+      background:#fff;
+      border-radius:12px;
+      padding:1.5rem;
+      margin-bottom:1.5rem;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+      transition:transform 0.2s, box-shadow 0.2s;
     }
+    body.dark .release-card {
+      background:#161b22;
+      box-shadow:0 4px 12px rgba(255,255,255,0.05);
+    }
+    .release-card:hover {
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    }
+    .release-card h2 {font-size:1.25rem;margin-bottom:0.5rem;font-weight:600}
+    .meta {font-size:0.85rem;color:#666;margin-bottom:0.75rem}
+    body.dark .meta {color:#aaa}
+    .excerpt {font-size:0.95rem;margin-bottom:0.75rem}
+    .asset-btn {
+      display:inline-block;padding:0.3rem 0.8rem;
+      border-radius:20px;background:#0d6efd;color:#fff;
+      font-size:0.8rem;text-decoration:none;margin:0.2rem 0.2rem 0 0;
+    }
+    .asset-btn:hover {background:#00ffe0;color:#000}
+    .view-link {
+      display:inline-block;margin-top:0.75rem;font-size:0.9rem;
+      font-weight:600;color:#0d6efd;text-decoration:none;
+    }
+    .view-link:hover {text-decoration:underline}
+    footer {margin-top:4rem;font-size:0.9rem;text-align:center;color:#777}
   </style>
 </head>
-<body data-aos="fade-up">
+<body>
+  <h1>Kata_web Releases</h1>
 
-<h1>Kata_web Releases</h1>
+  <div class="controls">
+    <input id="search" placeholder="🔍 Search releases...">
+    <button id="themeToggle" class="btn btn-outline-secondary">🌙 Dark Mode</button>
+  </div>
 
-<div class="release-list">
-  {% assign releases = site.releases | sort: 'published_at' | reverse %}
-  {% for release in releases %}
-  <a href="{{ site.baseurl }}{{ release.url }}">
-    {{ release.title }} — {{ release.published_at | date: "%b %d, %Y" }}
-  </a>
-  {% endfor %}
-</div>
+  <div id="releases">Loading releases…</div>
 
-<footer>
-  Kata_web by changcheng967
-</footer>
+  <footer>Kata_web by changcheng967</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 700, once: true });
-</script>
+  <script>
+    const container=document.getElementById('releases');
+    const searchInput=document.getElementById('search');
+    const themeToggle=document.getElementById('themeToggle');
+    const body=document.body;
+
+    // Dark mode persistence
+    if(localStorage.getItem('theme')==='dark'){body.classList.add('dark');themeToggle.textContent='☀️ Light Mode';}
+    themeToggle.addEventListener('click',()=>{
+      body.classList.toggle('dark');
+      const dark=body.classList.contains('dark');
+      themeToggle.textContent=dark?'☀️ Light Mode':'🌙 Dark Mode';
+      localStorage.setItem('theme',dark?'dark':'light');
+    });
+
+    async function loadReleases(){
+      try{
+        const res=await fetch('https://api.github.com/repos/changcheng967/Kata_web/releases');
+        const releases=await res.json();
+        if(!Array.isArray(releases)){container.innerText="Error loading releases.";return;}
+        container.innerHTML='';
+        releases.forEach(rel=>{
+          // Extract first 2–3 meaningful lines
+          const lines=rel.body?rel.body.split(/\r?\n/).filter(l=>l.trim()!==''):[];
+          const important=lines.slice(0,3).join('<br>') || 'No description provided.';
+          const card=document.createElement('div');
+          card.className='release-card';
+          card.innerHTML=`
+            <h2>${rel.name||rel.tag_name}</h2>
+            <div class="meta">
+              <span class="badge bg-secondary">${new Date(rel.published_at).toLocaleDateString()}</span>
+              <span class="badge bg-primary">${rel.assets?rel.assets.length:0} assets</span>
+            </div>
+            <div class="excerpt">${important}</div>
+            ${rel.assets&&rel.assets.length>0?`
+              <div class="assets">
+                ${rel.assets.map(a=>`<a class="asset-btn" href="${a.browser_download_url}" target="_blank">${a.name}</a>`).join('')}
+              </div>`:''}
+            <button class="btn btn-sm btn-link p-0" data-bs-toggle="collapse" data-bs-target="#rel-${rel.id}">Show More</button>
+            <div id="rel-${rel.id}" class="collapse mt-2">${rel.body||''}</div>
+            <a class="view-link" href="${rel.html_url}" target="_blank">View on GitHub →</a>
+          `;
+          container.appendChild(card);
+        });
+        // Search filter
+        searchInput.addEventListener('input',e=>{
+          const term=e.target.value.toLowerCase();
+          document.querySelectorAll('.release-card').forEach(card=>{
+            card.style.display=card.innerText.toLowerCase().includes(term)?'':'none';
+          });
+        });
+      }catch(err){container.innerText="Failed to fetch releases.";}
+    }
+    loadReleases();
+  </script>
+
+  <!-- Bootstrap JS for collapse -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
