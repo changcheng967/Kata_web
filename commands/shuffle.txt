@@ -1,0 +1,12 @@
+python shuffle.py \
+  /notebooks/katago/training_data/2025-09-25npzs \
+  -out-dir /notebooks/katago/shuffledata \
+  -out-tmp-dir /notebooks/katago/shuffledata_tmp \
+  -num-processes 4 \
+  -batch-size 64 \
+  -expand-window-per-row 0.15 \
+  -taper-window-exponent 0.65 \
+  -min-rows 250000 \
+  -keep-target-rows 2000000 \
+  -approx-rows-per-out-file 50000 \
+  -output-npz
