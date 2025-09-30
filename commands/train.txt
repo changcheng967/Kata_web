@@ -3,7 +3,7 @@ python train.py \
   -datadir /notebooks/katago/shuffledata \
   -exportdir /notebooks/katago/models \
   -exportprefix "KW19-b28c512nbt-0930" \
-  -initial-checkpoint /notebooks/katago/models/KW18-b28c512nbt-0929-s10907127808-d700707/model.ckpt \
+  -initial-checkpoint /notebooks/katago/models/KW18-b28c512nbt-0929-s10907527008-d651012/model.ckpt \
   -use-fp16 \
   -batch-size 64 \
   -pos-len 19 \
