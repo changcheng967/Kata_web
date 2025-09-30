@@ -6,16 +6,68 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send to first Discord webhook
+      - name: Send push info to Discord (Webhook 1)
         uses: Ilshidur/action-discord@0.3.2
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_1 }}
         with:
-          args: "📢 New push by ${{ github.actor }} in ${{ github.repository }}: ${{ github.event.head_commit.message }}"
+          args: |
+            {
+              "embeds": [
+                {
+                  "title": "📢 New Push to `${{ github.repository }}`",
+                  "description": "**Commit Message:** ${{ github.event.head_commit.message }}",
+                  "url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}",
+                  "color": 5814783,
+                  "fields": [
+                    {
+                      "name": "Pushed by",
+                      "value": "${{ github.actor }}",
+                      "inline": true
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "inline": true
+                    }
+                  ],
+                  "footer": {
+                    "text": "GitHub → Discord Integration"
+                  },
+                  "timestamp": "${{ github.event.head_commit.timestamp }}"
+                }
+              ]
+            }
 
-      - name: Send to second Discord webhook
+      - name: Send push info to Discord (Webhook 2)
         uses: Ilshidur/action-discord@0.3.2
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_2 }}
         with:
-          args: "📢 New push by ${{ github.actor }} in ${{ github.repository }}: ${{ github.event.head_commit.message }}"
+          args: |
+            {
+              "embeds": [
+                {
+                  "title": "📢 New Push to `${{ github.repository }}`",
+                  "description": "**Commit Message:** ${{ github.event.head_commit.message }}",
+                  "url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}",
+                  "color": 5814783,
+                  "fields": [
+                    {
+                      "name": "Pushed by",
+                      "value": "${{ github.actor }}",
+                      "inline": true
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "inline": true
+                    }
+                  ],
+                  "footer": {
+                    "text": "GitHub → Discord Integration"
+                  },
+                  "timestamp": "${{ github.event.head_commit.timestamp }}"
+                }
+              ]
+            }
