@@ -1,0 +1,19 @@
+name: Discord Notifications
+
+on: [push]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send to first Discord webhook
+        uses: Ilshidur/action-discord@v2
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_1 }}
+          message: "📢 New push by ${{ github.actor }}: ${{ github.event.head_commit.message }}"
+
+      - name: Send to second Discord webhook
+        uses: Ilshidur/action-discord@v2
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_2 }}
+          message: "📢 New push by ${{ github.actor }}: ${{ github.event.head_commit.message }}"
