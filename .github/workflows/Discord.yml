@@ -7,13 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send to first Discord webhook
-        uses: Ilshidur/action-discord@v2
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_1 }}
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_1 }}
-          message: "📢 New push by ${{ github.actor }}: ${{ github.event.head_commit.message }}"
+          args: "📢 New push by ${{ github.actor }} in ${{ github.repository }}: ${{ github.event.head_commit.message }}"
 
       - name: Send to second Discord webhook
-        uses: Ilshidur/action-discord@v2
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_2 }}
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_2 }}
-          message: "📢 New push by ${{ github.actor }}: ${{ github.event.head_commit.message }}"
+          args: "📢 New push by ${{ github.actor }} in ${{ github.repository }}: ${{ github.event.head_commit.message }}"
