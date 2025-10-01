@@ -2,7 +2,7 @@
 
 [![Build & Deploy Kata_web Site](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml/badge.svg)](https://github.com/changcheng967/Kata_web/actions/workflows/jekyll.yml)
 ## Overview  
-**Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **Custom Trained KW serie Models** for efficient performance. This project is designed to provide **free, cross-platform** AI-assisted Go analysis while maintaining strict licensing policies.  
+**Kata_web** is an advanced **CPU-based Go AI engine**, utilizing the **Custom Trained KW serie Models** which uses larger LR for efficient performance and competitive level usage. This project is designed to provide **free, cross-platform** competitive AI and AI models for advanced Go competing while keeping the full source code private.
 
 ---
 
@@ -24,14 +24,14 @@ This project is licensed under the terms specified in the **[LICENSE](https://gi
 ---
 
 ## Features  
-- **AI-powered strategic insights** – Leverages KataGo b18 for superior game analysis.  
+- **AI-powered strategic insights** – Leverages Kata_web self-trained custom competitive level b28c512nbt model for superior game analysis.  
 - **Eigen backend for CPU support** – Optimized for non-GPU environments.  
-- **Cross-platform compatibility** – Runs efficiently on Linux Ubuntu with ARM-based hardware.  
+- **Cross-platform compatibility** – Runs efficiently on almost every hardware.(Linux x64, linux ARM, Windows x64, Windows ARM)  
 - **Legacy yet functional** – Free for community use, though newer models exist.  
 
 ---
 
-## Installation  
+## Usage 
 ```bash
 git clone https://github.com/changcheng967/Kata_web.git
 cd Kata_web
@@ -46,6 +46,6 @@ python main.py
 - **License Compliance**: Refer to the [LICENSE](https://github.com/changcheng967/Kata_web/blob/main/LICENSE) for legal terms.  
 - **Modifications**: Contact the author for derivative works.  
 
-**Violations may result in legal action or revocation of access to private components.**  
+**Note: This is the public version of the code which is not the full version(minimal for usage) The private version will remain private unless we are told to open source the full code by Doulet Media.**
 
 ---
