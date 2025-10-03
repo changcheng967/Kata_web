@@ -1,40 +1,36 @@
-Kata_web
-Copyright (c) 2025 Cheng Chang
+The code in this repository currently relies on several other libraries, parts of libraries,
+or external files: clblast, filesystem-1.5.8, half-2.1.0, httplib, mozilla-cacerts,
+nlohmann_json, sgfmill, and tclap-1.2.2. For the licenses for those libraries and/or files, see the
+individual readmes and/or license files for each one within their respective subdirectories within
+cpp/external. Additionally, cpp/core/sha2.cpp derives from another piece of external code
+and embeds its own license within that file.
 
-TERMS AND CONDITIONS FOR USE, MODIFICATION, AND DISTRIBUTION
+Aside from the above, the license for all OTHER content in this repo is as follows:
 
-1. DEFINITIONS
-"Software" refers to Kata_web and all associated files in this repository.
-"Author" refers to Cheng Chang, copyright holder of the Software.
+----------------------------------------
 
-2. GRANT OF RIGHTS
-Permission is granted to use the Software for any purpose, subject to the following restrictions:
+Copyright 2025 David J Wu ("lightvector") and/or other authors of the content in this repository.
+(See 'CONTRIBUTORS' file for a list of authors as well as other indirect contributors).
 
-3. ATTRIBUTION REQUIREMENTS
-Any public use or distribution must include:
-   - Clear attribution to "Kata_web (2025 Cheng Chang)"
-   - A link to the original repository: https://github.com/changcheng967/Kata_web
-   - This license notice in its entirety
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-4. MODIFICATION RESTRICTIONS
-You may NOT:
-   - Modify, adapt, or create derivative works without express written permission
-   - Remove or alter copyright notices
-   - Use the Software in commercial products without authorization
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
 
-5. DISTRIBUTION CONDITIONS
-If distributing the Software (in original or modified form), you must:
-   - Include this full license text
-   - Provide the original source code
-   - Obtain permission for any modified versions
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-6. WARRANTY DISCLAIMER
-THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+----------------------------------------
 
-7. LIABILITY LIMITATION
-IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIMS OR DAMAGES.
-
-8. VIOLATIONS
-Unauthorized use may result in legal action and termination of rights.
-
-For permission requests, contact: [changcheng6541@gmail.com]
+Additional disclaimer from David J Wu ("lightvector") regarding the above license and KataGo's
+repository (https://github.com/lightvector/KataGo):
+I am providing code in the repository to you under an open source license. Because this is my
+personal repository, the license you receive to my code is from me, and not from any of my employers,
+present or past (including Facebook, during part of 2020-2023).
