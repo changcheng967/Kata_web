@@ -1,5 +1,5 @@
 python shuffle.py \
-  /notebooks/katago/training_data/2025-09-20npzs \
+  /notebooks/katago/training_data/2025-09-30npzs \
   -out-dir /notebooks/katago/shuffledata \
   -out-tmp-dir /notebooks/katago/shuffledata_tmp \
   -num-processes 4 \
