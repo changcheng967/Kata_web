@@ -1312,7 +1312,7 @@ b32c448nbt = {
 
 
 b28c512nbt = {
-    "version":15,
+    "version":16,
     "norm_kind":"fixup",
     "bnorm_epsilon": 1e-4,
     "bnorm_running_avg_momentum": 0.001,
