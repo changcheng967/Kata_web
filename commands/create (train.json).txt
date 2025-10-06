@@ -6,7 +6,7 @@ cd /notebooks/katago/shuffledata
 
 cat > train.json << 'EOF'
 {
-  "num_rows": 687158,
+  "num_rows": 584857,
   "files": [
     "train/data0.npz",
     "train/data1.npz",
@@ -19,12 +19,10 @@ cat > train.json << 'EOF'
     "train/data8.npz",
     "train/data9.npz",
     "train/data10.npz",
-    "train/data11.npz",
-    "train/data12.npz",
-    "train/data13/npz"
+    "train/data11.npz"
   ],
-  "range": [0, 687158],
+  "range": [0, 584857],
   "is_random": false,
-  "total_rows": 687158
+  "total_rows": 584857
 }
 EOF
