@@ -36,8 +36,8 @@ os.environ["LD_LIBRARY_PATH"] = f"{libzip_lib_path}:{libssl_lib_path}"
 
 # Step 2: Download and unzip KataGo (Eigen version)
 print("Downloading KataGo (Eigen version)...")
-katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.15.3/katago-v1.15.3-eigen-linux-x64.zip"
-katago_zip = "katago-v1.15.3-eigen-linux-x64.zip"
+katago_url = "https://github.com/lightvector/KataGo/releases/download/v1.16.3/katago-v1.16.3-eigen-linux-x64.zip"
+katago_zip = "katago-v1.16.3-eigen-linux-x64.zip"
 katago_dir = "katago"
 
 try:
@@ -80,7 +80,7 @@ except Exception as e:
 
 # Step 4: Download gtp2ogs
 print("Downloading gtp2ogs...")
-gtp2ogs_url = "https://github.com/online-go/gtp2ogs/releases/download/9.0/gtp2ogs-9.0.0-linux"
+gtp2ogs_url = "https://github.com/online-go/gtp2ogs/releases/download/9.0.1/gtp2ogs-9.0.1-linux"
 gtp2ogs_binary = "gtp2ogs"
 
 try:
@@ -166,7 +166,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "KataGo b18 network with usually only 7 visits, takes about 3-5 seconds per move.",
+    "engine": "Kata_web custom trained KW serie network(b28c521nbt) with 4M parameters. Currently using KW19.",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
