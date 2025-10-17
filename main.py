@@ -58,8 +58,8 @@ except Exception as e:
 
 # Step 3: Download the Kata_web model (custom KW19)
 print("Downloading Kata_web model...")
-model_url = "https://github.com/changcheng967/Kata_web/releases/download/KW19-b28c512nbt-0930.bin/KW19-b28c512nbt-0930.bin"
-model_bin = "KW19-b28c512nbt-0930.bin"
+model_url = "https://github.com/changcheng967/Kata_web/releases/download/KW27-b18c384nbt-1017/KW27-b18c384nbt-1017.bin"
+model_bin = "KW27-b18c384nbt-1017.bin"
 
 try:
     print(f"Downloading {model_bin}...")
@@ -159,7 +159,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "Kata_web custom trained KW serie network(b28c521nbt) with 4M parameters. Currently using KW19.",
+    "engine": "Kata_web custom trained KW serie network(Switched to b18c384nbt for speed) with 6M parameters. Currently using KW27.",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
