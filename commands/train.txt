@@ -2,14 +2,15 @@ python train.py \
   -traindir /notebooks/katago/shuffledata \
   -datadir /notebooks/katago/shuffledata \
   -exportdir /notebooks/katago/models \
-  -exportprefix "KW24-b28c512nbt-1005" \
-  -initial-checkpoint /notebooks/katago/models/KW23-b28c512nbt-1003-s10908367072-d634066/model.ckpt \
+  -exportprefix "KW28-b18c384nbt-1017" \
+  -model-kind b18c384nbt \
+  -initial-checkpoint /notebooks/katago/initial_checkpoint/kata1-b18c384nbt-s9996604416-d4316597426/model.ckpt \
   -use-fp16 \
   -batch-size 64 \
   -pos-len 19 \
   -max-epochs-this-instance 1 \
-  -samples-per-epoch 200000 \
+  -samples-per-epoch 800000 \
   -lr-scale-auto \
   -epochs-per-export 1 \
-  -swa-period-samples 50000 \
-  -swa-scale 5
+  -swa-period-samples 80000 \
+  -swa-scale 2
