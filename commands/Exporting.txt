@@ -1,5 +1,5 @@
 python /notebooks/KataGo/python/export_model_pytorch.py \
-  -checkpoint /notebooks/katago/models/KW28-b18c384nbt-1017-s9998248320-d584857/model.ckpt \
+  -checkpoint /notebooks/katago/models/KW29-b18c384nbt-1018-s10000241408-d584857/model.ckpt \
   -export-dir /notebooks/katago/models \
-  -model-name KW28-b18c384nbt-1017 \
-  -filename-prefix KW28-b18c384nbt-1017
+  -model-name KW29-b18c384nbt-1018 \
+  -filename-prefix KW29-b18c384nbt-1018
