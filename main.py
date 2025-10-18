@@ -159,7 +159,7 @@ kata_speed_config = {
     "max_games_per_player": 1,
     "hidden": False,
     "allowed_board_sizes": [9, 13, 19],
-    "engine": "Kata_web custom trained KW serie network(Switched to b18c384nbt for speed) with 6M parameters. Currently using KW27.",
+    "engine": "Kata_web custom trained KW serie network(Switched to b18c384nbt for speed. around 75 elo weaker than offical) with 8M parameters. Currently using KW28.",
     "allow_unranked": True,
     "farewellscore": True,
     "bot": {
