@@ -58,8 +58,8 @@ except Exception as e:
 
 # Step 3: Download the Kata_web model (custom KW19)
 print("Downloading Kata_web model...")
-model_url = "https://github.com/changcheng967/Kata_web/releases/download/KW28-b18c384nbt-1017/KW28-b18c384nbt-1017.bin"
-model_bin = "KW28-b18c384nbt-1017.bin"
+model_url = "https://github.com/changcheng967/Kata_web/releases/download/KW29-b18c384nbt-1018/KW29-b18c384nbt-1018.bin"
+model_bin = "KW29-b18c384nbt-1018.bin"
 
 try:
     print(f"Downloading {model_bin}...")
