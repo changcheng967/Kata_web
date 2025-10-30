@@ -124,7 +124,6 @@ class LicenseGenerator:
         
         # Get MAC address
         try:
-            import uuid
             mac = ':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff)
                            for elements in range(0, 2*6, 2)][::-1])
             identifiers.append(mac)
@@ -417,12 +416,21 @@ class LicenseManager:
             hardware_binding=True
         )
     
-    def validate_and_cache(self, license_key: str, signature: str) -> Tuple[bool, Optional[Dict], Optional[str]]:
+    def validate_and_cache(self, license_key: str, signature: str, 
+                          check_hardware: bool = True) -> Tuple[bool, Optional[Dict], Optional[str]]:
         """
         Validate license and cache result for performance.
+        
+        Args:
+            license_key: Base64-encoded license key
+            signature: Base64-encoded RSA signature
+            check_hardware: Whether to verify hardware binding
+        
+        Returns:
+            Tuple of (is_valid, license_data, error_message)
         """
-        # Check cache first
-        cache_key = hashlib.sha256(f"{license_key}{signature}".encode()).hexdigest()
+        # Check cache first (include check_hardware in cache key)
+        cache_key = hashlib.sha256(f"{license_key}{signature}{check_hardware}".encode()).hexdigest()
         
         if cache_key in self.license_cache:
             cached_result = self.license_cache[cache_key]
@@ -431,7 +439,7 @@ class LicenseManager:
                 return cached_result['is_valid'], cached_result['data'], cached_result['error']
         
         # Validate license
-        is_valid, data, error = self.generator.validate_license(license_key, signature)
+        is_valid, data, error = self.generator.validate_license(license_key, signature, check_hardware)
         
         # Cache result
         self.license_cache[cache_key] = {

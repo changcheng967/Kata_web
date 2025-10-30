@@ -10,6 +10,24 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- =====================================================================
+-- SYSTEM_CONFIG TABLE
+-- Stores system-wide configuration settings
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS system_config (
+    key VARCHAR(100) PRIMARY KEY,
+    value TEXT NOT NULL,
+    description TEXT,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Insert default configuration values
+INSERT INTO system_config (key, value, description) VALUES
+('expiring_licenses_warning_days', '30', 'Number of days before expiration to show in expiring licenses view'),
+('grace_period_days', '7', 'Grace period days after license expiration'),
+('max_hardware_transfers', '3', 'Maximum number of hardware transfers allowed per license')
+ON CONFLICT (key) DO NOTHING;
+
+-- =====================================================================
 -- COMPANIES TABLE
 -- Stores information about licensed companies
 -- =====================================================================
@@ -381,7 +399,7 @@ LEFT JOIN license_activations la ON l.id = la.license_id
 LEFT JOIN license_usage lu ON l.id = lu.license_id
 GROUP BY l.license_id, c.company_name;
 
--- View: Expiring licenses (next 30 days)
+-- View: Expiring licenses (configurable warning period)
 CREATE OR REPLACE VIEW expiring_licenses AS
 SELECT 
     l.id,
@@ -396,7 +414,8 @@ JOIN companies c ON l.company_id = c.id
 JOIN license_types lt ON l.license_type_id = lt.id
 WHERE l.status = 'active'
   AND l.expiration_date IS NOT NULL
-  AND l.expiration_date BETWEEN NOW() AND NOW() + INTERVAL '30 days'
+  AND l.expiration_date BETWEEN NOW() AND NOW() + 
+      MAKE_INTERVAL(days => (SELECT value::INTEGER FROM system_config WHERE key = 'expiring_licenses_warning_days'))
 ORDER BY l.expiration_date ASC;
 
 -- =====================================================================

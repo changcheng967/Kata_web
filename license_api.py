@@ -218,9 +218,11 @@ def validate_license():
             return jsonify({'error': 'Missing license_key or signature'}), 400
         
         # Validate license
+        check_hardware = data.get('check_hardware', True)
         is_valid, license_data, error = license_manager.validate_and_cache(
             data['license_key'],
             data['signature'],
+            check_hardware=check_hardware
         )
         
         # Log validation attempt
