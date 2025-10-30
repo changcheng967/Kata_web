@@ -22,11 +22,15 @@ except ImportError:
     Client = None
 
 from license_generator import LicenseGenerator, LicenseManager
-
+import logging
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)  # Enable CORS for API access
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Configuration
 API_SECRET_KEY = os.getenv('LICENSE_API_SECRET', 'change-this-secret-key-in-production')
@@ -93,6 +97,33 @@ def get_client_info():
         'user_agent': request.headers.get('User-Agent'),
         'timestamp': datetime.utcnow().isoformat()
     }
+
+
+def sanitize_error(error: Exception) -> str:
+    """
+    Sanitize exception messages to prevent stack trace exposure.
+    
+    Args:
+        error: The exception to sanitize
+    
+    Returns:
+        A safe, generic error message
+    """
+    # Log the full error for debugging
+    logger.error(f"API Error: {str(error)}", exc_info=True)
+    
+    # Return a generic message to the user
+    error_type = type(error).__name__
+    
+    # Map specific exceptions to user-friendly messages
+    if 'Database' in error_type or 'Connection' in error_type:
+        return "Database service temporarily unavailable"
+    elif 'Validation' in error_type or 'Invalid' in error_type:
+        return "Invalid request parameters"
+    elif 'Permission' in error_type or 'Auth' in error_type:
+        return "Insufficient permissions"
+    else:
+        return "An error occurred processing your request"
 
 
 # =====================================================================
@@ -196,7 +227,7 @@ def generate_license():
         }), 201
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 @app.route('/api/v1/license/validate', methods=['POST'])
@@ -270,7 +301,7 @@ def validate_license():
             }), 400
             
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 @app.route('/api/v1/license/info', methods=['POST'])
@@ -301,7 +332,7 @@ def get_license_info():
             return jsonify({'error': 'Could not parse license'}), 400
             
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 @app.route('/api/v1/license/activate', methods=['POST'])
@@ -362,7 +393,7 @@ def activate_license():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 # =====================================================================
@@ -407,7 +438,7 @@ def revoke_license():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 @app.route('/api/v1/licenses', methods=['GET'])
@@ -458,7 +489,7 @@ def list_licenses():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 @app.route('/api/v1/license/<license_id>/usage', methods=['GET'])
@@ -481,7 +512,7 @@ def get_license_usage(license_id):
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': sanitize_error(e)}), 500
 
 
 # =====================================================================
