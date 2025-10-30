@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# License System - CRITICAL: Never commit private keys!
+private_key.pem
+demo_private_key.pem
+*.pem
+!public_key.pem  # Public key can be committed if needed
+
+# Environment files with secrets
+.env
+
+# Logs
+*.log
+license_system.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Test files
+test_*.py
+*_test.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+katago/
+libs/
+gtp2ogs
+*.zip
+*.deb
+*.bin
+results.xlsx
