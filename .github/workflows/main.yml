@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout training branch
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         ref: Training  # Checkout the training branch, even though workflow triggers manually
 
